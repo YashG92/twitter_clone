@@ -7,10 +7,11 @@ class AppTheme {
     scaffoldBackgroundColor: Palette.lightBackgroundColor,
     appBarTheme: AppBarTheme(
       backgroundColor: Palette.lightBackgroundColor,
-      titleTextStyle: YTextTheme.whiteTextTheme.headlineSmall,
+      titleTextStyle: YTextTheme.whiteTextTheme.headlineSmall!.copyWith(fontFamily: 'Chirp'),
       elevation: 0,
     ),
     textTheme: YTextTheme.whiteTextTheme,
+    fontFamily: 'Chirp',
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: Palette.blueColor,
       foregroundColor: Colors.white,
@@ -21,10 +22,11 @@ class AppTheme {
     scaffoldBackgroundColor: Palette.darkBackgroundColor,
     appBarTheme: AppBarTheme(
       backgroundColor: Palette.darkBackgroundColor,
-      titleTextStyle: YTextTheme.blackTextTheme.headlineSmall,
+      titleTextStyle: YTextTheme.blackTextTheme.headlineSmall!.copyWith(fontFamily: 'Chirp'),
       elevation: 0,
     ),
     textTheme: YTextTheme.blackTextTheme,
+    fontFamily: 'Chirp',
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: Palette.blueColor,
       foregroundColor: Colors.white,
