@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twitter_clone/common/common_appbar.dart';
 import 'package:twitter_clone/common/form_divider.dart';
 import 'package:twitter_clone/common/google_sign_button.dart';
+import 'package:twitter_clone/feature/authentication/view/login/widgets/forget_password_button.dart';
 import 'package:twitter_clone/feature/authentication/view/login/widgets/login_form.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 
@@ -27,9 +28,11 @@ class LoginView extends StatelessWidget {
                     horizontal: YSizes.defaultSpace,
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       LoginForm(),
+                      SizedBox(height: YSizes.spaceBtwItems),
+                      ForgetPasswordButton(),
                       FormDivider(),
                       GoogleSignButton(buttonTitle: 'Continue with Google'),
                     ],
