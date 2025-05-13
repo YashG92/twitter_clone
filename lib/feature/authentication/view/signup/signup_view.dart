@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twitter_clone/common/common_appbar.dart';
 import 'package:twitter_clone/common/form_divider.dart';
 import 'package:twitter_clone/common/google_sign_button.dart';
+import 'package:twitter_clone/common/on_will_pop.dart';
 import 'package:twitter_clone/routes/routes.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/feature/authentication/view/signup/widgets/signup_form.dart';
@@ -14,37 +15,41 @@ class SignupView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CommonAppbar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: YSizes.defaultSpace),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SignupForm(),
-                      FormDivider(),
-                      GoogleSignButton(buttonTitle: 'Sign Up with Google'),
-                    ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result)=> OnWillPop.onWillPop(context) ,
+      child: Scaffold(
+        appBar: CommonAppbar(),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: YSizes.defaultSpace),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SignupForm(),
+                        FormDivider(),
+                        GoogleSignButton(buttonTitle: 'Sign Up with Google'),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: FormFooter(
-              footerText: 'Already have an account?',
-              onTap: () => Get.toNamed( Routes.loginView),
-              buttonText: 'Log In',
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FormFooter(
+                footerText: 'Already have an account?',
+                onTap: () => Get.toNamed( Routes.loginView),
+                buttonText: 'Log In',
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

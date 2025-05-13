@@ -31,7 +31,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       LoginForm(),
                       FormDivider(),
-                      GoogleSignButton(buttonTitle: 'Continue with Google')
+                      GoogleSignButton(buttonTitle: 'Continue with Google'),
                     ],
                   ),
                 ),

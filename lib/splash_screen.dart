@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
+import 'package:twitter_clone/routes/routes.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
@@ -62,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen>
     ).animate(_animationController);
     _animationController..reset()..repeat();
     Future.delayed(const Duration(seconds: 2), () {
-      Get.offAll(() => const SignupView());
+      Get.offAllNamed(Routes.signUpView);
     });
   }
 

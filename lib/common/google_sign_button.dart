@@ -16,13 +16,13 @@ class GoogleSignButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               elevation: 3,
               backgroundColor: Colors.white,
-              foregroundColor: Colors.black ,
+              foregroundColor: Colors.black,
               shadowColor: Colors.grey,
               textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             onPressed: () {},
             child: Row(
-              spacing: YSizes.spaceBtwItems/2,
+              spacing: YSizes.spaceBtwItems / 2,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Image(
