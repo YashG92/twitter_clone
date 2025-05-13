@@ -49,7 +49,7 @@ class YSizes {
   static const double productItemHeight = 160.0;
 
   // Input field
-  static const double inputFieldRadius = 12.0;
+  static const double inputFieldRadius = 30.0;
   static const double spaceBtwInputFields = 16.0;
 
   // Card sizes

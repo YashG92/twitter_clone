@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
+import 'package:twitter_clone/routes/app_routes.dart';
 import 'package:twitter_clone/splash_screen.dart';
 import 'package:twitter_clone/theme/app_theme.dart';
 
@@ -15,6 +15,7 @@ class App extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
+      getPages: AppRoutes.pages,
       home: const SplashScreen(),
     );
   }

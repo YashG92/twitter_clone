@@ -66,6 +66,7 @@ flutter:
     - assets/svgs/dark/
     - assets/images/light/
     - assets/images/dark/
+    - assets/logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

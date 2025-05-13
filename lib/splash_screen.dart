@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
-import 'package:twitter_clone/utils/helper_function.dart';
+import 'package:twitter_clone/utils/constants/constants.dart';
+import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
-import 'constants/assets_constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

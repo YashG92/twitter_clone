@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:twitter_clone/constants/constants.dart';
-import 'package:twitter_clone/utils/helper_function.dart';
+import 'package:twitter_clone/utils/constants/constants.dart';
+import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
 class CommonAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CommonAppbar({super.key, this.isBackArrow = false});
