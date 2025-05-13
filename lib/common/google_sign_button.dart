@@ -11,26 +11,28 @@ class GoogleSignButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            elevation: 3,
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black ,
-            shadowColor: Colors.grey,
-            textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-          onPressed: () {},
-          child: Row(
-            spacing: YSizes.spaceBtwItems/2,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Image(
-                image: AssetImage(ImageStrings.googleLogo),
-                height: YSizes.xl,
-                width: YSizes.xl,
-              ),
-              Text(buttonTitle, style: TextStyle(color: Colors.grey)),
-            ],
+        SizedBox(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 3,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black ,
+              shadowColor: Colors.grey,
+              textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            onPressed: () {},
+            child: Row(
+              spacing: YSizes.spaceBtwItems/2,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Image(
+                  image: AssetImage(ImageStrings.googleLogo),
+                  height: YSizes.xl,
+                  width: YSizes.xl,
+                ),
+                Text(buttonTitle, style: TextStyle(color: Colors.grey)),
+              ],
+            ),
           ),
         ),
       ],
