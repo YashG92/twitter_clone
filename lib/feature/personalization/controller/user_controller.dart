@@ -4,16 +4,12 @@ import 'package:get/get.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../model/user_model.dart';
 
-class UserController extends GetxController{
+class UserController extends GetxController {
   static UserController get instance => Get.find();
 
   final userRepository = Get.put(UserRepository());
-  Rx<UserModel> user = UserModel
-      .empty()
-      .obs;
+  Rx<UserModel> user = UserModel.empty().obs;
   final profileLoading = false.obs;
-
-
 
   Future<void> fetchUserRecord() async {
     try {
@@ -35,10 +31,10 @@ class UserController extends GetxController{
       // Save user data if not already present
       if (userCredentials != null) {
         final user = UserModel(
-            id: userCredentials.user!.uid,
-            fullName: userCredentials.user!.displayName ?? '',
-            email: userCredentials.user!.email ?? '',
-            profilePicture: userCredentials.user!.photoURL ?? ''
+          id: userCredentials.user!.uid,
+          fullName: userCredentials.user!.displayName ?? '',
+          email: userCredentials.user!.email ?? '',
+          profilePicture: userCredentials.user!.photoURL ?? '',
         );
 
         // Save user data to Firestore
@@ -49,5 +45,4 @@ class UserController extends GetxController{
       Get.snackbar('Error', e.toString());
     }
   }
-
 }

@@ -22,6 +22,7 @@ class ForgotPasswordController extends GetxController {
     ForgotPasswordController.instance.resetCountdown();
     super.dispose();
   }
+
   @override
   void onClose() {
     _countdownTimer?.cancel();
