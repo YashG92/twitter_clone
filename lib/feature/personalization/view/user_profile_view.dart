@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:twitter_clone/theme/palette.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/constants/image_strings.dart';
@@ -19,9 +18,10 @@ class UserProfileView extends StatelessWidget {
         slivers: [
           //AppBar with cover picture
           SliverAppBar(
-            expandedHeight: 120,
+            expandedHeight: 150,
             pinned: true,
             floating: false,
+            clipBehavior: Clip.none,
             flexibleSpace: LayoutBuilder(
               builder: (context, constraints) {
                 final top = constraints.biggest.height;
@@ -30,6 +30,7 @@ class UserProfileView extends StatelessWidget {
 
                 return Stack(
                   fit: StackFit.expand,
+                  clipBehavior: Clip.none,
                   children: [
                     Image.asset(ImageStrings.coverPicture, fit: BoxFit.cover),
 
@@ -69,6 +70,22 @@ class UserProfileView extends StatelessWidget {
                           ),
                         ),
                       ),
+                    if (!isCollapsed)
+                      Positioned(
+                        bottom: -70,
+                        left: YSizes.defaultSpace,
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundColor:
+                              dark ? Palette.darkGrey : Colors.white,
+                          child: CircleAvatar(
+                            radius: 48,
+                            backgroundImage: AssetImage(
+                              ImageStrings.coverPicture,
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 );
               },
@@ -91,42 +108,20 @@ class UserProfileView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //Profile pic and edit button
-                Stack(
-                  children: [
-                    Positioned(
-                      top: -40,
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                          YSizes.productImageRadius,
-                        ),
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage(
-                            ImageStrings.coverPicture,
-                          ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(YSizes.productImageRadius),
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Edit Profile',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: dark ? Colors.white : Colors.black,
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                          YSizes.productImageRadius,
-                        ),
-                        child: OutlinedButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Edit Profile',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyMedium!.copyWith(
-                              color: dark ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 //SizedBox(height: YSizes.spaceBtwItems,),
 
