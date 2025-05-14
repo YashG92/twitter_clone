@@ -3,14 +3,17 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/theme/palette.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/constants/image_strings.dart';
+import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
 class UserProfileView extends StatelessWidget {
   const UserProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final dark = HelperFunction.isDarkMode(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -41,19 +44,25 @@ class UserProfileView extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: YSizes.appBarHeight,),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: YSizes.appBarHeight,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: YSizes.spaceBtwSections,),
+                              SizedBox(height: YSizes.spaceBtwSections),
                               Text(
                                 'Yash Gotrijiya',
-                                style: Theme.of(context).textTheme.headlineSmall!
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
                                     .copyWith(color: Colors.white),
                               ),
                               Text(
                                 '5 posts',
-                                style: Theme.of(context).textTheme.headlineSmall!
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
                                     .copyWith(color: Colors.white),
                               ),
                             ],
@@ -93,7 +102,7 @@ class UserProfileView extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 50,
                           backgroundImage: AssetImage(
-                            ImageStrings.profilePicture,
+                            ImageStrings.coverPicture,
                           ),
                         ),
                       ),
@@ -106,7 +115,14 @@ class UserProfileView extends StatelessWidget {
                         ),
                         child: OutlinedButton(
                           onPressed: () {},
-                          child: Text('Edit Profile'),
+                          child: Text(
+                            'Edit Profile',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.copyWith(
+                              color: dark ? Colors.white : Colors.black,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -181,7 +197,10 @@ class UserProfileView extends StatelessWidget {
                     ],
                   ),
                 ),
-                Divider(),
+                Divider(
+                  thickness: 0.3,
+                  color: dark ? Palette.darkGrey : Colors.grey,
+                ),
 
                 // ListTile(
                 //   contentPadding: EdgeInsets.zero,
@@ -221,86 +240,88 @@ class UserProfileView extends StatelessWidget {
           //Tweets or Posts
           SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              return Container(
-                padding: EdgeInsets.only(
-                  bottom: YSizes.md,
-                  left: YSizes.md,
-                  right: YSizes.md,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.grey.shade200),
-                  ),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage: AssetImage(ImageStrings.profilePicture),
-                    ),
-                    SizedBox(width: YSizes.spaceBtwItems),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Yash Gotrijiya',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(width: 4),
-                              Icon(
-                                Icons.verified,
-                                size: 16,
-                                color: Colors.blue,
-                              ),
-                              SizedBox(width: 4),
-                              Flexible(
-                                child: Text(
-                                  '@yashgotrijiya • ${index + 1}h',
-                                  style: TextStyle(color: Colors.grey),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Spacer(),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.more_vert, size: 18),
-                                padding: EdgeInsets.zero,
-                                constraints: BoxConstraints(),
-                              ),
-                            ],
-                          ),
-                          //SizedBox(height: YSizes.sm),
-                          Text(
-                            'This is tweet number ${index + 1}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                          ),
-                          SizedBox(height: YSizes.spaceBtwItems),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _buildTweetActionButton(
-                                Icons.chat_bubble_outline,
-                                '${index + 1}',
-                              ),
-                              _buildTweetActionButton(
-                                Icons.repeat,
-                                '${index + 1}',
-                              ),
-                              _buildTweetActionButton(
-                                Icons.favorite_border,
-                                '${index * 2}',
-                              ),
-                              _buildTweetActionButton(Icons.share, ''),
-                            ],
-                          ),
-                        ],
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: EdgeInsets.only(bottom: YSizes.sm),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 0.3,
+                        color: dark ? Palette.darkGrey : Colors.grey.shade200,
                       ),
                     ),
-                  ],
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: AssetImage(ImageStrings.coverPicture),
+                      ),
+                      SizedBox(width: YSizes.spaceBtwItems),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Yash Gotrijiya',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(width: 4),
+                                Icon(
+                                  Icons.verified,
+                                  size: 16,
+                                  color: Colors.blue,
+                                ),
+                                SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(
+                                    '@yashgotrijiya • ${index + 1}h',
+                                    style: TextStyle(color: Colors.grey),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Spacer(),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.more_vert, size: 18),
+                                  padding: EdgeInsets.zero,
+                                  constraints: BoxConstraints(),
+                                ),
+                              ],
+                            ),
+                            //SizedBox(height: YSizes.sm),
+                            Text(
+                              'This is tweet number ${index + 1}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                            ),
+                            SizedBox(height: YSizes.spaceBtwItems),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _buildTweetActionButton(
+                                  Icons.chat_bubble_outline,
+                                  '${index + 1}',
+                                ),
+                                _buildTweetActionButton(
+                                  Icons.repeat,
+                                  '${index + 1}',
+                                ),
+                                _buildTweetActionButton(
+                                  Icons.favorite_border,
+                                  '${index * 2}',
+                                ),
+                                _buildTweetActionButton(Icons.share, ''),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }, childCount: 10),
