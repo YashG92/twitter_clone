@@ -69,6 +69,7 @@ flutter:
   assets:
     - assets/svgs/light/
     - assets/svgs/dark/
+    - assets/images/
     - assets/images/light/
     - assets/images/dark/
     - assets/logo/

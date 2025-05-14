@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:twitter_clone/feature/authentication/view/login/forget_password_view.dart';
 import 'package:twitter_clone/feature/authentication/view/login/login_view.dart';
 import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
 class AppRoutes {
@@ -24,6 +25,11 @@ class AppRoutes {
     GetPage(
       name: Routes.navigationMenu,
       page: () => const LoginView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.userProfileView,
+      page: () => const UserProfileView(),
       transition: Transition.fadeIn,
     ),
   ];
