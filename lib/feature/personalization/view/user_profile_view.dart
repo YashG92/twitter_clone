@@ -34,8 +34,29 @@ class UserProfileView extends StatelessWidget {
                       ClipRect(
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                          child: Container(
-                            color: Colors.transparent,
+                          child: Container(color: Colors.transparent),
+                        ),
+                      ),
+                    if (isCollapsed)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: YSizes.appBarHeight,),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: YSizes.spaceBtwSections,),
+                              Text(
+                                'Yash Gotrijiya',
+                                style: Theme.of(context).textTheme.headlineSmall!
+                                    .copyWith(color: Colors.white),
+                              ),
+                              Text(
+                                '5 posts',
+                                style: Theme.of(context).textTheme.headlineSmall!
+                                    .copyWith(color: Colors.white),
+                              ),
+                            ],
                           ),
                         ),
                       ),
