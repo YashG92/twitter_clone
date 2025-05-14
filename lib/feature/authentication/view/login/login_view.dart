@@ -45,7 +45,7 @@ class LoginView extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: FormFooter(
               footerText: 'Don’t have an account?',
-              onTap: () => Get.toNamed(Routes.signUpView),
+              onTap: () => Get.offAndToNamed(Routes.signUpView),
               buttonText: 'Join',
             ),
           ),

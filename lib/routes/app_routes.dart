@@ -15,5 +15,10 @@ class AppRoutes {
       page: () => const SignupView(),
       transition: Transition.fadeIn,
     ),
+    GetPage(
+      name: Routes.navigationMenu,
+      page: () => const LoginView(),
+      transition: Transition.fadeIn,
+    ),
   ];
 }

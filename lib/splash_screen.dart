@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/data/repositories/auth_repository.dart';
 import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -61,10 +61,13 @@ class _SplashScreenState extends State<SplashScreen>
       begin: 0.0,
       end: 1.0,
     ).animate(_animationController);
-    _animationController..reset()..repeat();
-    Future.delayed(const Duration(seconds: 2), () {
-      Get.offAllNamed(Routes.signUpView);
-    });
+    _animationController
+      ..reset()
+      ..repeat();
+    Future.delayed(
+      const Duration(seconds: 3),
+      () => AuthRepository.instance.screenRedirect(),
+    );
   }
 
   @override
