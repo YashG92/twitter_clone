@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:twitter_clone/feature/authentication/view/login/forget_password_view.dart';
 import 'package:twitter_clone/feature/authentication/view/login/login_view.dart';
 import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
-import 'package:twitter_clone/feature/personalization/view/user_profile_view.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
 class AppRoutes {
