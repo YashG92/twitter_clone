@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,11 +19,29 @@ class UserProfileView extends StatelessWidget {
             expandedHeight: 120,
             pinned: true,
             floating: false,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                ImageStrings.coverPicture,
-                fit: BoxFit.cover,
-              ),
+            flexibleSpace: LayoutBuilder(
+              builder: (context, constraints) {
+                final top = constraints.biggest.height;
+                final isCollapsed =
+                    top <= kToolbarHeight + MediaQuery.of(context).padding.top;
+
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(ImageStrings.coverPicture, fit: BoxFit.cover),
+
+                    if (isCollapsed)
+                      ClipRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: Container(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
             ),
             leading: IconButton(
               onPressed: () {},
@@ -83,7 +103,10 @@ class UserProfileView extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text('Yash Gotrijiya'),
+                          Text(
+                            'Yash Gotrijiya',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
                           SizedBox(width: YSizes.sm),
                           Icon(Icons.verified, color: Colors.blue),
                         ],
