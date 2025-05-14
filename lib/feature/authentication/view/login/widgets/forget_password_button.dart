@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:twitter_clone/routes/routes.dart';
 
 import '../../../../../theme/theme.dart';
 
@@ -8,7 +10,7 @@ class ForgetPasswordButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () => Get.toNamed(Routes.forgotPasswordView),
       child: Text(
         'Forget password?',
         style: Theme.of(context).textTheme.bodySmall!.copyWith(

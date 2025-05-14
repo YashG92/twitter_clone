@@ -4,6 +4,7 @@ import 'package:twitter_clone/feature/authentication/view/login/widgets/login_fo
 
 import '../../../data/repositories/auth_repository.dart';
 import '../../../utils/helpers/network_manager.dart';
+import '../../personalization/controller/user_controller.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
@@ -12,8 +13,7 @@ class LoginController extends GetxController {
   final password = TextEditingController();
   final hidePassword = true.obs;
   final isLoading = false.obs;
-
-
+  final userController = Get.put(UserController());
 
   login() async {
     try {
@@ -34,10 +34,38 @@ class LoginController extends GetxController {
 
       isLoading.value = false;
 
-      Get.snackbar(
-        'Congratulations!',
-        'Your account has been created successfully.',
-      );
+      Get.snackbar('Congratulations!', 'You have successfully logged in.');
+      AuthRepository.instance.screenRedirect();
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  Future<void> googleSignIn() async {
+    try {
+      //Start Loading
+      isLoading.value = true;
+
+      //Check Internet Connectivity
+      final isConnected = await NetworkManager.instance.isConnected();
+      if (!isConnected) {
+        isLoading.value = false;
+        return;
+      }
+
+      //Google authentication
+      final userCredentials = await AuthRepository.instance.googleSignIn();
+      //save user record
+
+      await userController.saveUserData(userCredentials);
+
+      isLoading.value = false;
+
+      //Show success message
+      Get.snackbar('Congratulations!', 'You have successfully logged in.');
+
+      //Move to Screen
       AuthRepository.instance.screenRedirect();
     } catch (e) {
       isLoading.value = false;

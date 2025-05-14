@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/constants/image_strings.dart';
+
+import '../feature/authentication/controller/login_controller.dart';
 
 class GoogleSignButton extends StatelessWidget {
   const GoogleSignButton({super.key, required this.buttonTitle});
@@ -9,6 +12,7 @@ class GoogleSignButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
     return Column(
       children: [
         SizedBox(
@@ -20,7 +24,7 @@ class GoogleSignButton extends StatelessWidget {
               shadowColor: Colors.grey,
               textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
-            onPressed: () {},
+            onPressed: () => controller.googleSignIn(),
             child: Row(
               spacing: YSizes.spaceBtwItems / 2,
               mainAxisAlignment: MainAxisAlignment.center,

@@ -48,9 +48,14 @@ class LoginForm extends StatelessWidget {
           SizedBox(height: YSizes.spaceBtwSections),
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => controller.login(),
-              child: Text('Email Login'),
+            child: Obx(
+              () => ElevatedButton(
+                onPressed: () => controller.login(),
+                child:
+                    controller.isLoading.value
+                        ? CircularProgressIndicator(color: Colors.white,)
+                        : Text('Email Login'),
+              ),
             ),
           ),
         ],
