@@ -74,6 +74,7 @@ class UserProfileView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
+        shape: CircleBorder(),
         child: Icon(Icons.edit),
       ),
     );
