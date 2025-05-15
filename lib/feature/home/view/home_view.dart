@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_clone/common/common_app_drawer.dart';
 import 'package:twitter_clone/common/custom_appbar.dart';
 import 'package:twitter_clone/feature/home/view/widgets/tweet_card_view.dart';
 
@@ -9,6 +10,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(title: 'Home'),
+      drawer: CommonAppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverList(

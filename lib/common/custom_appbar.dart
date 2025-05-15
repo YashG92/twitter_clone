@@ -33,8 +33,14 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
         ),
         child: AppBar(
           automaticallyImplyLeading: isBackArrow,
+          backgroundColor: dark ? Palette.darkBackgroundColor : Colors.white,
           //centerTitle: true,
-          leading: UserProfileAvatar(backgroundRadius: 1, foregroundRadius: 28),
+          leading: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: UserProfileAvatar(backgroundRadius: 1, foregroundRadius: 28),
+            ),
+          ),
           title: Text(
             title,
             style: Theme.of(
