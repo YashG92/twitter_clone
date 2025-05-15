@@ -150,7 +150,7 @@ class UserProfileView extends StatelessWidget {
   Widget _buildTweetActionButton(IconData icon, String count) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: Colors.grey),
+        IconButton(onPressed: () {  }, icon: Icon(icon,size: 18,color: Palette.grey,),),
         if (count.isNotEmpty) SizedBox(width: 4),
         if (count.isNotEmpty) Text(count, style: TextStyle(color: Colors.grey)),
       ],
