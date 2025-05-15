@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/authentication/view/login/login_view.dart';
+import 'package:twitter_clone/feature/chat/chat_list_view.dart';
 import 'package:twitter_clone/feature/home/view/home_view.dart';
 import 'package:twitter_clone/feature/notification/notification_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
@@ -101,8 +102,8 @@ class BottomNavBarController extends GetxController {
 
   final screens = const [
     HomeView(),
-    LoginView(),
-    NotificationView(),
     UserProfileView(),
+    NotificationView(),
+    ChatListView(),
   ];
 }
