@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/authentication/view/login/login_view.dart';
+import 'package:twitter_clone/feature/home/view/home_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
 import 'package:twitter_clone/theme/theme.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
@@ -98,7 +99,7 @@ class BottomNavBarController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
   final screens = const [
-    UserProfileView(),
+    HomeView(),
     LoginView(),
     UserProfileView(),
     UserProfileView(),

@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
+import 'package:twitter_clone/utils/constants/constants.dart';
+import 'package:twitter_clone/utils/helpers/helper_function.dart';
+
+class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppbar({
+    super.key,
+    this.isBackArrow = false,
+    required this.title,
+  });
+
+  final bool isBackArrow;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final dark = HelperFunction.isDarkMode(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: YSizes.sm),
+      child: AppBar(
+        automaticallyImplyLeading: isBackArrow,
+        //centerTitle: true,
+        leading: UserProfileAvatar(backgroundRadius: 1, foregroundRadius: 28),
+        title: Text(title,style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.w200),),
+        actions: [
+          IconButton(onPressed: (){}, icon: Icon(Icons.settings_outlined,color: Colors.blue))
+        ],
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
