@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_clone/feature/home/view/widgets/tweet_card_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_meta_data.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_app_bar.dart';
 import 'package:twitter_clone/theme/palette.dart';
@@ -52,89 +53,20 @@ class UserProfileView extends StatelessWidget {
           //Tweets or Posts
           SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: EdgeInsets.only(bottom: YSizes.sm),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        width: 0.3,
-                        color: dark ? Palette.darkGrey : Colors.grey.shade200,
-                      ),
-                    ),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundImage: AssetImage(ImageStrings.coverPicture),
-                      ),
-                      SizedBox(width: YSizes.spaceBtwItems),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Yash Gotrijiya',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                SizedBox(width: 4),
-                                Icon(
-                                  Icons.verified,
-                                  size: 16,
-                                  color: Colors.blue,
-                                ),
-                                SizedBox(width: 4),
-                                Flexible(
-                                  child: Text(
-                                    '@yashgotrijiya • ${index + 1}h',
-                                    style: TextStyle(color: Colors.grey),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Spacer(),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.more_vert, size: 18),
-                                  padding: EdgeInsets.zero,
-                                  constraints: BoxConstraints(),
-                                ),
-                              ],
-                            ),
-                            //SizedBox(height: YSizes.sm),
-                            Text(
-                              'This is tweet number ${index + 1}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                            ),
-                            SizedBox(height: YSizes.spaceBtwItems),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _buildTweetActionButton(
-                                  Icons.chat_bubble_outline,
-                                  '${index + 1}',
-                                ),
-                                _buildTweetActionButton(
-                                  Icons.repeat,
-                                  '${index + 1}',
-                                ),
-                                _buildTweetActionButton(
-                                  Icons.favorite_border,
-                                  '${index * 2}',
-                                ),
-                                _buildTweetActionButton(Icons.share, ''),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              return TweetCardView(
+                userName: 'Yash Gotrijiya',
+                userHandle: '@yashgotrijiya',
+                content: 'This is tweet number ${index + 1}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                timeAgo: '${index + 1}h',
+                commentCount: index + 1,
+                retweetCount: index + 1,
+                likeCount: index * 2,
+                isVerified: true,
+                onMorePressed: () {},
+                onLikePressed: () {},
+                onRetweetPressed: () {},
+                onCommentPressed: () {},
+                onSharePressed: () {},
               );
             }, childCount: 10),
           ),
@@ -150,13 +82,18 @@ class UserProfileView extends StatelessWidget {
   Widget _buildTweetActionButton(IconData icon, String count) {
     return Row(
       children: [
-        IconButton(onPressed: () {  }, icon: Icon(icon,size: 18,color: Palette.grey,),),
-        if (count.isNotEmpty) SizedBox(width: 4),
-        if (count.isNotEmpty) Text(count, style: TextStyle(color: Colors.grey)),
+        IconButton(
+          onPressed: () {},
+          icon: Icon(icon, size: 18, color: Palette.darkerGrey),
+        ),
+        //if (count.isNotEmpty) SizedBox(width: YSizes.sm/2),
+        if (count.isNotEmpty)
+          Text(count, style: TextStyle(color: Palette.darkerGrey)),
       ],
     );
   }
 }
+
 // ListTile(
 //   contentPadding: EdgeInsets.zero,
 //   leading: CircleAvatar(
