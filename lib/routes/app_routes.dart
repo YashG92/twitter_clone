@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:twitter_clone/bottom_nav_bar.dart';
 import 'package:twitter_clone/feature/authentication/view/login/forget_password_view.dart';
 import 'package:twitter_clone/feature/authentication/view/login/login_view.dart';
 import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
@@ -23,8 +24,8 @@ class AppRoutes {
       transition: Transition.fadeIn,
     ),
     GetPage(
-      name: Routes.navigationMenu,
-      page: () => const LoginView(),
+      name: Routes.bottomNavBar,
+      page: () =>  BottomNavBar(),
       transition: Transition.fadeIn,
     ),
     GetPage(

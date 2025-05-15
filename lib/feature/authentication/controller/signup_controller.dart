@@ -59,7 +59,7 @@ class SignUpController extends GetxController {
         'Congratulations!',
         'Your account has been created successfully.',
       );
-      Get.offAndToNamed(Routes.navigationMenu);
+      Get.offAndToNamed(Routes.bottomNavBar);
     } catch (e) {
       isLoading.value = false;
       Get.snackbar('Error', e.toString());

@@ -23,7 +23,7 @@ class AuthRepository extends GetxController {
     final user = _auth.currentUser;
     if (user != null) {
       await StorageUtility.init(user.uid);
-      Get.offAllNamed(Routes.userProfileView);
+      Get.offAllNamed(Routes.bottomNavBar);
     } else {
       deviceStorage.writeIfNull('isFirstTime', true);
       deviceStorage.read('isFirstTime') != true
