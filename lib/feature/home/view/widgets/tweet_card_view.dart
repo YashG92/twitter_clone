@@ -47,7 +47,7 @@ class TweetCardView extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              width: 0.3,
+              width: 1.5,
               color: dark ? Palette.darkGrey : Colors.grey.shade200,
             ),
           ),

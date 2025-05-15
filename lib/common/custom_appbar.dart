@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
@@ -45,7 +44,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
             title,
             style: Theme.of(
               context,
-            ).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.w200),
+            ).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.w200,fontSize: 22),
           ),
           actions: [
             IconButton(
