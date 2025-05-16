@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
+import 'package:twitter_clone/routes/routes.dart';
 
 import '../feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import '../theme/theme.dart';
@@ -42,9 +45,7 @@ class CommonAppDrawer extends StatelessWidget {
                 ),
                 Text(
                   '@yashgotrijiya',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
             ),
@@ -54,11 +55,10 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.person_outlined,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text(
-              'Profile',
-            ),
+            title: Text('Profile'),
             onTap: () {
               Navigator.pop(context);
+              Get.toNamed(Routes.userProfileView);
               // Navigate to profile
             },
           ),
@@ -67,9 +67,7 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.list_alt,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text(
-              'Lists',
-            ),
+            title: Text('Lists'),
             onTap: () {
               Navigator.pop(context);
               // Navigate to profile
@@ -80,9 +78,7 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.bookmark_outline_sharp,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text(
-              'Bookmarks',
-            ),
+            title: Text('Bookmarks'),
             onTap: () {
               Navigator.pop(context);
               // Navigate to bookmarks
@@ -93,9 +89,7 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.timeline_outlined,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text(
-              'Moments',
-            ),
+            title: Text('Moments'),
             onTap: () {
               Navigator.pop(context);
               // Navigate to bookmarks
@@ -106,9 +100,7 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.settings_outlined,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text(
-              'Settings',
-            ),
+            title: Text('Settings'),
             onTap: () {
               Navigator.pop(context);
               // Navigate to settings
@@ -120,9 +112,7 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.logout,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text(
-              'Log out',
-            ),
+            title: Text('Log out'),
             onTap: () {
               // Handle logout
             },

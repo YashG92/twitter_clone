@@ -5,6 +5,7 @@ import 'package:twitter_clone/feature/chat/chat_list_view.dart';
 import 'package:twitter_clone/feature/home/view/home_view.dart';
 import 'package:twitter_clone/feature/notification/notification_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
+import 'package:twitter_clone/feature/search/search_view.dart';
 import 'package:twitter_clone/theme/theme.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
@@ -102,7 +103,7 @@ class BottomNavBarController extends GetxController {
 
   final screens = const [
     HomeView(),
-    UserProfileView(),
+    SearchView(),
     NotificationView(),
     ChatListView(),
   ];

@@ -6,6 +6,9 @@ import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dar
 import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
+import '../feature/search/search_view.dart';
+import '../feature/search/searched_content_view.dart';
+
 class AppRoutes {
   static final pages = [
     GetPage(
@@ -31,6 +34,16 @@ class AppRoutes {
     GetPage(
       name: Routes.userProfileView,
       page: () => const UserProfileView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.searchView,
+      page: () => const SearchView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.searchedContentView,
+      page: () => const SearchedContentView(),
       transition: Transition.fadeIn,
     ),
   ];
