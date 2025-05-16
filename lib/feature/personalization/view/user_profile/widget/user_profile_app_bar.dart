@@ -1,16 +1,17 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import '../../../../../utils/constants/constants.dart';
-import '../../../../../utils/helpers/helper_function.dart';
+//import '../../../../../utils/helpers/helper_function.dart';
 
 class UserProfileAppBar extends StatelessWidget {
   const UserProfileAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final dark = HelperFunction.isDarkMode(context);
+    //final dark = HelperFunction.isDarkMode(context);
 
     return SliverAppBar(
       expandedHeight: 150,
@@ -75,7 +76,7 @@ class UserProfileAppBar extends StatelessWidget {
         },
       ),
       leading: IconButton(
-        onPressed: () {},
+        onPressed: () => Get.back(),
         icon: Icon(Icons.arrow_back, color: Colors.white),
       ),
       actions: [
