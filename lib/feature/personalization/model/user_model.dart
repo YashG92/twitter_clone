@@ -1,45 +1,74 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
-
-  final String id;
-  String fullName;
+  final String userId;
+  String username;
   String email;
-  String profilePicture;
+  String profileImage;
+  String coverImage;
+  String bio;
+  int followerCount;
+  int followingCount;
+  int tweetCount;
+  DateTime createdAt;
 
   UserModel({
-    required this.id,
-    required this.fullName,
+    required this.userId,
+    required this.username,
     required this.email,
-    required this.profilePicture,
+    required this.profileImage,
+    required this.coverImage,
+    required this.bio,
+    required this.followerCount,
+    required this.followingCount,
+    required this.tweetCount,
+    required this.createdAt,
   });
 
-
-  static UserModel empty() =>
-      UserModel(id: '',
-          fullName: '',
-          email: '',
-          profilePicture: '');
-
+  static UserModel empty() => UserModel(
+    userId: '',
+    username: '',
+    email: '',
+    profileImage: '',
+    bio: '',
+    coverImage: '',
+    followerCount: 0,
+    followingCount: 0,
+    tweetCount: 0,
+    createdAt: DateTime.now(),
+  );
 
   ///Convert model to JSon structure for storing data in Firebase
   Map<String, dynamic> toJson() {
     return {
-      'FullName': fullName,
+      'FullName': username,
       'Email': email,
-      'ProfilePicture': profilePicture,
+      'ProfilePicture': profileImage,
+      'CoverPicture': coverImage,
+      'Bio': bio,
+      'FollowerCount': followerCount,
+      'FollowingCount': followingCount,
+      'TweetCount': tweetCount,
+      'CreatedAt': createdAt = DateTime.now(),
     };
   }
 
   ///Factory method to create UserModel from Firebase document Snapshot.
   factory UserModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document) {
+    DocumentSnapshot<Map<String, dynamic>> document,
+  ) {
     final data = document.data()!;
     return UserModel(
-      id: document.id,
-      fullName: data['FullName'] ?? "",
-      email: data['Email'] ?? "",
-      profilePicture: data['ProfilePicture'] ?? "",
+      userId: document.id,
+      username: data['username'] ?? "",
+      email: data['email'] ?? "",
+      profileImage: data['profilePicture'],
+      coverImage: data['coverPicture'] ?? "",
+      bio: data['bio'] ?? "",
+      followerCount: data['followerCount'] ?? 0,
+      followingCount: data['followingCount'] ?? 0,
+      tweetCount: data['tweetCount'] ?? 0,
+      createdAt: data['createdAt']?.toDate() ?? DateTime.now(),
     );
   }
 }

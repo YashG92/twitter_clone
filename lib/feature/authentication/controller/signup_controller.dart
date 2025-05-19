@@ -45,10 +45,16 @@ class SignUpController extends GetxController {
           );
 
       final newUser = UserModel(
-        id: userCredential.user!.uid,
-        fullName: fullName.text.trim(),
+        userId: userCredential.user!.uid,
+        username: fullName.text.trim(),
         email: email.text.trim(),
-        profilePicture: '',
+        profileImage: '',
+        coverImage: '',
+        bio: '',
+        followerCount: 0,
+        followingCount: 0,
+        tweetCount: 0,
+        createdAt: DateTime.now(),
       );
 
       final userRepository = Get.put(UserRepository());

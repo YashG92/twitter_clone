@@ -31,10 +31,16 @@ class UserController extends GetxController {
       // Save user data if not already present
       if (userCredentials != null) {
         final user = UserModel(
-          id: userCredentials.user!.uid,
-          fullName: userCredentials.user!.displayName ?? '',
+          userId: userCredentials.user!.uid,
+          username: userCredentials.user!.displayName ?? '',
           email: userCredentials.user!.email ?? '',
-          profilePicture: userCredentials.user!.photoURL ?? '',
+          profileImage: userCredentials.user!.photoURL ?? '',
+          coverImage: '',
+          bio: '',
+          followerCount: 0,
+          followingCount: 0,
+          tweetCount: 0,
+          createdAt: DateTime.now(),
         );
 
         // Save user data to Firestore

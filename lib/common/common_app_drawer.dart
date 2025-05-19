@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/data/repositories/auth_repository.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
@@ -26,7 +27,7 @@ class CommonAppDrawer extends StatelessWidget {
               color: dark ? Palette.darkBackgroundColor : Colors.white,
             ),
             child: GestureDetector(
-              onTap: ()=>Get.toNamed(Routes.userProfileView),
+              onTap: () => Get.toNamed(Routes.userProfileView),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -116,9 +117,7 @@ class CommonAppDrawer extends StatelessWidget {
               color: dark ? Colors.white : Colors.blue,
             ),
             title: Text('Log out'),
-            onTap: () {
-              // Handle logout
-            },
+            onTap: () => AuthRepository.instance.logoutUser(),
           ),
         ],
       ),
