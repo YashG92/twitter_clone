@@ -22,35 +22,59 @@ class CommonAppDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: dark ? Palette.darkBackgroundColor : Colors.white,
-            ),
-            child: GestureDetector(
-              onTap: () => Get.toNamed(Routes.userProfileView),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const UserProfileAvatar(
-                    backgroundRadius: 40,
-                    foregroundRadius: 40,
-                  ),
-                  const SizedBox(height: YSizes.sm),
-                  Row(
-                    children: [
-                      Text(
-                        userController.user.value.username,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      SizedBox(width: YSizes.sm),
-                      Icon(Icons.verified, color: Colors.blue),
-                    ],
-                  ),
-                  Text(
-                    '@${userController.user.value.email}',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
+          SizedBox(
+            height: 225,
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                color: dark ? Palette.darkBackgroundColor : Colors.white,
+              ),
+              child: GestureDetector(
+                onTap: () => Get.toNamed(Routes.userProfileView),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const UserProfileAvatar(
+                      backgroundRadius: 40,
+                      foregroundRadius: 40,
+                    ),
+                    const SizedBox(height: YSizes.sm),
+                    Row(
+                      children: [
+                        Text(
+                          userController.user.value.username,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        SizedBox(width: YSizes.sm),
+                        Icon(Icons.verified, color: Colors.blue),
+                      ],
+                    ),
+                    Text(
+                      '@${userController.user.value.email}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '${userController.user.value.followerCount} Followers',
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: YSizes.spaceBtwItems),
+                        Text(
+                          '${userController.user.value.followingCount} Following',
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

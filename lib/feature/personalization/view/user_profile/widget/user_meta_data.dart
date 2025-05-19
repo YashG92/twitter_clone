@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../utils/constants/sizes.dart';
+import '../../../../../utils/helpers/helper_function.dart';
 import '../../../controller/user_controller.dart';
 
 class UserMetaData extends StatelessWidget {
@@ -63,7 +64,7 @@ class UserMetaData extends StatelessWidget {
           Icon(Icons.calendar_today),
           SizedBox(width: YSizes.sm),
           Text(
-            'Joined March 2020',
+            HelperFunction.formatDate(userController.user.value.createdAt),
             style: Theme
                 .of(context)
                 .textTheme
