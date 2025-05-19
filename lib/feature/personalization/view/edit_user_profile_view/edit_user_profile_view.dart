@@ -15,12 +15,17 @@ class EditUserProfileView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Edit Profile'),
         actions: [
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Save',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
+          Obx(
+            () =>
+                controller.isLoading.value
+                    ? CircularProgressIndicator()
+                    : TextButton(
+                      onPressed: () => controller.updateProfile(),
+                      child: Text(
+                        'Save',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    ),
           ),
         ],
       ),
@@ -57,7 +62,7 @@ class EditUserProfileView extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 50,),
+            SizedBox(height: 50),
             Padding(
               padding: EdgeInsets.all(YSizes.defaultSpace / 2),
               child: SingleChildScrollView(
@@ -66,8 +71,15 @@ class EditUserProfileView extends StatelessWidget {
                     Form(
                       child: Column(
                         children: [
-                          _buildTextField(label: 'Name', controller: controller.name),
-                          _buildTextField(label: 'Bio', controller: controller.bio, maxLines: 3),
+                          _buildTextField(
+                            label: 'Name',
+                            controller: controller.name,
+                          ),
+                          _buildTextField(
+                            label: 'Bio',
+                            controller: controller.bio,
+                            maxLines: 3,
+                          ),
                           //_buildTextField(label: 'Location', controller: controller.location),
                           //_buildTextField(label: 'Website', controller: controller.website),
                         ],
@@ -82,6 +94,7 @@ class EditUserProfileView extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTextField({
     required String label,
     required TextEditingController controller,

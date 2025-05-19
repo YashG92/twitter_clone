@@ -49,4 +49,21 @@ class UserRepository extends GetxController {
       throw 'Something went wrong. Please try again';
     }
   }
+
+  Future<void> updateSingleFieldUserData(Map<String, dynamic> json) async {
+    try {
+      await _db
+          .collection("Users")
+          .doc(AuthRepository.instance.authUser.uid)
+          .update(json);
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 }
