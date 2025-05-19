@@ -11,7 +11,6 @@ class UserController extends GetxController {
   Rx<UserModel> user = UserModel.empty().obs;
   final profileLoading = false.obs;
 
-
   @override
   void onInit() {
     super.onInit();
@@ -32,13 +31,17 @@ class UserController extends GetxController {
 
   Future<void> saveUserData(UserCredential? userCredentials) async {
     try {
-      //Refresh user record
-      await fetchUserRecord();
+      if (userCredentials == null) return;
 
-      // Save user data if not already present
-      if (userCredentials != null) {
-        final user = UserModel(
-          userId: userCredentials.user!.uid,
+      final userId = userCredentials.user!.uid;
+
+      final existingUser = await userRepository.fetchUserData(userId: userId);
+
+      if (existingUser.userId.isNotEmpty) {
+        user(existingUser);
+      } else {
+        final newUser = UserModel(
+          userId: userId,
           username: userCredentials.user!.displayName ?? '',
           email: userCredentials.user!.email ?? '',
           profileImage: userCredentials.user!.photoURL ?? '',
@@ -50,9 +53,8 @@ class UserController extends GetxController {
           createdAt: DateTime.now(),
         );
 
-        // Save user data to Firestore
-        await userRepository.saveUserData(user);
-        this.user(user); // Update the observable user model
+        await userRepository.saveUserData(newUser);
+        user(newUser);
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
