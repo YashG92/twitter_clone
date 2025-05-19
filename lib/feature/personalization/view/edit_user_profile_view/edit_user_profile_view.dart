@@ -31,21 +31,43 @@ class EditUserProfileView extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               clipBehavior: Clip.none,
               alignment: Alignment.center,
               children: [
-                Container(
-                  height: 150,
-                  color: Colors.blue.shade800,
-                  child: Center(
-                    child: Icon(
-                      Icons.camera_alt_outlined,
-                      color: Colors.white54,
-                      size: 48,
-                    ),
-                  ),
+                GestureDetector(
+                  onTap: () => controller.pickImage(isCover: true),
+                  child: Obx(() {
+                    if (controller.coverImageFile.value != null) {
+                      return Image.file(
+                        controller.coverImageFile.value!,
+                        fit: BoxFit.cover,
+                        height: 150,
+                        width: double.infinity,
+                      );
+                    } else if (controller.coverImageUrl != null) {
+                      return Image.network(
+                        controller.coverImageUrl!,
+                        fit: BoxFit.cover,
+                        height: 150,
+                        width: double.infinity,
+                      );
+                    } else {
+                      return Container(
+                        height: 150,
+                        color: Colors.blue.shade800,
+                        child: Center(
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                            color: Colors.white54,
+                            size: 48,
+                          ),
+                        ),
+                      );
+                    }
+                  }),
                 ),
                 Positioned(
                   left: 10,
@@ -53,9 +75,22 @@ class EditUserProfileView extends StatelessWidget {
                   child: Stack(
                     alignment: Alignment.bottomRight,
                     children: [
-                      UserProfileAvatar(
-                        backgroundRadius: 42,
-                        foregroundRadius: 40,
+                      GestureDetector(
+                        onTap: () => controller.pickImage(isCover: false),
+                        child: Obx(
+                          () =>
+                              controller.profileImageFile.value != null
+                                  ? CircleAvatar(
+                                    radius: 42,
+                                    backgroundImage: FileImage(
+                                      controller.profileImageFile.value!,
+                                    ),
+                                  )
+                                  : UserProfileAvatar(
+                                    backgroundRadius: 42,
+                                    foregroundRadius: 40,
+                                  ),
+                        ),
                       ),
                     ],
                   ),

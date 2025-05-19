@@ -30,7 +30,18 @@ class UserProfileAppBar extends StatelessWidget {
             fit: StackFit.expand,
             clipBehavior: Clip.none,
             children: [
-              Image.asset(ImageStrings.coverPicture, fit: BoxFit.cover),
+              Obx(
+                ()=> Image.network(
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      ImageStrings.coverPicture,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                  userController.user.value.coverImage,
+                  fit: BoxFit.cover,
+                ),
+              ),
 
               if (isCollapsed)
                 ClipRect(

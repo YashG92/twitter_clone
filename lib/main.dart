@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:twitter_clone/app.dart';
 import 'package:twitter_clone/data/repositories/auth_repository.dart';
 import 'firebase_options.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,5 +13,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((FirebaseApp value) => Get.put(AuthRepository()));
+
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.debug,
+  );
   runApp(const App());
 }
