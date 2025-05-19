@@ -11,6 +11,13 @@ class UserController extends GetxController {
   Rx<UserModel> user = UserModel.empty().obs;
   final profileLoading = false.obs;
 
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUserRecord();
+  }
+
   Future<void> fetchUserRecord() async {
     try {
       profileLoading.value = true;

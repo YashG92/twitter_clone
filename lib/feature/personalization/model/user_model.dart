@@ -41,15 +41,15 @@ class UserModel {
   ///Convert model to JSon structure for storing data in Firebase
   Map<String, dynamic> toJson() {
     return {
-      'FullName': username,
-      'Email': email,
-      'ProfilePicture': profileImage,
-      'CoverPicture': coverImage,
-      'Bio': bio,
-      'FollowerCount': followerCount,
-      'FollowingCount': followingCount,
-      'TweetCount': tweetCount,
-      'CreatedAt': createdAt = DateTime.now(),
+      'fullName': username,
+      'email': email,
+      'profileImage': profileImage,
+      'coverPicture': coverImage,
+      'bio': bio,
+      'followerCount': followerCount,
+      'followingCount': followingCount,
+      'tweetCount': tweetCount,
+      'createdAt': createdAt = DateTime.now(),
     };
   }
 
@@ -62,7 +62,7 @@ class UserModel {
       userId: document.id,
       username: data['username'] ?? "",
       email: data['email'] ?? "",
-      profileImage: data['profilePicture'],
+      profileImage: data['profileImage'],
       coverImage: data['coverPicture'] ?? "",
       bio: data['bio'] ?? "",
       followerCount: data['followerCount'] ?? 0,

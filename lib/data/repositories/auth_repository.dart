@@ -21,7 +21,6 @@ class AuthRepository extends GetxController {
 
   screenRedirect() async {
     final user = _auth.currentUser;
-    print(user);
     if (user != null) {
       await StorageUtility.init(user.uid);
       Get.offAllNamed(Routes.bottomNavBar);

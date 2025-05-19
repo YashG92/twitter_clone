@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
 
 import '../../../../../theme/theme.dart';
 import '../../../../../utils/constants/image_strings.dart';
@@ -16,13 +17,14 @@ class UserProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userController = UserController.instance;
     final dark = HelperFunction.isDarkMode(context);
     return CircleAvatar(
       radius: backgroundRadius,
       backgroundColor: dark ? Palette.darkGrey : Colors.white,
       child: CircleAvatar(
         radius: foregroundRadius,
-        backgroundImage: AssetImage(ImageStrings.coverPicture),
+        backgroundImage: NetworkImage(userController.user.value.profileImage),
       ),
     );
   }
