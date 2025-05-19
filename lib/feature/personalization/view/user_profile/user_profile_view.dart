@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:twitter_clone/feature/home/view/widgets/tweet_card_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_meta_data.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_app_bar.dart';
+import 'package:twitter_clone/routes/routes.dart';
 import 'package:twitter_clone/theme/palette.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
@@ -33,7 +35,7 @@ class UserProfileView extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(YSizes.productImageRadius),
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () => Get.toNamed(Routes.editUserProfileView),
                       child: Text(
                         'Edit Profile',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(

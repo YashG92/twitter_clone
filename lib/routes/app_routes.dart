@@ -3,6 +3,7 @@ import 'package:twitter_clone/bottom_nav_bar.dart';
 import 'package:twitter_clone/feature/authentication/view/login/forget_password_view.dart';
 import 'package:twitter_clone/feature/authentication/view/login/login_view.dart';
 import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
+import 'package:twitter_clone/feature/personalization/view/edit_user_profile_view/edit_user_profile_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
@@ -28,12 +29,17 @@ class AppRoutes {
     ),
     GetPage(
       name: Routes.bottomNavBar,
-      page: () =>  BottomNavBar(),
+      page: () => BottomNavBar(),
       transition: Transition.fadeIn,
     ),
     GetPage(
       name: Routes.userProfileView,
       page: () => const UserProfileView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.editUserProfileView,
+      page: () => const EditUserProfileView(),
       transition: Transition.fadeIn,
     ),
     GetPage(
