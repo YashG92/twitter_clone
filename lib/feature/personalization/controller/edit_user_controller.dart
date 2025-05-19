@@ -48,13 +48,15 @@ class EditUserController extends GetxController {
       }
 
       if (profileImageFile.value != null) {
-          profileImageUrl = await UserRepository.instance.uploadImage(
-              'Users/Images/Profile', XFile(profileImageFile.value!.path)
-          );
+        profileImageUrl = await UserRepository.instance.uploadImage(
+          'Users/Images/Profile',
+          XFile(profileImageFile.value!.path),
+        );
       }
       if (coverImageFile.value != null) {
         coverImageUrl = await UserRepository.instance.uploadImage(
-            'Users/Images/Cover', XFile(coverImageFile.value!.path)
+          'Users/Images/Cover',
+          XFile(coverImageFile.value!.path),
         );
       }
 

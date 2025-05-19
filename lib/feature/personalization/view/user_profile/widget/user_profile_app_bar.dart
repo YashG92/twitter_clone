@@ -31,7 +31,7 @@ class UserProfileAppBar extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               Obx(
-                ()=> Image.network(
+                () => Image.network(
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
                       ImageStrings.coverPicture,

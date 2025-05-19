@@ -21,7 +21,7 @@ class UserProfileAvatar extends StatelessWidget {
     final userController = UserController.instance;
     final dark = HelperFunction.isDarkMode(context);
     return Obx(
-      ()=> CircleAvatar(
+      () => CircleAvatar(
         radius: backgroundRadius,
         backgroundColor: dark ? Palette.darkGrey : Colors.white,
         child: CircleAvatar(
