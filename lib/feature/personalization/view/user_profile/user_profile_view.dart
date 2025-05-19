@@ -6,12 +6,16 @@ import 'package:twitter_clone/theme/palette.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
+import '../../controller/user_controller.dart';
+
 class UserProfileView extends StatelessWidget {
   const UserProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
+    final userController = UserController.instance;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../utils/constants/sizes.dart';
+import '../../../controller/user_controller.dart';
 
 class UserMetaData extends StatelessWidget {
   const UserMetaData({
@@ -10,6 +11,7 @@ class UserMetaData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userController = UserController.instance;
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: YSizes.defaultSpace,
@@ -19,62 +21,79 @@ class UserMetaData extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                'Yash Gotrijiya',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              SizedBox(width: YSizes.sm),
-              Icon(Icons.verified, color: Colors.blue),
-            ],
+            Text(
+            userController.user.value.username,
+            style: Theme
+                .of(context)
+                .textTheme
+                .headlineSmall,
           ),
+          SizedBox(width: YSizes.sm),
+          Icon(Icons.verified, color: Colors.blue),
+        ],
+      ),
+      Text(
+        '@${userController.user.value.email}',
+        style: Theme
+            .of(context)
+            .textTheme
+            .bodySmall,
+      ),
+      SizedBox(height: YSizes.sm),
+      Text(
+        userController.user.value.bio,
+      ),
+      SizedBox(height: YSizes.sm),
+      Row(
+        children: [
+          Icon(CupertinoIcons.location_solid),
+          SizedBox(width: YSizes.sm),
           Text(
-            '@yashgotrijiya',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          SizedBox(height: YSizes.sm),
-          Text(
-            'Some random bio description blah blahblahblahblahblahblah',
-          ),
-          SizedBox(height: YSizes.sm),
-          Row(
-            children: [
-              Icon(CupertinoIcons.location_solid),
-              SizedBox(width: YSizes.sm),
-              Text(
-                'Rajkot India',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
-          ),
-          SizedBox(height: YSizes.sm),
-          Row(
-            children: [
-              Icon(Icons.calendar_today),
-              SizedBox(width: YSizes.sm),
-              Text(
-                'Joined March 2020',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
-          ),
-          SizedBox(height: YSizes.sm),
-          Row(
-            children: [
-              Text(
-                '4 Followers',
-                style: Theme.of(context).textTheme.headlineSmall!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(width: YSizes.spaceBtwItems),
-              Text(
-                '5 Following',
-                style: Theme.of(context).textTheme.headlineSmall!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-            ],
+            'Rajkot India',
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodySmall,
           ),
         ],
       ),
-    );
+      SizedBox(height: YSizes.sm),
+      Row(
+        children: [
+          Icon(Icons.calendar_today),
+          SizedBox(width: YSizes.sm),
+          Text(
+            'Joined March 2020',
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodySmall,
+          ),
+        ],
+      ),
+      SizedBox(height: YSizes.sm),
+      Row(
+        children: [
+          Text(
+            '${userController.user.value.followerCount} Followers',
+            style: Theme
+                .of(context)
+                .textTheme
+                .headlineSmall!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(width: YSizes.spaceBtwItems),
+          Text(
+            '${userController.user.value.followingCount} Following',
+            style: Theme
+                .of(context)
+                .textTheme
+                .headlineSmall!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+      ],
+    ),);
   }
 }

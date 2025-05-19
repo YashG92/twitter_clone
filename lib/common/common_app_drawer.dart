@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/auth_repository.dart';
-import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
+import '../feature/personalization/controller/user_controller.dart';
 import '../feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import '../theme/theme.dart';
 
@@ -16,7 +16,7 @@ class CommonAppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
-
+    final userController = UserController.instance;
     return Drawer(
       backgroundColor: dark ? Palette.darkBackgroundColor : Colors.white,
       child: ListView(
@@ -39,7 +39,7 @@ class CommonAppDrawer extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Yash Gotrijiya',
+                        userController.user.value.username,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       SizedBox(width: YSizes.sm),
@@ -47,7 +47,7 @@ class CommonAppDrawer extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    '@yashgotrijiya',
+                    '@${userController.user.value.email}',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],

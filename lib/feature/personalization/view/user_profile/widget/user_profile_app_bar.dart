@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import '../../../../../utils/constants/constants.dart';
 //import '../../../../../utils/helpers/helper_function.dart';
@@ -12,6 +13,7 @@ class UserProfileAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final dark = HelperFunction.isDarkMode(context);
+    final userController = UserController.instance;
 
     return SliverAppBar(
       expandedHeight: 150,
@@ -49,12 +51,12 @@ class UserProfileAppBar extends StatelessWidget {
                       children: [
                         SizedBox(height: YSizes.spaceBtwSections),
                         Text(
-                          'Yash Gotrijiya',
+                          userController.user.value.username,
                           style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(color: Colors.white),
                         ),
                         Text(
-                          '5 posts',
+                          '${userController.user.value.tweetCount} posts',
                           style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(color: Colors.white),
                         ),

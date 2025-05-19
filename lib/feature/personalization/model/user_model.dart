@@ -41,7 +41,7 @@ class UserModel {
   ///Convert model to JSon structure for storing data in Firebase
   Map<String, dynamic> toJson() {
     return {
-      'fullName': username,
+      'username': username,
       'email': email,
       'profileImage': profileImage,
       'coverPicture': coverImage,
@@ -58,6 +58,7 @@ class UserModel {
     DocumentSnapshot<Map<String, dynamic>> document,
   ) {
     final data = document.data()!;
+    print(data);
     return UserModel(
       userId: document.id,
       username: data['username'] ?? "",
