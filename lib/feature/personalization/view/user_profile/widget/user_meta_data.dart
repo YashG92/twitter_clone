@@ -31,7 +31,7 @@ class UserMetaData extends StatelessWidget {
             ),
           ),
           Text(
-            '@${userController.user.value.email}',
+            '@${userController.user.value.email.split('@')[0]}',
             style: Theme.of(context).textTheme.bodySmall,
           ),
           SizedBox(height: YSizes.sm),
