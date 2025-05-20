@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 
@@ -54,6 +55,41 @@ class AddTweetView extends StatelessWidget {
                 ),
               ],
             ),
+              Obx(() {
+                if (addTweetController.selectedImages.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+                return SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: addTweetController.selectedImages.length,
+                    itemBuilder: (context, index) {
+                      return Stack(
+                        children: [
+                          Container(
+                            width: 250,
+                            margin: EdgeInsets.all(YSizes.sm),
+                            child: Image.file(
+                              addTweetController.selectedImages[index],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: IconButton(
+                              onPressed:
+                                  () => addTweetController.removeImage(index),
+                              icon: Icon(Icons.close, color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                );
+              }),
             Spacer(),
             Container(
               decoration: BoxDecoration(
@@ -66,11 +102,17 @@ class AddTweetView extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed:
+                            () => addTweetController.pickImage(
+                              ImageSource.gallery,
+                            ),
                         icon: Icon(Icons.photo_camera_back, color: Colors.blue),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed:
+                            () => addTweetController.pickImage(
+                              ImageSource.camera,
+                            ),
                         icon: Icon(
                           Icons.camera_alt_outlined,
                           color: Colors.blue,
