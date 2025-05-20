@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddTweetController extends GetxController {
-  static AddTweetController get instance => Get.find();
+class PostTweetController extends GetxController {
+  static PostTweetController get instance => Get.find();
 
   final tweetController = TextEditingController();
   final maxTweetLength = 280;
