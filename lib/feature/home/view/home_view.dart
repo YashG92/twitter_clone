@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:twitter_clone/common/common_app_drawer.dart';
 import 'package:twitter_clone/common/custom_appbar.dart';
 import 'package:twitter_clone/feature/home/view/widgets/tweet_card_view.dart';
+import 'package:twitter_clone/routes/routes.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -36,7 +38,7 @@ class HomeView extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: ()=> Get.toNamed(Routes.addTweetView),
         shape: CircleBorder(),
         child: Icon(Icons.edit),
       ),

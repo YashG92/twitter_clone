@@ -79,7 +79,7 @@ class UserProfileView extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: ()=>Get.toNamed(Routes.addTweetView),
         shape: CircleBorder(),
         child: Icon(Icons.edit),
       ),

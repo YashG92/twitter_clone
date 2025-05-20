@@ -7,4 +7,5 @@ class Routes {
   static const bottomNavBar = '/bottom-nav-bar';
   static const searchView = '/search-view';
   static const searchedContentView = '/searched-content-view';
+  static const addTweetView = '/add-tweet-view';
 }

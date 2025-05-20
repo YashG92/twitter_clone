@@ -5,6 +5,7 @@ import 'package:twitter_clone/feature/authentication/view/login/login_view.dart'
 import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
 import 'package:twitter_clone/feature/personalization/view/edit_user_profile_view/edit_user_profile_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
+import 'package:twitter_clone/feature/tweet/view/add_tweet_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
 import '../feature/search/search_view.dart';
@@ -50,6 +51,11 @@ class AppRoutes {
     GetPage(
       name: Routes.searchedContentView,
       page: () => const SearchedContentView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.addTweetView,
+      page: () => const AddTweetView(),
       transition: Transition.fadeIn,
     ),
   ];
