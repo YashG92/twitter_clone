@@ -5,11 +5,13 @@ import 'package:twitter_clone/feature/authentication/view/login/login_view.dart'
 import 'package:twitter_clone/feature/authentication/view/signup/signup_view.dart';
 import 'package:twitter_clone/feature/personalization/view/edit_user_profile_view/edit_user_profile_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
+import 'package:twitter_clone/feature/tweet/view/comment_view.dart';
 import 'package:twitter_clone/feature/tweet/view/post_tweet_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
 import '../feature/search/search_view.dart';
 import '../feature/search/searched_content_view.dart';
+import '../feature/tweet/view/tweet_detail_view.dart';
 
 class AppRoutes {
   static final pages = [
@@ -56,6 +58,16 @@ class AppRoutes {
     GetPage(
       name: Routes.addTweetView,
       page: () => const PostTweetView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.tweetDetailView,
+      page: () => const TweetDetailView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.commentView,
+      page: () => const CommentView(),
       transition: Transition.fadeIn,
     ),
   ];

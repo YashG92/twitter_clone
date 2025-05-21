@@ -82,10 +82,6 @@ class UserProfileView extends StatelessWidget {
                         return TweetCardView(
                           isUserStream: false,
                           tweetId: tweet.tweetId,
-                          onMorePressed: () {},
-                          onRetweetPressed: () {},
-                          onCommentPressed: () {},
-                          onSharePressed: () {},
                         );
                       },
                     );

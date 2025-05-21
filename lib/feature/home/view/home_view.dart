@@ -38,10 +38,6 @@ class HomeView extends StatelessWidget {
               final tweet = tweetController.allTweets[index];
               return TweetCardView(
                 tweetId: tweet.tweetId,
-                onMorePressed: () {},
-                onRetweetPressed: () {},
-                onCommentPressed: () {},
-                onSharePressed: () {},
               );
             },
           ),

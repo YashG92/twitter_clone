@@ -8,4 +8,6 @@ class Routes {
   static const searchView = '/search-view';
   static const searchedContentView = '/searched-content-view';
   static const addTweetView = '/add-tweet-view';
+  static const tweetDetailView = '/tweet-detail-view';
+  static const commentView = '/comment-view';
 }
