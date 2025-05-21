@@ -101,7 +101,7 @@ class BottomNavBarController extends GetxController {
 
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = const [
+  final screens =  [
     HomeView(),
     SearchView(),
     NotificationView(),

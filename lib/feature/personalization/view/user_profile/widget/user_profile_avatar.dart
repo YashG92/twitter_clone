@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
-import 'package:twitter_clone/utils/constants/image_strings.dart';
 
 import '../../../../../theme/theme.dart';
 import '../../../../../utils/helpers/helper_function.dart';

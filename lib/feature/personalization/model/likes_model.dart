@@ -2,23 +2,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LikesModel {
   final String tweetId;
-  final String tweetRef;
+  final String userId;
+  final DocumentReference? tweetRef;
   DateTime likedAt;
 
   LikesModel({
     required this.tweetId,
-    required this.tweetRef,
+    required this.userId,
     required this.likedAt,
+    this.tweetRef,
   });
 
   static LikesModel empty() =>
-      LikesModel(tweetId: '', tweetRef: '', likedAt: DateTime.now());
+      LikesModel(tweetId: '', userId: '', likedAt: DateTime.now());
 
   toJson() {
     return {
       'tweetId': tweetId,
-      'tweetRef': tweetRef,
-      'likedAt': likedAt = DateTime.now(),
+      'userId': userId,
+      'likedAt': likedAt,
+      if (tweetRef != null) 'tweetRef': tweetRef,
     };
   }
 
@@ -27,9 +30,10 @@ class LikesModel {
   ) {
     final data = document.data()!;
     return LikesModel(
-      tweetId: document.id,
-      tweetRef: data['tweetRef'],
-      likedAt: data['likedAt'],
+      tweetId: data['tweetId'] ?? document.id,
+      userId: data['userId'] ?? '',
+      likedAt: (data['likedAt'] as Timestamp).toDate(),
+      tweetRef: data['tweetRef'] as DocumentReference?,
     );
   }
 }

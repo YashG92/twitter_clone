@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TweetModel {
-  final String tweetId;
+  String tweetId;
   String content;
   final String authorId;
   String authorHandle;
+  String authorProfileImage;
   int likeCount;
   int replyCount;
   int retweetCount;
@@ -20,6 +21,7 @@ class TweetModel {
     required this.authorId,
     required this.authorHandle,
     required this.createdAt,
+    required this.authorProfileImage,
     this.likeCount = 0,
     this.replyCount = 0,
     this.retweetCount = 0,
@@ -34,6 +36,7 @@ class TweetModel {
     content: '',
     authorId: '',
     authorHandle: '',
+    authorProfileImage: '',
     likeCount: 0,
     replyCount: 0,
     retweetCount: 0,
@@ -50,6 +53,7 @@ class TweetModel {
       'content': content,
       'authorId': authorId,
       'authorHandle': authorHandle,
+      'authorProfileImage': authorProfileImage,
       'likeCount': likeCount,
       'replyCount': replyCount,
       'retweetCount': retweetCount,
@@ -70,14 +74,15 @@ class TweetModel {
       content: data['content'] ?? '',
       authorId: data['authorId'] ?? '',
       authorHandle: data['authorHandle'] ?? '',
+      authorProfileImage: data['authorProfileImage'] ?? '',
       likeCount: data['likeCount'] ?? 0,
       replyCount: data['replyCount'] ?? 0,
       retweetCount: data['retweetCount'] ?? 0,
-      imageUrls: data['imageUrls'] ?? [],
+      imageUrls: data['imageUrls'] != null ? List<String>.from(data['imageUrls']) : [],
       parentTweetId: data['parentTweetId'] ?? '',
       isRetweet: data['isRetweet'] ?? false,
       originalTweetId: data['originalTweetId'] ?? '',
-      createdAt: data['createdAt'],
+      createdAt: (data['createdAt'] as Timestamp).toDate(),
     );
   }
 }

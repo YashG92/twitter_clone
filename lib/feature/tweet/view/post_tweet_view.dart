@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 
-import '../post_tweet_controller.dart';
+import '../controller/post_tweet_controller.dart';
 
 class PostTweetView extends StatelessWidget {
   const PostTweetView({super.key});
@@ -20,12 +20,14 @@ class PostTweetView extends StatelessWidget {
         ),
         actions: [
           Obx(
-                () => SizedBox(
+            () => SizedBox(
               width: 80,
               height: 46,
               child: ElevatedButton(
                 onPressed:
-                addTweetController.isButtonEnabled.value ? () {} : null,
+                    addTweetController.isButtonEnabled.value
+                        ? () => addTweetController.postTweet()
+                        : null,
                 child: Text('Tweet'),
               ),
             ),
@@ -43,7 +45,10 @@ class PostTweetView extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        UserProfileAvatar(backgroundRadius: 24, foregroundRadius: 24),
+                        UserProfileAvatar(
+                          backgroundRadius: 24,
+                          foregroundRadius: 24,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: TextFormField(
@@ -84,8 +89,13 @@ class PostTweetView extends StatelessWidget {
                                   right: 0,
                                   child: IconButton(
                                     onPressed:
-                                        () => addTweetController.removeImage(index),
-                                    icon: Icon(Icons.close, color: Colors.white),
+                                        () => addTweetController.removeImage(
+                                          index,
+                                        ),
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -111,15 +121,15 @@ class PostTweetView extends StatelessWidget {
                       IconButton(
                         onPressed:
                             () => addTweetController.pickImage(
-                          ImageSource.gallery,
-                        ),
+                              ImageSource.gallery,
+                            ),
                         icon: Icon(Icons.photo_camera_back, color: Colors.blue),
                       ),
                       IconButton(
                         onPressed:
                             () => addTweetController.pickImage(
-                          ImageSource.camera,
-                        ),
+                              ImageSource.camera,
+                            ),
                         icon: Icon(
                           Icons.camera_alt_outlined,
                           color: Colors.blue,

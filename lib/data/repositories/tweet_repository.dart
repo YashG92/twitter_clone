@@ -1,48 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:twitter_clone/data/repositories/tweet_repository.dart';
-import 'package:twitter_clone/routes/routes.dart';
-import 'package:twitter_clone/utils/local_storage/storage_utility.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:twitter_clone/feature/tweet/model/tweet_model.dart';
 
-import '../../feature/tweet/controller/like_controller.dart';
 import '../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../utils/exceptions/firebase_exceptions.dart';
 import '../../utils/exceptions/format_exceptions.dart';
 import '../../utils/exceptions/platform_exceptions.dart';
 
-class AuthRepository extends GetxController {
-  static AuthRepository get instance => Get.find();
+class TweetRepository extends GetxController {
+  static TweetRepository get instance => Get.find();
 
-  final deviceStorage = GetStorage();
-  final _auth = FirebaseAuth.instance;
+  final _db = FirebaseFirestore.instance;
 
-  User get authUser => _auth.currentUser!;
-
-  screenRedirect() async {
-    final user = _auth.currentUser;
-    if (user != null) {
-      await StorageUtility.init(user.uid);
-      Get.offAllNamed(Routes.bottomNavBar);
-    } else {
-      deviceStorage.writeIfNull('isFirstTime', true);
-      deviceStorage.read('isFirstTime') != true
-          ? Get.offAllNamed(Routes.loginView)
-          : Get.offAllNamed(Routes.signUpView);
-    }
-  }
-
-  Future<UserCredential> registerWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  Future<String> postTweet(TweetModel tweet) async {
     try {
-      return await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final data = await _db.collection("Tweets").add(tweet.toJson());
+      return data.id;
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -56,15 +31,16 @@ class AuthRepository extends GetxController {
     }
   }
 
-  Future<UserCredential> loginWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  Future<List<TweetModel>> fetchTweet() async {
     try {
-      return await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final snapshot =
+          await _db
+              .collection("Tweets")
+              .orderBy('createdAt', descending: true)
+              .get();
+      final result =
+          snapshot.docs.map((doc) => TweetModel.fromSnapshot(doc)).toList();
+      return result;
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -78,9 +54,37 @@ class AuthRepository extends GetxController {
     }
   }
 
-  Future<void> sendPasswordResetEmail(String email) async {
+  Stream<TweetModel> getTweetStream(String tweetId) {
+    return _db
+        .collection("Tweets")
+        .doc(tweetId)
+        .snapshots()
+        .map((doc) => TweetModel.fromSnapshot(doc));
+  }
+
+  Stream<List<TweetModel>> getUserTweetStream(String userId) {
+    return _db
+        .collection("Tweets")
+        .where('authorId', isEqualTo: userId)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs.map((doc) => TweetModel.fromSnapshot(doc)).toList(),
+        );
+  }
+
+  Future<List<TweetModel>> fetchTweetByUserId(String userId) async {
     try {
-      await _auth.sendPasswordResetEmail(email: email);
+      final snapshot =
+          await _db
+              .collection("Tweets")
+              .where('authorId', isEqualTo: userId)
+              .orderBy('createdAt', descending: true)
+              .get();
+      final result =
+          snapshot.docs.map((doc) => TweetModel.fromSnapshot(doc)).toList();
+      return result;
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -94,21 +98,9 @@ class AuthRepository extends GetxController {
     }
   }
 
-  Future<UserCredential?> googleSignIn() async {
+  Future<void> deleteTweetByUserId(String tweetId) async {
     try {
-      //Trigger auth flow
-      final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
-
-      //getting auth details from request
-      final GoogleSignInAuthentication? googleAuth =
-          await userAccount?.authentication;
-
-      //Create a new credentials
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      return await _auth.signInWithCredential(credential);
+      await _db.collection("Tweets").doc(tweetId).delete();
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -122,12 +114,15 @@ class AuthRepository extends GetxController {
     }
   }
 
-  Future<void> logoutUser() async {
+  Future<void> likeCountUpdate(String tweetId, bool isLiked) async {
     try {
-      //added
-      await GoogleSignIn().signOut();
-      await _auth.signOut();
-      Get.offAllNamed(Routes.loginView);
+      isLiked
+          ? await _db.collection("Tweets").doc(tweetId).update({
+            'likeCount': FieldValue.increment(-1),
+          })
+          : await _db.collection("Tweets").doc(tweetId).update({
+            'likeCount': FieldValue.increment(1),
+          });
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
