@@ -57,8 +57,8 @@ class TweetCardViewWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: YSizes.sm,),
                         TweetUserInfoRow(tweet: tweet, isVerified: true, authorName: author.username, authorHandle: author.email.split('@').first),
-                        SizedBox(height: YSizes.sm),
                         Text(tweet.content),
                         if (tweet.imageUrls != null &&
                             tweet.imageUrls!.isNotEmpty) ...[
@@ -66,7 +66,7 @@ class TweetCardViewWidget extends StatelessWidget {
                           TweetImageGrid(tweet: tweet),
                         ],
                         SizedBox(height: YSizes.spaceBtwItems),
-                        TweetActionButtonsRow(tweet: tweet),
+                        TweetActionButtonsRow(tweet: tweet, author: author,),
                       ],
                     ),
                   ),

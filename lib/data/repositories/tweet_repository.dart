@@ -31,6 +31,23 @@ class TweetRepository extends GetxController {
     }
   }
 
+  Future<void> updateSingleFieldTweetData({
+    required String tweetId,
+    required Map<String, dynamic> json,
+  }) async {
+    try {
+      await _db.collection("Tweets").doc(tweetId).update(json);
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
   Future<List<TweetModel>> fetchTweet() async {
     try {
       final snapshot =

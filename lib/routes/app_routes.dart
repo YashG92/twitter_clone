@@ -63,12 +63,12 @@ class AppRoutes {
     GetPage(
       name: Routes.tweetDetailView,
       page: () => const TweetDetailView(),
-      transition: Transition.fadeIn,
+      transition: Transition.rightToLeft,
     ),
     GetPage(
-      name: Routes.commentView,
+      name: Routes.tweetCommentView,
       page: () => const TweetCommentView(),
-      transition: Transition.fadeIn,
+      transition: Transition.downToUp,
     ),
   ];
 }

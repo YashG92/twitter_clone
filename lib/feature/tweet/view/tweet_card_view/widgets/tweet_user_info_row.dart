@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_clone/utils/helpers/helper_function.dart';
 import '../../../../../theme/theme.dart';
 
 import '../../../model/tweet_model.dart';
@@ -22,34 +23,41 @@ class TweetUserInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        /// Author name
         Text(
           authorName,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
           overflow: TextOverflow.ellipsis,
         ),
+
+        /// Verified icon (if applicable)
         if (isVerified) ...[
-          SizedBox(width: 4),
-          Icon(Icons.verified, size: 16, color: Colors.blue),
+          const SizedBox(width: 4),
+          const Icon(Icons.verified, size: 16, color: Colors.blue),
         ],
-        SizedBox(width: 4),
-        Flexible(
+
+        /// Handle and time ago
+        const SizedBox(width: 4),
+        Expanded(
           child: Text(
-            '$authorHandle • ${tweet.createdAt}',
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: Palette.darkerGrey),
+            '@$authorHandle • ${HelperFunction.getTimeAgo(tweet.createdAt)}',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Palette.darkerGrey,
+            ),
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Spacer(),
+
+        /// More button
         IconButton(
           onPressed: onMorePressed,
-          icon: Icon(Icons.more_vert, size: 18),
+          icon: const Icon(Icons.more_vert, size: 18),
           padding: EdgeInsets.zero,
-          constraints: BoxConstraints(),
+          constraints: const BoxConstraints(),
         ),
       ],
     );

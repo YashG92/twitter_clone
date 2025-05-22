@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:twitter_clone/data/repositories/comment_repository.dart';
 import 'package:twitter_clone/feature/tweet/controller/tweet_controller.dart';
+import 'package:twitter_clone/feature/tweet/model/comment_model.dart';
 
 import '../../../data/repositories/auth_repository.dart';
 import '../../../data/repositories/tweet_repository.dart';
@@ -99,6 +101,7 @@ class PostTweetController extends GetxController {
         likeCount: 0,
         replyCount: 0,
         retweetCount: 0,
+        isRetweet: false,
         imageUrls: imageUrls,
         createdAt: DateTime.now(),
       );
@@ -109,7 +112,77 @@ class PostTweetController extends GetxController {
       });
       TweetController.instance.allTweets.insert(0, newTweet);
       TweetController.instance.allTweets.refresh();
-      TweetController.instance.userTweets.insert(0,newTweet);
+      TweetController.instance.userTweets.insert(0, newTweet);
+      TweetController.instance.userTweets.refresh();
+
+      isLoading.value = false;
+      Get.back();
+      Get.snackbar('Success', 'Tweet posted successfully');
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  Future<void> replyTweet({required String parentTweetId}) async {
+    try {
+      isLoading.value = true;
+      final isConnected = await NetworkManager.instance.isConnected();
+      if (!isConnected) {
+        isLoading.value = false;
+        return;
+      }
+      if (tweetController.text.isEmpty) {
+        isLoading.value = false;
+        return;
+      }
+      List<String> imageUrls = [];
+
+      if (selectedImages.isNotEmpty) {
+        for (var image in selectedImages) {
+          final url = await UserRepository.instance.uploadImage(
+            'Users/Images/Tweets',
+            XFile(image.path),
+          );
+          imageUrls.add(url);
+        }
+      }
+      final newTweet = TweetModel(
+        tweetId: '',
+        content: tweetController.text,
+        authorId: AuthRepository.instance.authUser.uid,
+        authorHandle: AuthRepository.instance.authUser.email!.split('@')[0],
+        authorProfileImage: AuthRepository.instance.authUser.photoURL!,
+        likeCount: 0,
+        replyCount: 0,
+        retweetCount: 0,
+        parentTweetId: parentTweetId,
+        isRetweet: false,
+        imageUrls: imageUrls,
+        createdAt: DateTime.now(),
+      );
+
+      await TweetRepository.instance.updateSingleFieldTweetData(
+        tweetId: parentTweetId,
+        json: {'replyCount': FieldValue.increment(1)},
+      );
+      newTweet.tweetId = await TweetRepository.instance.postTweet(newTweet);
+      final newComment = CommentModel(
+        commentId: newTweet.tweetId,
+        userId: AuthRepository.instance.authUser.uid,
+        parentTweetId: parentTweetId,
+        createdAt: DateTime.now(),
+      );
+
+      await CommentRepository.instance.postComment(newComment);
+
+
+      UserRepository.instance.updateSingleFieldUserData({
+        'tweetCount': FieldValue.increment(1),
+      });
+      TweetController.instance.allTweets.insert(0, newTweet);
+      TweetController.instance.allTweets.refresh();
+      TweetController.instance.userTweets.insert(0, newTweet);
       TweetController.instance.userTweets.refresh();
 
       isLoading.value = false;

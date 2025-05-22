@@ -9,5 +9,5 @@ class Routes {
   static const searchedContentView = '/searched-content-view';
   static const addTweetView = '/add-tweet-view';
   static const tweetDetailView = '/tweet-detail-view';
-  static const commentView = '/comment-view';
+  static const tweetCommentView = '/comment-view';
 }

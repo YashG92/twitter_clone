@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/personalization/model/user_model.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_action_button.dart';
 
 import '../../../../../routes/routes.dart';
 import '../../../controller/like_controller.dart';
-import '../../../controller/tweet_controller.dart';
 import '../../../model/tweet_model.dart';
 
 class TweetActionButtonsRow extends StatelessWidget {
-  const TweetActionButtonsRow({super.key, required this.tweet});
+  const TweetActionButtonsRow({super.key, required this.tweet, required this.author});
 
   final TweetModel tweet;
+  final UserModel author;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class TweetActionButtonsRow extends StatelessWidget {
         TweetActionButton(
           icon: Icons.chat_bubble_outline,
           count: tweet.replyCount,
-          onPressed: () => Get.toNamed(Routes.commentView),
+          onPressed: () => Get.toNamed(Routes.tweetCommentView,arguments: [tweet.tweetId,author]),
         ),
         TweetActionButton(
           icon: Icons.repeat,
