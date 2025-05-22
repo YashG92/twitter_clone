@@ -29,7 +29,7 @@ class TweetActionButtonsRow extends StatelessWidget {
           onPressed: () {},
         ),
         Obx(() {
-          //Visibility(visible: false,child: Text(tweetController.isLiked.value.toString()),);
+          Visibility(visible: false,child: Text(likeController.isLiked(tweet.tweetId).toString()));
           return TweetActionButton(
             icon:
                 likeController.isLiked(tweet.tweetId)

@@ -12,4 +12,9 @@ class HelperFunction {
     final onlyTime = DateFormat('hh:mm').format(date);
     return '$onlyDate at $onlyTime';
   }
+
+  static String formatDateTime(DateTime dateTime) {
+    final DateFormat formatter = DateFormat('hh:mm a - dd MMMM yy');
+    return formatter.format(dateTime);
+  }
 }

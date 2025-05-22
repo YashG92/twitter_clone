@@ -53,6 +53,13 @@ class UserRepository extends GetxController {
     }
   }
 
+  Stream<UserModel> getUserById(String userId) {
+    return _db.collection("Users").doc(userId).snapshots().map((snapshot){
+      //final data = snapshot.data()!;
+      return UserModel.fromSnapshot(snapshot);
+    });
+  }
+
   Future<void> updateSingleFieldUserData(Map<String, dynamic> json) async {
     try {
       await _db
