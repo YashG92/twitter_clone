@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RetweetModel {
-  final String tweetId;
+  final String reTweetId;
   final String originalTweetRef;
   DateTime retweetedAt;
 
   RetweetModel({
-    required this.tweetId,
+    required this.reTweetId,
     required this.originalTweetRef,
     required this.retweetedAt,
   });
 
   static RetweetModel empty() => RetweetModel(
-    tweetId: '',
+    reTweetId: '',
     originalTweetRef: '',
     retweetedAt: DateTime.now(),
   );
 
   toJson() {
     return {
-      'tweetId': tweetId,
+      'tweetId': reTweetId,
       'originalTweetRef': originalTweetRef,
       'retweetedAt': retweetedAt = DateTime.now(),
     };
@@ -30,7 +30,7 @@ class RetweetModel {
   ) {
     final data = document.data()!;
     return RetweetModel(
-      tweetId: document.id,
+      reTweetId: document.id,
       originalTweetRef: data['originalTweetRef'],
       retweetedAt: data['retweetedAt'],
     );
