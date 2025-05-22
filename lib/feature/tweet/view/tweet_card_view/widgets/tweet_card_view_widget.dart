@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/user_repository.dart';
 import 'package:twitter_clone/feature/personalization/model/user_model.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_action_buttons_row.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_image_grid.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_user_info_row.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_action_buttons_row.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_image_grid.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_user_info_row.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
-import '../../../../routes/routes.dart';
-import '../../../../theme/theme.dart';
-import '../../../../utils/constants/constants.dart';
+import '../../../../../routes/routes.dart';
+import '../../../../../theme/theme.dart';
+import '../../../../../utils/constants/constants.dart';
 
-import '../../model/tweet_model.dart';
+import '../../../model/tweet_model.dart';
 
 class TweetCardViewWidget extends StatelessWidget {
   const TweetCardViewWidget({

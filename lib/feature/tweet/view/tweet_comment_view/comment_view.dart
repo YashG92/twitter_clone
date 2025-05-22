@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CommentView extends StatelessWidget {
-  const CommentView({super.key});
+class TweetCommentView extends StatelessWidget {
+  const TweetCommentView({super.key});
 
   @override
   Widget build(BuildContext context) {

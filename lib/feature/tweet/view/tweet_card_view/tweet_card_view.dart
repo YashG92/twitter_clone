@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/data/repositories/auth_repository.dart';
 import 'package:twitter_clone/feature/tweet/model/tweet_model.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_card_view_widget.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_card_view_widget.dart';
 
 import '../../controller/like_controller.dart';
 import '../../controller/tweet_controller.dart';

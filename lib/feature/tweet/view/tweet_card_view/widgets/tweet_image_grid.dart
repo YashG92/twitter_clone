@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/tweet_model.dart';
+import '../../../model/tweet_model.dart';
 
 class TweetImageGrid extends StatelessWidget {
   const TweetImageGrid({super.key, required this.tweet});

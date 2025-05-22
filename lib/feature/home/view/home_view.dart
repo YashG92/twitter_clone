@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/common/common_app_drawer.dart';
 import 'package:twitter_clone/common/custom_appbar.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_card_view.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/tweet_card_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
 import '../../../data/repositories/tweet_repository.dart';

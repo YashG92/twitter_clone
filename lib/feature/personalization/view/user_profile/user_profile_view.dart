@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/tweet/controller/tweet_controller.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_card_view.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/tweet_card_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_meta_data.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_app_bar.dart';
 import 'package:twitter_clone/routes/routes.dart';

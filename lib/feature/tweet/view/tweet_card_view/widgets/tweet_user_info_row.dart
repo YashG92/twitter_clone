@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../theme/theme.dart';
+import '../../../../../theme/theme.dart';
 
-import '../../model/tweet_model.dart';
+import '../../../model/tweet_model.dart';
 
 class TweetUserInfoRow extends StatelessWidget {
   const TweetUserInfoRow({

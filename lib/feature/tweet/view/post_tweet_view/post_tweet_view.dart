@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 
-import '../controller/post_tweet_controller.dart';
+import '../../controller/post_tweet_controller.dart';
 
 class PostTweetView extends StatelessWidget {
   const PostTweetView({super.key});

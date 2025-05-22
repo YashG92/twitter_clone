@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_action_button.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_action_button.dart';
 
-import '../../../../routes/routes.dart';
-import '../../controller/like_controller.dart';
-import '../../controller/tweet_controller.dart';
-import '../../model/tweet_model.dart';
+import '../../../../../routes/routes.dart';
+import '../../../controller/like_controller.dart';
+import '../../../controller/tweet_controller.dart';
+import '../../../model/tweet_model.dart';
 
 class TweetActionButtonsRow extends StatelessWidget {
   const TweetActionButtonsRow({super.key, required this.tweet});

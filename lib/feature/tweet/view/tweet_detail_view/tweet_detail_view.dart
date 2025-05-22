@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/tweet_repository.dart';
 import 'package:twitter_clone/feature/tweet/model/tweet_model.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_action_buttons_row.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_image_grid.dart';
-import 'package:twitter_clone/feature/tweet/view/widgets/tweet_user_info_row.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_action_buttons_row.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_image_grid.dart';
+import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_user_info_row.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
-import '../../../utils/constants/constants.dart';
+import '../../../../utils/constants/constants.dart';
 
 class TweetDetailView extends StatelessWidget {
   const TweetDetailView({super.key});
