@@ -7,10 +7,15 @@ class TweetUserInfoRow extends StatelessWidget {
   const TweetUserInfoRow({
     super.key,
     required this.tweet,
-    required this.isVerified, this.onMorePressed,
+    required this.isVerified,
+    this.onMorePressed,
+    required this.authorName,
+    required this.authorHandle,
   });
 
   final TweetModel tweet;
+  final String authorName;
+  final String authorHandle;
   final bool isVerified;
   final VoidCallback? onMorePressed;
 
@@ -19,7 +24,7 @@ class TweetUserInfoRow extends StatelessWidget {
     return Row(
       children: [
         Text(
-          tweet.authorHandle,
+          authorName,
           style: Theme.of(
             context,
           ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -32,7 +37,7 @@ class TweetUserInfoRow extends StatelessWidget {
         SizedBox(width: 4),
         Flexible(
           child: Text(
-            '${tweet.authorHandle} • ${tweet.createdAt}',
+            '$authorHandle • ${tweet.createdAt}',
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: Palette.darkerGrey),

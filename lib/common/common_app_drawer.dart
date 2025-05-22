@@ -49,7 +49,7 @@ class CommonAppDrawer extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '@${userController.user.value.email}',
+                      '@${userController.user.value.email.split('@').first}',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     Row(

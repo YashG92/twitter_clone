@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/user_repository.dart';
-import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
 import 'package:twitter_clone/feature/personalization/model/user_model.dart';
 import 'package:twitter_clone/feature/tweet/view/widgets/tweet_action_buttons_row.dart';
 import 'package:twitter_clone/feature/tweet/view/widgets/tweet_image_grid.dart';
@@ -33,7 +32,7 @@ class TweetCardViewWidget extends StatelessWidget {
         }
         final author = snapshot.data!;
         return GestureDetector(
-          onTap: () => Get.toNamed(Routes.tweetDetailView, arguments: tweet.tweetId),
+          onTap: () => Get.toNamed(Routes.tweetDetailView, arguments: [tweet.tweetId,author]),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -58,7 +57,7 @@ class TweetCardViewWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TweetUserInfoRow(tweet: tweet, isVerified: true),
+                        TweetUserInfoRow(tweet: tweet, isVerified: true, authorName: author.username, authorHandle: author.email.split('@').first),
                         SizedBox(height: YSizes.sm),
                         Text(tweet.content),
                         if (tweet.imageUrls != null &&

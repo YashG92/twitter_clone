@@ -14,7 +14,8 @@ class TweetDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tweetId = Get.arguments;
+    final tweetId = Get.arguments[0];
+    final author = Get.arguments[1];
 
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +52,7 @@ class TweetDetailView extends StatelessWidget {
                     ),
                     const SizedBox(width: YSizes.spaceBtwItems),
                     Expanded(
-                      child: TweetUserInfoRow(tweet: tweet, isVerified: true),
+                      child: TweetUserInfoRow(tweet: tweet, isVerified: true, authorName: author.username.toString(), authorHandle: author.email.toString().split('@').first),
                     ),
                   ],
                 ),
