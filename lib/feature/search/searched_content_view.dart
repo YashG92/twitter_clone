@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 
 import '../personalization/view/user_profile/widget/user_profile_avatar.dart';
@@ -9,6 +10,7 @@ class SearchedContentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userController = UserController.instance;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -20,6 +22,7 @@ class SearchedContentView extends StatelessWidget {
               height: kToolbarHeight,
               child: TextField(
                 autofocus: true,
+                onChanged: (query) => userController.searchUsers(query),
                 decoration: InputDecoration(
                   hintText: 'Search Twitter',
                   border: InputBorder.none,
@@ -33,27 +36,32 @@ class SearchedContentView extends StatelessWidget {
           icon: Icon(Icons.arrow_back_ios_new_outlined),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(YSizes.defaultSpace/2),
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: UserProfileAvatar(
-                backgroundRadius: 26,
-                foregroundRadius: 26,
-              ),
-              title: Text(
-                'Yash Gotrijiya',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              subtitle: Text('@yashgotrijiya'),
-            );
-          },
-          itemCount: 50,
-        ),
-      ),
+      body: Obx(() {
+        final users = userController.searchedUsers;
+        if (users.isEmpty) {
+          return Center(child: Text('Enter Something...'));
+        }
+
+        return Padding(
+          padding: EdgeInsets.all(YSizes.defaultSpace / 2),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: users.length,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              final user = users[index];
+              return ListTile(
+                leading: Image.network(user.profileImage),
+                title: Text(
+                  user.username,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                subtitle: Text(user.email.split('@').first),
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 }

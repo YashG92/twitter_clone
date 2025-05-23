@@ -9,6 +9,7 @@ class UserController extends GetxController {
 
   final userRepository = Get.put(UserRepository());
   Rx<UserModel> user = UserModel.empty().obs;
+  final RxList<UserModel> searchedUsers = <UserModel>[].obs;
   final profileLoading = false.obs;
 
   @override
@@ -59,5 +60,20 @@ class UserController extends GetxController {
     } catch (e) {
       Get.snackbar('Error', e.toString());
     }
+  }
+
+  Future<void> searchUsers(String query) async {
+    query = query.trim().toLowerCase();
+
+    if (query.length < 2) {
+      searchedUsers.clear();
+      return;
+    }
+    final users = await UserRepository.instance.searchUsers(query);
+    searchedUsers.assignAll(users);
+  }
+
+  void clearSearchResults() {
+    searchedUsers.clear();
   }
 }

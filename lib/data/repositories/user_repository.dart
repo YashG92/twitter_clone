@@ -54,7 +54,7 @@ class UserRepository extends GetxController {
   }
 
   Stream<UserModel> getUserById(String userId) {
-    return _db.collection("Users").doc(userId).snapshots().map((snapshot){
+    return _db.collection("Users").doc(userId).snapshots().map((snapshot) {
       //final data = snapshot.data()!;
       return UserModel.fromSnapshot(snapshot);
     });
@@ -92,5 +92,33 @@ class UserRepository extends GetxController {
     } catch (e) {
       throw 'Something went wrong. Please try again';
     }
+  }
+
+  Future<List<UserModel>> searchUsers(String query) async {
+    final usernameQuery = _db.collection('Users')
+        .where('username', isGreaterThanOrEqualTo: query)
+        .where('username', isLessThan: '${query}z');
+
+    final emailQuery = _db.collection('Users')
+        .where('email', isGreaterThanOrEqualTo: query)
+        .where('email', isLessThan: '${query}z');
+
+    final usernameSnapshot = await usernameQuery.get();
+    final emailSnapshot = await emailQuery.get();
+
+    // Combine both results and avoid duplicates using a set of userIds
+    final userMap = <String, UserModel>{};
+
+    for (var doc in usernameSnapshot.docs) {
+      final user = UserModel.fromSnapshot(doc);
+      userMap[user.userId] = user;
+    }
+
+    for (var doc in emailSnapshot.docs) {
+      final user = UserModel.fromSnapshot(doc);
+      userMap[user.userId] = user;
+    }
+
+    return userMap.values.toList();
   }
 }
