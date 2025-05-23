@@ -4,6 +4,7 @@ import 'package:twitter_clone/feature/personalization/model/user_model.dart';
 import 'package:twitter_clone/feature/tweet/controller/retweet_controller.dart';
 import 'package:twitter_clone/feature/tweet/view/retweet/retweet_bottom_sheet.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_action_button.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../../routes/routes.dart';
 import '../../../../personalization/model/retweet_model.dart';
@@ -67,7 +68,14 @@ class TweetActionButtonsRow extends StatelessWidget {
             onPressed: () => likeController.onLikePressed(tweet.tweetId),
           );
         }),
-        TweetActionButton(icon: Icons.share, onPressed: () {}),
+        TweetActionButton(
+          icon: Icons.share,
+          onPressed: () {
+            final tweetContent =
+                '${author.username} (@${author.email.split('@').first}):\n\n${tweet.content}\n\n#TwitterClone';
+            Share.share(tweetContent);
+          },
+        ),
       ],
     );
   }
