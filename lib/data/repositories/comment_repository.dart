@@ -14,14 +14,13 @@ class CommentRepository extends GetxController {
 
   final _db = FirebaseFirestore.instance;
 
-  Future<String> postComment(CommentModel comment) async {
+  Future<void> postComment(CommentModel comment) async {
     try {
-      final data = await _db
+      await _db
           .collection("Tweets")
           .doc(comment.parentTweetId)
           .collection("Comments")
           .add(comment.toJson());
-      return data.id;
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {

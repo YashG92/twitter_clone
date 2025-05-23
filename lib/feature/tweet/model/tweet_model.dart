@@ -11,6 +11,8 @@ class TweetModel {
   int retweetCount;
   List<String>? imageUrls;
   String? parentTweetId;
+  List<String>? reTweetedBy;
+  final String? reTweetType;
   bool isRetweet;
   String? originalTweetId; //for retweet
   DateTime createdAt;
@@ -27,6 +29,8 @@ class TweetModel {
     this.retweetCount = 0,
     this.imageUrls,
     this.parentTweetId,
+    this.reTweetedBy,
+    this.reTweetType,
     this.isRetweet = false,
     this.originalTweetId,
   });
@@ -40,8 +44,10 @@ class TweetModel {
     likeCount: 0,
     replyCount: 0,
     retweetCount: 0,
+    reTweetType: '',
     imageUrls: [],
     parentTweetId: '',
+    reTweetedBy: [],
     isRetweet: false,
     originalTweetId: '',
     createdAt: DateTime.now(),
@@ -58,6 +64,8 @@ class TweetModel {
       'replyCount': replyCount,
       'retweetCount': retweetCount,
       'imageUrls': imageUrls,
+      'reTweetedBy': reTweetedBy,
+      'reTweetType': reTweetType,
       'parentTweetId': parentTweetId,
       'isRetweet': isRetweet,
       'originalTweetId': originalTweetId,
@@ -78,9 +86,15 @@ class TweetModel {
       likeCount: data['likeCount'] ?? 0,
       replyCount: data['replyCount'] ?? 0,
       retweetCount: data['retweetCount'] ?? 0,
-      imageUrls: data['imageUrls'] != null ? List<String>.from(data['imageUrls']) : [],
+      imageUrls:
+          data['imageUrls'] != null ? List<String>.from(data['imageUrls']) : [],
+      reTweetedBy:
+          data['reTweetedBy'] != null
+              ? List<String>.from(data['reTweetedBy'])
+              : [],
       parentTweetId: data['parentTweetId'] ?? '',
       isRetweet: data['isRetweet'] ?? false,
+      reTweetType: data['reTweetType'] ?? '',
       originalTweetId: data['originalTweetId'] ?? '',
       createdAt: (data['createdAt'] as Timestamp).toDate(),
     );

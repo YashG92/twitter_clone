@@ -5,6 +5,7 @@ import 'package:twitter_clone/common/custom_appbar.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/tweet_card_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
+import '../../../data/repositories/retweet_repository.dart';
 import '../../../data/repositories/tweet_repository.dart';
 import '../../tweet/controller/like_controller.dart';
 import '../../tweet/controller/tweet_controller.dart';
@@ -14,6 +15,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(RetweetRepository());
     Get.put(TweetRepository());
     Get.put(LikeController());
     final tweetController = Get.put(TweetController());

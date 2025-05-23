@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:twitter_clone/feature/tweet/controller/post_tweet_controller.dart';
+import 'package:twitter_clone/feature/tweet/controller/retweet_controller.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 
 class RetweetBottomSheet extends StatelessWidget {
@@ -13,6 +16,8 @@ class RetweetBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(PostTweetController());
+    Get.put(RetweetController());
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(YSizes.sm),

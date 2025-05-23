@@ -34,6 +34,7 @@ class PostTweetController extends GetxController {
   @override
   void onClose() {
     tweetController.removeListener(_updateCharacterCount);
+    tweetController.clear();
     tweetController.dispose();
     super.onClose();
   }
@@ -175,7 +176,6 @@ class PostTweetController extends GetxController {
       );
 
       await CommentRepository.instance.postComment(newComment);
-
 
       UserRepository.instance.updateSingleFieldUserData({
         'tweetCount': FieldValue.increment(1),

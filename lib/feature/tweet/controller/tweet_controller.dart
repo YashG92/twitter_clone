@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/data/repositories/retweet_repository.dart';
 import 'package:twitter_clone/data/repositories/tweet_repository.dart';
 
 import '../model/tweet_model.dart';
@@ -24,6 +25,7 @@ class TweetController extends GetxController {
   );
   final allTweets = <TweetModel>[].obs;
   final userTweets = <TweetModel>[].obs;
+  final userReTweets = <TweetModel>[].obs;
 
   void loadTweetStream(String tweetId) {
     tweetStream.value = tweetRepository.getTweetStream(tweetId);
@@ -49,9 +51,15 @@ class TweetController extends GetxController {
   Future<void> fetchUserTweets(String userId) async {
     try {
       isLoading.value = true;
-      final result = await tweetRepository.fetchTweetByUserId(userId);
-      userTweets.assignAll(result);
+      final userTweetResult = await tweetRepository.fetchTweetByUserId(userId);
+      userTweets.assignAll(userTweetResult);
       userTweets.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      print(userTweets.map((f)=>f.tweetId));
+      print('hii');
+      final userReTweetResult = await RetweetRepository.instance.fetchReTweetByUserId(userId);
+      userReTweets.assignAll(userReTweetResult);
+      userReTweets.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      print(userReTweets.map((f)=>f.tweetId));
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {

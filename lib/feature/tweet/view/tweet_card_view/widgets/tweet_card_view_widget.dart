@@ -7,6 +7,8 @@ import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_i
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_user_info_row.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
+import '../../../../../data/repositories/auth_repository.dart';
+import '../../../../../data/repositories/retweet_repository.dart';
 import '../../../../../routes/routes.dart';
 import '../../../../../theme/theme.dart';
 import '../../../../../utils/constants/constants.dart';
@@ -14,10 +16,7 @@ import '../../../../../utils/constants/constants.dart';
 import '../../../model/tweet_model.dart';
 
 class TweetCardViewWidget extends StatelessWidget {
-  const TweetCardViewWidget({
-    super.key,
-    required this.tweet,
-  });
+  const TweetCardViewWidget({super.key, required this.tweet});
 
   final TweetModel tweet;
 
@@ -30,9 +29,14 @@ class TweetCardViewWidget extends StatelessWidget {
         if (!snapshot.hasData) {
           return const SizedBox();
         }
+        final isRetweet = tweet.isRetweet && tweet.originalTweetId != null;
         final author = snapshot.data!;
         return GestureDetector(
-          onTap: () => Get.toNamed(Routes.tweetDetailView, arguments: [tweet.tweetId,author]),
+          onTap:
+              () => Get.toNamed(
+                Routes.tweetDetailView,
+                arguments: [tweet.tweetId, author],
+              ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -45,37 +49,65 @@ class TweetCardViewWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(author.profileImage),
-                  ),
-                  SizedBox(width: YSizes.spaceBtwItems),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: YSizes.sm,),
-                        TweetUserInfoRow(tweet: tweet, isVerified: true, authorName: author.username, authorHandle: author.email.split('@').first),
-                        Text(tweet.content),
-                        if (tweet.imageUrls != null &&
-                            tweet.imageUrls!.isNotEmpty) ...[
-                          SizedBox(height: YSizes.sm),
-                          TweetImageGrid(tweet: tweet),
+                  if (isRetweet)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4.0),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 40), // Match avatar space
+                          Icon(Icons.repeat, size: 16, color: Colors.grey),
+                          SizedBox(width: 4),
+                          Text(
+                            'You Reposted',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
                         ],
-                        SizedBox(height: YSizes.spaceBtwItems),
-                        TweetActionButtonsRow(tweet: tweet, author: author,),
-                      ],
+                      ),
                     ),
+                  SizedBox(height: YSizes.sm),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(author.profileImage),
+                      ),
+                      SizedBox(width: YSizes.spaceBtwItems),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: YSizes.sm),
+                            TweetUserInfoRow(
+                              tweet: tweet,
+                              isVerified: true,
+                              authorName: author.username,
+                              authorHandle: author.email.split('@').first,
+                            ),
+                            Text(tweet.content),
+                            if (tweet.imageUrls != null &&
+                                tweet.imageUrls!.isNotEmpty) ...[
+                              SizedBox(height: YSizes.sm),
+                              TweetImageGrid(tweet: tweet),
+                            ],
+                            SizedBox(height: YSizes.spaceBtwItems),
+                            TweetActionButtonsRow(tweet: tweet, author: author),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
         );
-      }
+      },
     );
   }
 }

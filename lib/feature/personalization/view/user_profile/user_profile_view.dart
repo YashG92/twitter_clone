@@ -71,7 +71,11 @@ class UserProfileView extends StatelessWidget {
               child: Column(
                 children: [
                   Obx(() {
-                    final tweets = tweetController.userTweets;
+                    final tweets = [
+                      ...tweetController.userTweets,
+                      ...tweetController.userReTweets,
+                    ]..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+                    print(tweets.length);
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
