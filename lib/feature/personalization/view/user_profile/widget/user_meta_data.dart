@@ -1,41 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:twitter_clone/feature/personalization/controller/edit_user_controller.dart';
 
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_function.dart';
 import '../../../controller/user_controller.dart';
+import '../../../model/user_model.dart';
 
 class UserMetaData extends StatelessWidget {
-  const UserMetaData({super.key});
+  const UserMetaData({super.key, required this.user});
+
+  final UserModel user;
 
   @override
   Widget build(BuildContext context) {
-    final userController = UserController.instance;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: YSizes.defaultSpace),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Obx(
-            () => Row(
-              children: [
-                Text(
-                  userController.user.value.username,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                SizedBox(width: YSizes.sm),
-                Icon(Icons.verified, color: Colors.blue),
-              ],
-            ),
+          Text(
+            user.username,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold),
           ),
           Text(
-            '@${userController.user.value.email.split('@')[0]}',
+            '@${user.email.split('@')[0]}',
             style: Theme.of(context).textTheme.bodySmall,
           ),
           SizedBox(height: YSizes.sm),
-          Obx(()=>Text(userController.user.value.bio)),
+          Text(user.bio),
           SizedBox(height: YSizes.sm),
           Row(
             children: [
@@ -53,7 +48,7 @@ class UserMetaData extends StatelessWidget {
               Icon(Icons.calendar_today),
               SizedBox(width: YSizes.sm),
               Text(
-                HelperFunction.formatDate(userController.user.value.createdAt),
+                HelperFunction.formatDate(user.createdAt),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
@@ -62,14 +57,14 @@ class UserMetaData extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${userController.user.value.followerCount} Followers',
+                '${user.followerCount} Followers',
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(width: YSizes.spaceBtwItems),
               Text(
-                '${userController.user.value.followingCount} Following',
+                '${user.followingCount} Following',
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),

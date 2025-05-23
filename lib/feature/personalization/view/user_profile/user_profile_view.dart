@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/personalization/model/user_model.dart';
 import 'package:twitter_clone/feature/tweet/controller/tweet_controller.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/tweet_card_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_meta_data.dart';
@@ -9,27 +10,33 @@ import 'package:twitter_clone/theme/palette.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
+import '../../../../data/repositories/auth_repository.dart';
 import '../../controller/user_controller.dart';
 
 class UserProfileView extends StatelessWidget {
-  const UserProfileView({super.key});
+  const UserProfileView({super.key, this.otherUser});
+
+  final UserModel? otherUser;
 
   @override
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     final userController = UserController.instance;
     final tweetController = TweetController.instance;
+    final currentUid = AuthRepository.instance.authUser.uid;
+    final user = otherUser ?? userController.user.value;
+    tweetController.fetchUserTweets(user.userId);
 
     return Scaffold(
       body: RefreshIndicator(
         onRefresh:
             () => tweetController.fetchUserTweets(
-              userController.user.value.userId,
+              user.userId,
             ),
         child: CustomScrollView(
           slivers: [
             // AppBar with cover picture
-            UserProfileAppBar(),
+            UserProfileAppBar(user: user),
 
             // Profile Content
             SliverToBoxAdapter(
@@ -37,27 +44,32 @@ class UserProfileView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Edit button
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(YSizes.productImageRadius),
-                      child: OutlinedButton(
-                        onPressed:
-                            () => Get.toNamed(Routes.editUserProfileView),
-                        child: Text(
-                          'Edit Profile',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium!.copyWith(
-                            color: dark ? Colors.white : Colors.black,
+                  if (otherUser == null)
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(
+                          YSizes.productImageRadius,
+                        ),
+                        child: OutlinedButton(
+                          onPressed:
+                              () => Get.toNamed(Routes.editUserProfileView),
+                          child: Text(
+                            'Edit Profile',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.copyWith(
+                              color: dark ? Colors.white : Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                    )
+                  else
+                    SizedBox(height: 80),
 
                   // User Info
-                  UserMetaData(),
+                  UserMetaData(user: user),
                   Divider(
                     thickness: 0.3,
                     color: dark ? Palette.darkGrey : Colors.grey,
@@ -75,7 +87,6 @@ class UserProfileView extends StatelessWidget {
                       ...tweetController.userTweets,
                       ...tweetController.userReTweets,
                     ]..sort((a, b) => b.createdAt.compareTo(a.createdAt));
-                    print(tweets.length);
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
@@ -86,6 +97,7 @@ class UserProfileView extends StatelessWidget {
                         return TweetCardView(
                           isUserStream: false,
                           tweetId: tweet.tweetId,
+                          showMoreOption: tweet.authorId == currentUid,
                         );
                       },
                     );
@@ -96,11 +108,14 @@ class UserProfileView extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed(Routes.addTweetView),
-        shape: CircleBorder(),
-        child: Icon(Icons.edit),
-      ),
+      floatingActionButton:
+          otherUser == null
+              ? FloatingActionButton(
+                onPressed: () => Get.toNamed(Routes.addTweetView),
+                shape: CircleBorder(),
+                child: Icon(Icons.edit),
+              )
+              : null,
     );
   }
 }

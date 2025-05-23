@@ -2,18 +2,17 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
-import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import '../../../../../utils/constants/constants.dart';
-//import '../../../../../utils/helpers/helper_function.dart';
+import '../../../model/user_model.dart';
 
 class UserProfileAppBar extends StatelessWidget {
-  const UserProfileAppBar({super.key});
+  const UserProfileAppBar({super.key, required this.user});
+
+  final UserModel user;
 
   @override
   Widget build(BuildContext context) {
     //final dark = HelperFunction.isDarkMode(context);
-    final userController = UserController.instance;
 
     return SliverAppBar(
       expandedHeight: 150,
@@ -30,19 +29,16 @@ class UserProfileAppBar extends StatelessWidget {
             fit: StackFit.expand,
             clipBehavior: Clip.none,
             children: [
-              Obx(
-                () => Image.network(
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(
-                      ImageStrings.coverPicture,
-                      fit: BoxFit.cover,
-                    );
-                  },
-                  userController.user.value.coverImage,
-                  fit: BoxFit.cover,
-                ),
+              Image.network(
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    ImageStrings.coverPicture,
+                    fit: BoxFit.cover,
+                  );
+                },
+                user.coverImage,
+                fit: BoxFit.cover,
               ),
-
               if (isCollapsed)
                 ClipRect(
                   child: BackdropFilter(
@@ -62,12 +58,12 @@ class UserProfileAppBar extends StatelessWidget {
                       children: [
                         SizedBox(height: YSizes.spaceBtwSections),
                         Text(
-                          userController.user.value.username,
+                          user.username,
                           style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(color: Colors.white),
                         ),
                         Text(
-                          '${userController.user.value.tweetCount} posts',
+                          '${user.tweetCount} posts',
                           style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(color: Colors.white),
                         ),
@@ -79,9 +75,15 @@ class UserProfileAppBar extends StatelessWidget {
                 Positioned(
                   bottom: -70,
                   left: YSizes.defaultSpace,
-                  child: UserProfileAvatar(
-                    backgroundRadius: 50,
-                    foregroundRadius: 48,
+                  child: CircleAvatar(
+                    radius: 52,
+                    backgroundColor: Colors.grey,
+                    child: CircleAvatar(
+                      radius:50,
+                      backgroundImage: NetworkImage(user.profileImage),
+                      backgroundColor:
+                          Colors.grey[200], // Optional placeholder background
+                    ),
                   ),
                 ),
             ],

@@ -10,6 +10,7 @@ class TweetCardView extends StatelessWidget {
   final String tweetId;
   final bool isVerified;
   final bool isUserStream;
+  final bool showMoreOption;
   final tweetController = TweetController.instance;
   final likeController = LikeController.instance;
 
@@ -18,6 +19,7 @@ class TweetCardView extends StatelessWidget {
     this.isVerified = false,
     required this.tweetId,
     this.isUserStream = false,
+    required this.showMoreOption,
   }) {
     tweetController.loadTweetStream(tweetId);
     likeController.loadUserLikes();
@@ -45,7 +47,12 @@ class TweetCardView extends StatelessWidget {
             return Column(
               children:
                   tweets
-                      .map((tweet) => TweetCardViewWidget(tweet: tweet))
+                      .map(
+                        (tweet) => TweetCardViewWidget(
+                          tweet: tweet,
+                          showMoreOption: showMoreOption,
+                        ),
+                      )
                       .toList(),
             );
           },
@@ -62,7 +69,10 @@ class TweetCardView extends StatelessWidget {
             }
 
             final tweet = snapshot.data!;
-            return TweetCardViewWidget(tweet: tweet);
+            return TweetCardViewWidget(
+              tweet: tweet,
+              showMoreOption: showMoreOption,
+            );
           },
         );
   }

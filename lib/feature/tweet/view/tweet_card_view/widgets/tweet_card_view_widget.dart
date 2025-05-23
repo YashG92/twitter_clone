@@ -7,8 +7,6 @@ import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_i
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_user_info_row.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
-import '../../../../../data/repositories/auth_repository.dart';
-import '../../../../../data/repositories/retweet_repository.dart';
 import '../../../../../routes/routes.dart';
 import '../../../../../theme/theme.dart';
 import '../../../../../utils/constants/constants.dart';
@@ -16,9 +14,14 @@ import '../../../../../utils/constants/constants.dart';
 import '../../../model/tweet_model.dart';
 
 class TweetCardViewWidget extends StatelessWidget {
-  const TweetCardViewWidget({super.key, required this.tweet});
+  const TweetCardViewWidget({
+    super.key,
+    required this.tweet,
+    required this.showMoreOption,
+  });
 
   final TweetModel tweet;
+  final bool showMoreOption;
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +59,12 @@ class TweetCardViewWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 4.0),
                       child: Row(
                         children: [
-                          SizedBox(width: 40), // Match avatar space
+                          SizedBox(width: 40),
                           Icon(Icons.repeat, size: 16, color: Colors.grey),
                           SizedBox(width: 4),
                           Text(
                             'You Reposted',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
                           ),
                         ],
                       ),
@@ -88,6 +88,7 @@ class TweetCardViewWidget extends StatelessWidget {
                               isVerified: true,
                               authorName: author.username,
                               authorHandle: author.email.split('@').first,
+                              showMoreOption: showMoreOption,
                             ),
                             Text(tweet.content),
                             if (tweet.imageUrls != null &&

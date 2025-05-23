@@ -5,6 +5,7 @@ import 'package:twitter_clone/common/custom_appbar.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/tweet_card_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
+import '../../../data/repositories/auth_repository.dart';
 import '../../../data/repositories/retweet_repository.dart';
 import '../../../data/repositories/tweet_repository.dart';
 import '../../tweet/controller/like_controller.dart';
@@ -19,6 +20,7 @@ class HomeView extends StatelessWidget {
     Get.put(TweetRepository());
     Get.put(LikeController());
     final tweetController = Get.put(TweetController());
+    final currentUid = AuthRepository.instance.authUser.uid;
     return Scaffold(
       appBar: CustomAppbar(title: 'Home'),
       drawer: CommonAppDrawer(),
@@ -40,6 +42,7 @@ class HomeView extends StatelessWidget {
               final tweet = tweetController.allTweets[index];
               return TweetCardView(
                 tweetId: tweet.tweetId,
+                showMoreOption: tweet.authorId == currentUid,
               );
             },
           ),

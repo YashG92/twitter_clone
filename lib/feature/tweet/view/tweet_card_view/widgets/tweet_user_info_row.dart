@@ -12,12 +12,14 @@ class TweetUserInfoRow extends StatelessWidget {
     this.onMorePressed,
     required this.authorName,
     required this.authorHandle,
+    this.showMoreOption = true,
   });
 
   final TweetModel tweet;
   final String authorName;
   final String authorHandle;
   final bool isVerified;
+  final bool showMoreOption;
   final VoidCallback? onMorePressed;
 
   @override
@@ -28,9 +30,9 @@ class TweetUserInfoRow extends StatelessWidget {
         /// Author name
         Text(
           authorName,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
           overflow: TextOverflow.ellipsis,
         ),
 
@@ -45,20 +47,21 @@ class TweetUserInfoRow extends StatelessWidget {
         Expanded(
           child: Text(
             '@$authorHandle • ${HelperFunction.getTimeAgo(tweet.createdAt)}',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Palette.darkerGrey,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Palette.darkerGrey),
             overflow: TextOverflow.ellipsis,
           ),
         ),
 
         /// More button
-        IconButton(
-          onPressed: onMorePressed,
-          icon: const Icon(Icons.more_vert, size: 18),
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-        ),
+        if (showMoreOption)
+          IconButton(
+            onPressed: onMorePressed,
+            icon: const Icon(Icons.more_vert, size: 18),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+          ),
       ],
     );
   }

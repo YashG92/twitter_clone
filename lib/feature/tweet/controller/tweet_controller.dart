@@ -12,7 +12,7 @@ class TweetController extends GetxController {
   void onInit() {
     super.onInit();
     fetchAllTweets();
-    fetchUserTweets(FirebaseAuth.instance.currentUser!.uid);
+    //fetchUserTweets(FirebaseAuth.instance.currentUser!.uid);
   }
 
   final isLoading = false.obs;

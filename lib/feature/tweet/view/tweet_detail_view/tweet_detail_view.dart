@@ -12,6 +12,7 @@ import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_i
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_user_info_row.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
+import '../../../../data/repositories/auth_repository.dart';
 import '../../../../utils/constants/constants.dart';
 import '../../model/comment_model.dart';
 
@@ -23,6 +24,7 @@ class TweetDetailView extends StatelessWidget {
     final commentRepo = Get.put(CommentRepository());
     final tweetId = Get.arguments[0];
     final author = Get.arguments[1];
+    final currentUid = AuthRepository.instance.authUser.uid;
 
     return Scaffold(
       appBar: AppBar(
@@ -139,10 +141,12 @@ class TweetDetailView extends StatelessWidget {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: comments.length,
-                        itemBuilder: (context,index){
+                        itemBuilder: (context, index) {
                           final comment = comments[index];
-                          print(comment.commentId);
-                          return TweetCardView(tweetId: comment.commentId);
+                          return TweetCardView(
+                            tweetId: comment.commentId,
+                            showMoreOption: tweet.authorId == currentUid,
+                          );
                         },
                       );
                     },
