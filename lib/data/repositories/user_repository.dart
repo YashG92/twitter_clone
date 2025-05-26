@@ -60,11 +60,14 @@ class UserRepository extends GetxController {
     });
   }
 
-  Future<void> updateSingleFieldUserData(Map<String, dynamic> json) async {
+  Future<void> updateSingleFieldUserData({
+    String? userId,
+    required Map<String, dynamic> json,
+  }) async {
     try {
       await _db
           .collection("Users")
-          .doc(AuthRepository.instance.authUser.uid)
+          .doc(userId ?? AuthRepository.instance.authUser.uid)
           .update(json);
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
@@ -95,11 +98,13 @@ class UserRepository extends GetxController {
   }
 
   Future<List<UserModel>> searchUsers(String query) async {
-    final usernameQuery = _db.collection('Users')
+    final usernameQuery = _db
+        .collection('Users')
         .where('username', isGreaterThanOrEqualTo: query)
         .where('username', isLessThan: '${query}z');
 
-    final emailQuery = _db.collection('Users')
+    final emailQuery = _db
+        .collection('Users')
         .where('email', isGreaterThanOrEqualTo: query)
         .where('email', isLessThan: '${query}z');
 

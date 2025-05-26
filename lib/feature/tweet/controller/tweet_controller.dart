@@ -54,12 +54,9 @@ class TweetController extends GetxController {
       final userTweetResult = await tweetRepository.fetchTweetByUserId(userId);
       userTweets.assignAll(userTweetResult);
       userTweets.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-      print(userTweets.map((f)=>f.tweetId));
-      print('hii');
       final userReTweetResult = await RetweetRepository.instance.fetchReTweetByUserId(userId);
       userReTweets.assignAll(userReTweetResult);
       userReTweets.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-      print(userReTweets.map((f)=>f.tweetId));
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {

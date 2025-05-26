@@ -68,7 +68,7 @@ class EditUserController extends GetxController {
         "profileImage": profileImageUrl,
         "coverImage": coverImageUrl,
       };
-      await UserRepository.instance.updateSingleFieldUserData(json);
+      await UserRepository.instance.updateSingleFieldUserData(json: json);
 
       UserController.instance.user.value.username = name.text.trim();
       UserController.instance.user.value.bio = bio.text.trim();

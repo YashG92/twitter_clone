@@ -108,7 +108,7 @@ class PostTweetController extends GetxController {
       );
 
       newTweet.tweetId = await TweetRepository.instance.postTweet(newTweet);
-      UserRepository.instance.updateSingleFieldUserData({
+      UserRepository.instance.updateSingleFieldUserData(json: {
         'tweetCount': FieldValue.increment(1),
       });
       TweetController.instance.allTweets.insert(0, newTweet);
@@ -177,7 +177,7 @@ class PostTweetController extends GetxController {
 
       await CommentRepository.instance.postComment(newComment);
 
-      UserRepository.instance.updateSingleFieldUserData({
+      UserRepository.instance.updateSingleFieldUserData(json: {
         'tweetCount': FieldValue.increment(1),
       });
       TweetController.instance.allTweets.insert(0, newTweet);

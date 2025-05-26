@@ -56,7 +56,7 @@ class RetweetController extends GetxController {
           ]),
         },
       );
-      UserRepository.instance.updateSingleFieldUserData({
+      UserRepository.instance.updateSingleFieldUserData(json: {
         'tweetCount': FieldValue.increment(1),
       });
 

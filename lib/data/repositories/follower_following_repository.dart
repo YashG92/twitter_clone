@@ -86,15 +86,6 @@ class FollowerFollowingRepository extends GetxController {
         .map((docSnapshot) => docSnapshot.exists);
   }
 
-  Stream<int> followerCountStream(String userId) {
-    return _db
-        .collection('Users')
-        .doc(userId)
-        .collection('Followers')
-        .snapshots()
-        .map((querySnapshot) => querySnapshot.docs.length);
-  }
-
   Stream<List<FollowersModel>> followersStream(String userId) {
     return _db
         .collection("Users")
@@ -158,12 +149,6 @@ class FollowerFollowingRepository extends GetxController {
             .doc(targetUserId)
             .get();
     return doc.exists;
-  }
-
-  Future<int> getFollowerCount(String userId) async {
-    final snapshot =
-        await _db.collection('Users').doc(userId).collection('Followers').get();
-    return snapshot.docs.length;
   }
 
   Future<List<FollowersModel>> getFollowers(String userId) async {

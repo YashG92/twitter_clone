@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/personalization/controller/follower_following_controller.dart';
 import 'package:twitter_clone/feature/personalization/model/user_model.dart';
 import 'package:twitter_clone/feature/tweet/controller/tweet_controller.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/tweet_card_view.dart';
@@ -16,7 +17,7 @@ import '../../controller/user_controller.dart';
 class UserProfileView extends StatelessWidget {
   const UserProfileView({super.key, this.otherUserId});
 
-  final String? otherUserId; // Now accepting user ID instead of UserModel
+  final String? otherUserId;
 
   @override
   Widget build(BuildContext context) {
@@ -24,28 +25,46 @@ class UserProfileView extends StatelessWidget {
     final userController = UserController.instance;
     final tweetController = TweetController.instance;
     final currentUid = AuthRepository.instance.authUser.uid;
+    final followerFollowingController = Get.put(FollowerFollowingController());
     final isCurrentUser = otherUserId == null;
 
     return Scaffold(
-      body: isCurrentUser
-          ? _buildCurrentUserProfile(context, dark, userController, tweetController, currentUid)
-          : _buildOtherUserProfile(context, dark, userController, tweetController, currentUid, otherUserId!),
-      floatingActionButton: isCurrentUser
-          ? FloatingActionButton(
-        onPressed: () => Get.toNamed(Routes.addTweetView),
-        shape: CircleBorder(),
-        child: Icon(Icons.edit),
-      )
-          : null,
+      body:
+          isCurrentUser
+              ? _buildCurrentUserProfile(
+                context,
+                dark,
+                userController,
+                tweetController,
+                currentUid,
+              )
+              : _buildOtherUserProfile(
+                context,
+                dark,
+                userController,
+                tweetController,
+                followerFollowingController,
+                currentUid,
+                otherUserId!,
+              ),
+      floatingActionButton:
+          isCurrentUser
+              ? FloatingActionButton(
+                onPressed: () => Get.toNamed(Routes.addTweetView),
+                shape: CircleBorder(),
+                child: Icon(Icons.edit),
+              )
+              : null,
     );
   }
 
   Widget _buildCurrentUserProfile(
-      BuildContext context,
-      bool dark,
-      UserController userController,
-      TweetController tweetController,
-      String currentUid) {
+    BuildContext context,
+    bool dark,
+    UserController userController,
+    TweetController tweetController,
+    String currentUid,
+  ) {
     return Obx(() {
       final user = userController.user.value;
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -57,6 +76,7 @@ class UserProfileView extends StatelessWidget {
         dark: dark,
         user: user,
         tweetController: tweetController,
+        followerFollowingController: FollowerFollowingController.instance,
         currentUid: currentUid,
         isCurrentUser: true,
       );
@@ -64,12 +84,14 @@ class UserProfileView extends StatelessWidget {
   }
 
   Widget _buildOtherUserProfile(
-      BuildContext context,
-      bool dark,
-      UserController userController,
-      TweetController tweetController,
-      String currentUid,
-      String otherUserId) {
+    BuildContext context,
+    bool dark,
+    UserController userController,
+    TweetController tweetController,
+    FollowerFollowingController followerFollowingController,
+    String currentUid,
+    String otherUserId,
+  ) {
     return StreamBuilder<UserModel>(
       stream: userController.getUserStream(otherUserId),
       builder: (context, snapshot) {
@@ -84,6 +106,11 @@ class UserProfileView extends StatelessWidget {
         final user = snapshot.data ?? UserModel.empty();
         WidgetsBinding.instance.addPostFrameCallback((_) {
           tweetController.fetchUserTweets(user.userId);
+          // Initialize follow status listener
+          followerFollowingController.listenIsFollowing(
+            currentUid,
+            user.userId,
+          );
         });
 
         return _buildProfileContent(
@@ -91,6 +118,7 @@ class UserProfileView extends StatelessWidget {
           dark: dark,
           user: user,
           tweetController: tweetController,
+          followerFollowingController: followerFollowingController,
           currentUid: currentUid,
           isCurrentUser: false,
         );
@@ -103,6 +131,7 @@ class UserProfileView extends StatelessWidget {
     required bool dark,
     required UserModel user,
     required TweetController tweetController,
+    required FollowerFollowingController followerFollowingController,
     required String currentUid,
     required bool isCurrentUser,
   }) {
@@ -119,16 +148,13 @@ class UserProfileView extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: Padding(
                     padding: const EdgeInsets.all(YSizes.productImageRadius),
-                    child: OutlinedButton(
-                      onPressed: isCurrentUser
-                          ? () => Get.toNamed(Routes.editUserProfileView)
-                          : () {}, // Follow functionality
-                      child: Text(
-                        isCurrentUser ? 'Edit Profile' : 'Follow',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: dark ? Colors.white : Colors.black,
-                        ),
-                      ),
+                    child: _buildFollowButton(
+                      context: context,
+                      dark: dark,
+                      user: user,
+                      followerFollowingController: followerFollowingController,
+                      currentUid: currentUid,
+                      isCurrentUser: isCurrentUser,
                     ),
                   ),
                 ),
@@ -169,5 +195,46 @@ class UserProfileView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildFollowButton({
+    required BuildContext context,
+    required bool dark,
+    required UserModel user,
+    required FollowerFollowingController followerFollowingController,
+    required String currentUid,
+    required bool isCurrentUser,
+  }) {
+    if (isCurrentUser) {
+      return OutlinedButton(
+        onPressed: () => Get.toNamed(Routes.editUserProfileView),
+        child: Text(
+          'Edit Profile',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: dark ? Colors.white : Colors.black,
+          ),
+        ),
+      );
+    }
+
+    return Obx(() {
+      final isFollowing = followerFollowingController.isFollowing.value;
+
+      return OutlinedButton(
+        onPressed: () async {
+          if (isFollowing) {
+            await followerFollowingController.unFollowUser(user.userId);
+          } else {
+            await followerFollowingController.followUser(user.userId);
+          }
+        },
+        child: Text(
+          isFollowing ? 'Following' : 'Follow',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: dark ? Colors.white : Colors.black,
+          ),
+        ),
+      );
+    });
   }
 }
