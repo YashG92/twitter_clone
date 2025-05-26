@@ -16,9 +16,8 @@ class FollowingsModel {
 
   toJson() {
     return {
-      'followingId': followingId,
       'userId': userId,
-      'followedAt': followedAt = DateTime.now(),
+      'followedAt': Timestamp.fromDate(followedAt),
     };
   }
 
