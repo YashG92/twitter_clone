@@ -29,10 +29,7 @@ class UserProfileView extends StatelessWidget {
 
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh:
-            () => tweetController.fetchUserTweets(
-              user.userId,
-            ),
+        onRefresh: () => tweetController.fetchUserTweets(user.userId),
         child: CustomScrollView(
           slivers: [
             // AppBar with cover picture
@@ -66,7 +63,26 @@ class UserProfileView extends StatelessWidget {
                       ),
                     )
                   else
-                    SizedBox(height: 80),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(
+                          YSizes.productImageRadius,
+                        ),
+                        child: OutlinedButton(
+                          onPressed:
+                              (){},
+                          child: Text(
+                            'Follow',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.copyWith(
+                              color: dark ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
 
                   // User Info
                   UserMetaData(user: user),
