@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -11,11 +13,34 @@ class UserController extends GetxController {
   Rx<UserModel> user = UserModel.empty().obs;
   final RxList<UserModel> searchedUsers = <UserModel>[].obs;
   final profileLoading = false.obs;
+  late Stream<UserModel> _userStream;
+  late StreamSubscription<UserModel> _userSubscription;
+
+
+  @override
+  void onClose() {
+    _userSubscription.cancel();
+    super.onClose();
+  }
 
   @override
   void onInit() {
     super.onInit();
-    fetchUserRecord();
+    _initUserStream();
+  }
+
+  Stream<UserModel> getUserStream(String userId) {
+    return userRepository.getUserDataStream(userId: userId);
+  }
+
+  void _initUserStream() {
+    _userStream = userRepository.getUserDataStream();
+    _userSubscription = _userStream.listen((userData) {
+      user(userData);
+    }, onError: (error) {
+      user(UserModel.empty());
+      Get.snackbar('Error', error.toString());
+    });
   }
 
   Future<void> fetchUserRecord() async {

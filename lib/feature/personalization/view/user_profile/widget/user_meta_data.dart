@@ -29,7 +29,6 @@ class UserMetaData extends StatelessWidget {
             '@${user.email.split('@')[0]}',
             style: Theme.of(context).textTheme.bodySmall,
           ),
-          SizedBox(height: YSizes.sm),
           Text(user.bio),
           SizedBox(height: YSizes.sm),
           Row(

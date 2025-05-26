@@ -53,7 +53,7 @@ class SearchedContentView extends StatelessWidget {
             itemBuilder: (context, index) {
               final user = users[index];
               return ListTile(
-                onTap: () => Get.to(UserProfileView(otherUser: user)),
+                onTap: () => Get.to(()=>UserProfileView(otherUserId: user.userId)),
                 leading: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(user.profileImage),

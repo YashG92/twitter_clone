@@ -121,4 +121,25 @@ class UserRepository extends GetxController {
 
     return userMap.values.toList();
   }
+
+  Stream<UserModel> getUserDataStream({String? userId}) {
+    try {
+      final uid = userId ?? AuthRepository.instance.authUser.uid;
+      return _db.collection("Users").doc(uid).snapshots().map((snapshot) {
+        if (snapshot.exists) {
+          return UserModel.fromSnapshot(snapshot);
+        } else {
+          return UserModel.empty();
+        }
+      });
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 }

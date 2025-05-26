@@ -14,9 +14,9 @@ import '../../../../data/repositories/auth_repository.dart';
 import '../../controller/user_controller.dart';
 
 class UserProfileView extends StatelessWidget {
-  const UserProfileView({super.key, this.otherUser});
+  const UserProfileView({super.key, this.otherUserId});
 
-  final UserModel? otherUser;
+  final String? otherUserId; // Now accepting user ID instead of UserModel
 
   @override
   Widget build(BuildContext context) {
@@ -24,114 +24,150 @@ class UserProfileView extends StatelessWidget {
     final userController = UserController.instance;
     final tweetController = TweetController.instance;
     final currentUid = AuthRepository.instance.authUser.uid;
-    final user = otherUser ?? userController.user.value;
-    tweetController.fetchUserTweets(user.userId);
+    final isCurrentUser = otherUserId == null;
 
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () => tweetController.fetchUserTweets(user.userId),
-        child: CustomScrollView(
-          slivers: [
-            // AppBar with cover picture
-            UserProfileAppBar(user: user),
+      body: isCurrentUser
+          ? _buildCurrentUserProfile(context, dark, userController, tweetController, currentUid)
+          : _buildOtherUserProfile(context, dark, userController, tweetController, currentUid, otherUserId!),
+      floatingActionButton: isCurrentUser
+          ? FloatingActionButton(
+        onPressed: () => Get.toNamed(Routes.addTweetView),
+        shape: CircleBorder(),
+        child: Icon(Icons.edit),
+      )
+          : null,
+    );
+  }
 
-            // Profile Content
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Edit button
-                  if (otherUser == null)
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                          YSizes.productImageRadius,
-                        ),
-                        child: OutlinedButton(
-                          onPressed:
-                              () => Get.toNamed(Routes.editUserProfileView),
-                          child: Text(
-                            'Edit Profile',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyMedium!.copyWith(
-                              color: dark ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                          YSizes.productImageRadius,
-                        ),
-                        child: OutlinedButton(
-                          onPressed:
-                              (){},
-                          child: Text(
-                            'Follow',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyMedium!.copyWith(
-                              color: dark ? Colors.white : Colors.black,
-                            ),
-                          ),
+  Widget _buildCurrentUserProfile(
+      BuildContext context,
+      bool dark,
+      UserController userController,
+      TweetController tweetController,
+      String currentUid) {
+    return Obx(() {
+      final user = userController.user.value;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        tweetController.fetchUserTweets(user.userId);
+      });
+
+      return _buildProfileContent(
+        context: context,
+        dark: dark,
+        user: user,
+        tweetController: tweetController,
+        currentUid: currentUid,
+        isCurrentUser: true,
+      );
+    });
+  }
+
+  Widget _buildOtherUserProfile(
+      BuildContext context,
+      bool dark,
+      UserController userController,
+      TweetController tweetController,
+      String currentUid,
+      String otherUserId) {
+    return StreamBuilder<UserModel>(
+      stream: userController.getUserStream(otherUserId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error loading profile'));
+        }
+
+        final user = snapshot.data ?? UserModel.empty();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          tweetController.fetchUserTweets(user.userId);
+        });
+
+        return _buildProfileContent(
+          context: context,
+          dark: dark,
+          user: user,
+          tweetController: tweetController,
+          currentUid: currentUid,
+          isCurrentUser: false,
+        );
+      },
+    );
+  }
+
+  Widget _buildProfileContent({
+    required BuildContext context,
+    required bool dark,
+    required UserModel user,
+    required TweetController tweetController,
+    required String currentUid,
+    required bool isCurrentUser,
+  }) {
+    return RefreshIndicator(
+      onRefresh: () => tweetController.fetchUserTweets(user.userId),
+      child: CustomScrollView(
+        slivers: [
+          UserProfileAppBar(user: user),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(YSizes.productImageRadius),
+                    child: OutlinedButton(
+                      onPressed: isCurrentUser
+                          ? () => Get.toNamed(Routes.editUserProfileView)
+                          : () {}, // Follow functionality
+                      child: Text(
+                        isCurrentUser ? 'Edit Profile' : 'Follow',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: dark ? Colors.white : Colors.black,
                         ),
                       ),
                     ),
-
-                  // User Info
-                  UserMetaData(user: user),
-                  Divider(
-                    thickness: 0.3,
-                    color: dark ? Palette.darkGrey : Colors.grey,
                   ),
-                ],
-              ),
+                ),
+                UserMetaData(user: user),
+                Divider(
+                  thickness: 0.3,
+                  color: dark ? Palette.darkGrey : Colors.grey,
+                ),
+              ],
             ),
-
-            // Tweets or Posts
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  Obx(() {
-                    final tweets = [
-                      ...tweetController.userTweets,
-                      ...tweetController.userReTweets,
-                    ]..sort((a, b) => b.createdAt.compareTo(a.createdAt));
-                    return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: tweets.length,
-                      itemBuilder: (context, index) {
-                        final tweet = tweets[index];
-                        return TweetCardView(
-                          isUserStream: false,
-                          tweetId: tweet.tweetId,
-                          showMoreOption: tweet.authorId == currentUid,
-                        );
-                      },
-                    );
-                  }),
-                ],
-              ),
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                Obx(() {
+                  final tweets = [
+                    ...tweetController.userTweets,
+                    ...tweetController.userReTweets,
+                  ]..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+                  return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: tweets.length,
+                    itemBuilder: (context, index) {
+                      final tweet = tweets[index];
+                      return TweetCardView(
+                        isUserStream: false,
+                        tweetId: tweet.tweetId,
+                        showMoreOption: tweet.authorId == currentUid,
+                      );
+                    },
+                  );
+                }),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-      floatingActionButton:
-          otherUser == null
-              ? FloatingActionButton(
-                onPressed: () => Get.toNamed(Routes.addTweetView),
-                shape: CircleBorder(),
-                child: Icon(Icons.edit),
-              )
-              : null,
     );
   }
 }
