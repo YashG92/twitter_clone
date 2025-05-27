@@ -61,7 +61,7 @@ class FollowingView extends StatelessWidget {
                       radius: 25,
                       backgroundImage: NetworkImage(user.profileImage),
                       backgroundColor:
-                      Colors.grey[200], // Optional placeholder background
+                      Colors.grey[200],
                     ),
                     title: Text(
                       user.username,

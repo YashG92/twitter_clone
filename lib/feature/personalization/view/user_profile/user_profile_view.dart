@@ -26,7 +26,7 @@ class UserProfileView extends StatelessWidget {
     final tweetController = TweetController.instance;
     final currentUid = AuthRepository.instance.authUser.uid;
     final followerFollowingController = Get.put(FollowerFollowingController());
-    final isCurrentUser = otherUserId == null;
+    final isCurrentUser = otherUserId == null || otherUserId == currentUid;
 
     return Scaffold(
       body:
