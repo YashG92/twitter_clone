@@ -18,7 +18,7 @@ class FollowingView extends StatelessWidget {
       f.loadUserFollowing(userId);
     });
     return Scaffold(
-      appBar: AppBar(title: Text("Followers")),
+      appBar: AppBar(title: Text("Following")),
       body: Obx(() {
         final followingUsers = f.followingList;
         if (followingUsers.isEmpty) {

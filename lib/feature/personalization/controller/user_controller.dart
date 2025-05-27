@@ -23,17 +23,11 @@ class UserController extends GetxController {
     super.onClose();
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    _initUserStream();
-  }
-
   Stream<UserModel> getUserStream(String userId) {
     return userRepository.getUserDataStream(userId: userId);
   }
 
-  void _initUserStream() {
+  void initUserStream() {
     _userStream = userRepository.getUserDataStream();
     _userSubscription = _userStream.listen((userData) {
       user(userData);

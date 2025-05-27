@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/common/common_app_drawer.dart';
 import 'package:twitter_clone/common/custom_appbar.dart';
+import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/tweet_card_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
@@ -21,6 +22,7 @@ class HomeView extends StatelessWidget {
     Get.put(LikeController());
     final tweetController = Get.put(TweetController());
     final currentUid = AuthRepository.instance.authUser.uid;
+    UserController.instance.initUserStream();
     return Scaffold(
       appBar: CustomAppbar(title: 'Home'),
       drawer: CommonAppDrawer(),
