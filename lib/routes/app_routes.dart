@@ -9,6 +9,7 @@ import 'package:twitter_clone/feature/tweet/view/tweet_comment_view/comment_view
 import 'package:twitter_clone/feature/tweet/view/post_tweet_view/post_tweet_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
+import '../feature/personalization/view/followers_view/followers_view.dart';
 import '../feature/search/search_view.dart';
 import '../feature/search/searched_content_view.dart';
 import '../feature/tweet/view/tweet_detail_view/tweet_detail_view.dart';
@@ -69,6 +70,11 @@ class AppRoutes {
       name: Routes.tweetCommentView,
       page: () => const TweetCommentView(),
       transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: Routes.followersView,
+      page: () => const FollowersView(),
+      transition: Transition.fadeIn,
     ),
   ];
 }

@@ -10,4 +10,6 @@ class Routes {
   static const addTweetView = '/add-tweet-view';
   static const tweetDetailView = '/tweet-detail-view';
   static const tweetCommentView = '/comment-view';
+  static const followersView = '/followers-view';
+  static const followingView = '/following-view';
 }
