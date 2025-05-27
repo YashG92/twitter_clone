@@ -220,14 +220,20 @@ class UserProfileView extends StatelessWidget {
     return Obx(() {
       final isFollowing = followerFollowingController.isFollowing.value;
 
-      return OutlinedButton(
-        onPressed: () async => followerFollowingController.toggleFollowUser(user.userId),
-        child: Text(
-          isFollowing ? 'Following' : 'Follow',
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: dark ? Colors.white : Colors.black,
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(onPressed: (){}, icon: Icon(Icons.messenger_outline)),
+          OutlinedButton(
+            onPressed: () async => followerFollowingController.toggleFollowUser(user.userId),
+            child: Text(
+              isFollowing ? 'Following' : 'Follow',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: dark ? Colors.white : Colors.black,
+              ),
+            ),
           ),
-        ),
+        ],
       );
     });
   }
