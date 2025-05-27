@@ -107,7 +107,7 @@ class UserProfileView extends StatelessWidget {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           tweetController.fetchUserTweets(user.userId);
           // Initialize follow status listener
-          followerFollowingController.listenIsFollowing(
+          followerFollowingController.listenToFollowStatus(
             currentUid,
             user.userId,
           );
@@ -221,13 +221,7 @@ class UserProfileView extends StatelessWidget {
       final isFollowing = followerFollowingController.isFollowing.value;
 
       return OutlinedButton(
-        onPressed: () async {
-          if (isFollowing) {
-            await followerFollowingController.unFollowUser(user.userId);
-          } else {
-            await followerFollowingController.followUser(user.userId);
-          }
-        },
+        onPressed: () async => followerFollowingController.toggleFollowUser(user.userId),
         child: Text(
           isFollowing ? 'Following' : 'Follow',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(

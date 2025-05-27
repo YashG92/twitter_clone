@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/data/repositories/auth_repository.dart';
 import 'package:twitter_clone/feature/personalization/model/followers_model.dart';
 import 'package:twitter_clone/feature/personalization/model/followings_model.dart';
 
@@ -14,27 +15,52 @@ class FollowerFollowingRepository extends GetxController {
   static FollowerFollowingRepository get instance => Get.find();
 
   final _db = FirebaseFirestore.instance;
-  final currentUid = FirebaseAuth.instance.currentUser!.uid;
+  final currentUid = AuthRepository.instance.authUser.uid;
+
+  Future<void> _updateFollowCounts(String targetUserId, int incrementValue) async {
+    final batch = _db.batch();
+
+    // Update current user's following count
+    final currentUserRef = _db.collection("Users").doc(currentUid);
+    batch.update(currentUserRef, {'followingCount': FieldValue.increment(incrementValue)});
+
+    // Update target user's follower count
+    final targetUserRef = _db.collection("Users").doc(targetUserId);
+    batch.update(targetUserRef, {'followerCount': FieldValue.increment(incrementValue)});
+
+    await batch.commit();
+  }
 
   Future<void> followUser(
-    String targetUserId,
-    FollowingsModel currentUserFollowing,
-    FollowersModel targetUserFollowers,
-  ) async {
+      String targetUserId,
+      FollowingsModel currentUserFollowing,
+      FollowersModel targetUserFollowers,
+      ) async {
     try {
-      await _db
-          .collection("Users")
-          .doc(currentUid)
-          .collection("Following")
-          .doc(targetUserId)
-          .set(currentUserFollowing.toJson());
+      await _db.runTransaction((transaction) async {
+        // Add to current user's following
+        transaction.set(
+          _db
+              .collection("Users")
+              .doc(currentUid)
+              .collection("Following")
+              .doc(targetUserId),
+          currentUserFollowing.toJson(),
+        );
 
-      await _db
-          .collection("Users")
-          .doc(targetUserId)
-          .collection("Followers")
-          .doc(currentUid)
-          .set(targetUserFollowers.toJson());
+        // Add to target user's followers
+        transaction.set(
+          _db
+              .collection("Users")
+              .doc(targetUserId)
+              .collection("Followers")
+              .doc(currentUid),
+          targetUserFollowers.toJson(),
+        );
+
+        // Update counts
+        await _updateFollowCounts(targetUserId, 1);
+      });
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -50,19 +76,28 @@ class FollowerFollowingRepository extends GetxController {
 
   Future<void> unFollowUser(String targetUserId) async {
     try {
-      await _db
-          .collection("Users")
-          .doc(currentUid)
-          .collection("Following")
-          .doc(targetUserId)
-          .delete();
+      await _db.runTransaction((transaction) async {
+        // Remove from current user's following
+        transaction.delete(
+          _db
+              .collection("Users")
+              .doc(currentUid)
+              .collection("Following")
+              .doc(targetUserId),
+        );
 
-      await _db
-          .collection("Users")
-          .doc(targetUserId)
-          .collection("Followers")
-          .doc(currentUid)
-          .delete();
+        // Remove from target user's followers
+        transaction.delete(
+          _db
+              .collection("Users")
+              .doc(targetUserId)
+              .collection("Followers")
+              .doc(currentUid),
+        );
+
+        // Update counts
+        await _updateFollowCounts(targetUserId, -1);
+      });
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -86,116 +121,23 @@ class FollowerFollowingRepository extends GetxController {
         .map((docSnapshot) => docSnapshot.exists);
   }
 
-  Stream<List<FollowersModel>> followersStream(String userId) {
+  Stream<List<FollowingsModel>> getUserFollowingStream(String userId) {
     return _db
-        .collection("Users")
+        .collection('Users')
         .doc(userId)
-        .collection("Followers")
+        .collection('Following')
         .snapshots()
-        .map(
-          (querySnapshot) =>
-              querySnapshot.docs
-                  .map((doc) => FollowersModel.fromSnapshot(doc))
-                  .toList(),
-        )
-        .handleError((error) {
-          if (error is FirebaseAuthException) {
-            throw TFirebaseAuthException(error.code).message;
-          } else if (error is FirebaseException) {
-            throw TFirebaseException(error.code).message;
-          } else if (error is FormatException) {
-            throw const TFormatException();
-          } else if (error is PlatformException) {
-            throw TPlatformException(error.code).message;
-          } else {
-            throw 'Something went wrong. Please try again';
-          }
-        });
+        .map((querySnapshot) =>
+        querySnapshot.docs.map((doc) => FollowingsModel.fromSnapshot(doc)).toList());
   }
 
-  Stream<List<FollowingsModel>> followingStream(String userId) {
+  Stream<List<FollowersModel>> getUserFollowersStream(String userId) {
     return _db
-        .collection("Users")
+        .collection('Users')
         .doc(userId)
-        .collection("Following")
+        .collection('Followers')
         .snapshots()
-        .map(
-          (querySnapshot) =>
-              querySnapshot.docs
-                  .map((doc) => FollowingsModel.fromSnapshot(doc))
-                  .toList(),
-        )
-        .handleError((error) {
-          if (error is FirebaseAuthException) {
-            throw TFirebaseAuthException(error.code).message;
-          } else if (error is FirebaseException) {
-            throw TFirebaseException(error.code).message;
-          } else if (error is FormatException) {
-            throw const TFormatException();
-          } else if (error is PlatformException) {
-            throw TPlatformException(error.code).message;
-          } else {
-            throw 'Something went wrong. Please try again';
-          }
-        });
-  }
-
-  Future<bool> isFollowing(String currentUserId, String targetUserId) async {
-    final doc =
-        await _db
-            .collection('Users')
-            .doc(currentUserId)
-            .collection('Following')
-            .doc(targetUserId)
-            .get();
-    return doc.exists;
-  }
-
-  Future<List<FollowersModel>> getFollowers(String userId) async {
-    try {
-      final snapshot =
-          await _db
-              .collection("Users")
-              .doc(userId)
-              .collection("Followers")
-              .get();
-      return snapshot.docs
-          .map((doc) => FollowersModel.fromSnapshot(doc))
-          .toList();
-    } on FirebaseAuthException catch (e) {
-      throw TFirebaseAuthException(e.code).message;
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code).message;
-    } on FormatException catch (_) {
-      throw const TFormatException();
-    } on PlatformException catch (e) {
-      throw TPlatformException(e.code).message;
-    } catch (e) {
-      throw 'Something went wrong. Please try again';
-    }
-  }
-
-  Future<List<FollowingsModel>> getFollowing(String userId) async {
-    try {
-      final snapshot =
-          await _db
-              .collection("Users")
-              .doc(userId)
-              .collection("Following")
-              .get();
-      return snapshot.docs
-          .map((doc) => FollowingsModel.fromSnapshot(doc))
-          .toList();
-    } on FirebaseAuthException catch (e) {
-      throw TFirebaseAuthException(e.code).message;
-    } on FirebaseException catch (e) {
-      throw TFirebaseException(e.code).message;
-    } on FormatException catch (_) {
-      throw const TFormatException();
-    } on PlatformException catch (e) {
-      throw TPlatformException(e.code).message;
-    } catch (e) {
-      throw 'Something went wrong. Please try again';
-    }
+        .map((querySnapshot) =>
+        querySnapshot.docs.map((doc) => FollowersModel.fromSnapshot(doc)).toList());
   }
 }

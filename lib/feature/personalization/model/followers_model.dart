@@ -17,7 +17,7 @@ class FollowersModel {
   toJson() {
     return {
       'userId': userId,
-      'followedAt': Timestamp.fromDate(followedAt),
+      'followedAt': followedAt,
     };
   }
 
@@ -28,7 +28,7 @@ class FollowersModel {
     return FollowersModel(
       followerId: document.id,
       userId: data['userId'],
-      followedAt: data['followedAt'],
+      followedAt: data['followedAt']?.toDate() ?? DateTime.now(),
     );
   }
 }

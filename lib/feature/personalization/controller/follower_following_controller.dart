@@ -10,92 +10,65 @@ class FollowerFollowingController extends GetxController {
   static FollowerFollowingController get instance => Get.find();
 
   final _repo = Get.put(FollowerFollowingRepository());
+  final _userRepo = Get.put(UserRepository());
 
   final isFollowing = false.obs;
   final followersList = <FollowersModel>[].obs;
   final followingList = <FollowingsModel>[].obs;
+  final isLoading = false.obs;
 
-
-  Stream<bool> isFollowingStream(String currentUserId, String targetUserId) {
-    return _repo.isFollowingStream(currentUserId, targetUserId);
-  }
-
-  void listenIsFollowing(String currentUserId, String targetUserId) {
+  void listenToFollowStatus(String currentUserId, String targetUserId) {
     _repo.isFollowingStream(currentUserId, targetUserId).listen((value) {
       isFollowing.value = value;
     });
   }
 
-  Future<void> followUser(String targetUserId) async {
-    try {
-      final currentUserFollowing = FollowingsModel(
-        followingId: _repo.currentUid,
-        userId: targetUserId,
-        followedAt: DateTime.now(),
-      );
-      final targetUserFollowers = FollowersModel(
-        followerId: _repo.currentUid,
-        userId: targetUserId,
-        followedAt: DateTime.now(),
-      );
+  void loadUserFollowers(String userId) {
+    isLoading.value = true;
+    _repo.getUserFollowersStream(userId).listen((followers) {
+      followersList.assignAll(followers);
+      isLoading.value = false;
+    }, onError: (error) {
+      isLoading.value = false;
+      Get.snackbar('Error', error.toString());
+    });
+  }
 
-      await _repo.followUser(
-        targetUserId,
-        currentUserFollowing,
-        targetUserFollowers,
-      );
-      await UserRepository.instance.updateSingleFieldUserData(
-        userId: targetUserId,
-        json: {'followerCount': FieldValue.increment(1)},
-      );
-      await UserRepository.instance.updateSingleFieldUserData(
-        json: {'followingCount': FieldValue.increment(1)},
-      );
-      isFollowing.value = true;
+  void loadUserFollowing(String userId) {
+    isLoading.value = true;
+    _repo.getUserFollowingStream(userId).listen((following) {
+      followingList.assignAll(following);
+      isLoading.value = false;
+    }, onError: (error) {
+      isLoading.value = false;
+      Get.snackbar('Error', error.toString());
+    });
+  }
+
+  Future<void> toggleFollowUser(String targetUserId) async {
+    try {
+      if (isFollowing.value) {
+        await _repo.unFollowUser(targetUserId);
+      } else {
+        final currentUserFollowing = FollowingsModel(
+          followingId: _repo.currentUid,
+          userId: targetUserId,
+          followedAt: DateTime.now(),
+        );
+        final targetUserFollowers = FollowersModel(
+          followerId: targetUserId,
+          userId: _repo.currentUid,
+          followedAt: DateTime.now(),
+        );
+        await _repo.followUser(
+          targetUserId,
+          currentUserFollowing,
+          targetUserFollowers,
+        );
+      }
     } catch (e) {
       Get.snackbar('Error', e.toString());
+      rethrow;
     }
-  }
-
-  Future<void> unFollowUser(String targetUserId) async {
-    try {
-      await _repo.unFollowUser(targetUserId);
-      await UserRepository.instance.updateSingleFieldUserData(
-        userId: targetUserId,
-        json: {'followerCount': FieldValue.increment(-1)},
-      );
-      await UserRepository.instance.updateSingleFieldUserData(
-        json: {'followingCount': FieldValue.increment(-1)},
-      );
-      isFollowing.value = false;
-    } catch (e) {
-      Get.snackbar('Error', e.toString());
-    }
-  }
-
-  void loadFollowers(String userId) {
-    _repo
-        .followersStream(userId)
-        .listen(
-          (data) {
-            followersList.assignAll(data);
-          },
-          onError: (e) {
-            Get.snackbar('Error', e.toString());
-          },
-        );
-  }
-
-  void loadFollowing(String userId) {
-    _repo
-        .followingStream(userId)
-        .listen(
-          (data) {
-            followingList.assignAll(data);
-          },
-          onError: (e) {
-            Get.snackbar('Error', e.toString());
-          },
-        );
   }
 }

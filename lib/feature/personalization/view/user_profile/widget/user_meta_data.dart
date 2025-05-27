@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/routes/routes.dart';
 
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_function.dart';
@@ -55,10 +56,17 @@ class UserMetaData extends StatelessWidget {
           SizedBox(height: YSizes.sm),
           Row(
             children: [
-              Text(
-                '${user.followerCount} Followers',
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap:
+                    () => Get.toNamed(
+                      Routes.followersView,
+                      arguments: user.userId,
+                    ),
+                child: Text(
+                  '${user.followerCount} Followers',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(width: YSizes.spaceBtwItems),
