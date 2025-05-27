@@ -70,10 +70,17 @@ class UserMetaData extends StatelessWidget {
                 ),
               ),
               SizedBox(width: YSizes.spaceBtwItems),
-              Text(
-                '${user.followingCount} Following',
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap:
+                    () => Get.toNamed(
+                      Routes.followingView,
+                      arguments: user.userId,
+                    ),
+                child: Text(
+                  '${user.followingCount} Following',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
