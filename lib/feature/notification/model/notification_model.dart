@@ -28,7 +28,7 @@ class NotificationModel {
   final String sourceUserId;
   final String? sourceTweetId;
   final bool isRead;
-  DateTime createdAt;
+  final DateTime createdAt;
 
   NotificationModel({
     required this.notificationId,
@@ -50,15 +50,15 @@ class NotificationModel {
     createdAt: DateTime.now(),
   );
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'notificationId': notificationId,
       'userId': userId,
-      'notificationType': notificationType,
+      'notificationType': notificationTypeToString(notificationType),
       'sourceUserId': sourceUserId,
       'sourceTweetId': sourceTweetId,
       'isRead': isRead,
-      'createdAt': createdAt = DateTime.now(),
+      'createdAt': createdAt,
     };
   }
 
@@ -69,11 +69,11 @@ class NotificationModel {
     return NotificationModel(
       notificationId: document.id,
       userId: data['userId'] ?? '',
-      notificationType: data['notificationType'] ?? NotificationType.like,
+      notificationType: getNotificationType(data['notificationType']),
       sourceUserId: data['sourceUserId'] ?? '',
-      sourceTweetId: data['sourceTweetId'] ?? '',
+      sourceTweetId: data['sourceTweetId'],
       isRead: data['isRead'] ?? false,
-      createdAt: data['createdAt'],
+      createdAt: (data['createdAt'] as Timestamp).toDate(),
     );
   }
 }
