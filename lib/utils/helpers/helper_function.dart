@@ -18,6 +18,36 @@ class HelperFunction {
     return formatter.format(dateTime);
   }
 
+  static String formatDateTimeForMessage(DateTime dateTime) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final messageDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
+
+    if (messageDate == today) {
+      // Show time only if message was sent today
+      return '${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+    } else if (messageDate.year == today.year) {
+      // Show date and month if same year
+      return '${dateTime.day}/${dateTime.month} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+    } else {
+      // Show full date if different year
+      return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+    }
+  }
+
+  static String formatDateOnly(DateTime dateTime) {
+    return '${dateTime.day} ${_monthName(dateTime.month)} ${dateTime.year}';
+  }
+
+  static String _monthName(int month) {
+    const months = [
+      '', 'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return months[month];
+  }
+
+
   static String getTimeAgo(DateTime createdAt) {
     final now = DateTime.now();
     final difference = now.difference(createdAt);

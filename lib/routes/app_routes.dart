@@ -9,6 +9,9 @@ import 'package:twitter_clone/feature/tweet/view/tweet_comment_view/comment_view
 import 'package:twitter_clone/feature/tweet/view/post_tweet_view/post_tweet_view.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
+import '../feature/chat/view/chat_list_view.dart';
+import '../feature/chat/view/chat_view.dart';
+import '../feature/chat/view/widget/search_chat_view.dart';
 import '../feature/personalization/view/follow_view/followers_view.dart';
 import '../feature/personalization/view/follow_view/following_view.dart';
 import '../feature/search/search_view.dart';
@@ -80,6 +83,21 @@ class AppRoutes {
     GetPage(
       name: Routes.followingView,
       page: () => const FollowingView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.chatListView,
+      page: () => const ChatListView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.chatView,
+      page: () => ChatView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.searchChatView,
+      page: () => const SearchChatView(),
       transition: Transition.fadeIn,
     ),
   ];

@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:twitter_clone/feature/chat/controller/chat_controller.dart';
+
+import '../../../../routes/routes.dart';
+import '../../../personalization/controller/user_controller.dart';
+
+class SearchChatView extends StatelessWidget {
+  const SearchChatView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final userController = UserController.instance;
+    final chatController = ChatController.instance;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('New Message'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Get.back(),
+        ),
+      ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: kToolbarHeight,
+            child: TextField(
+              autofocus: true,
+              onChanged: (query) => userController.searchUsers(query),
+              decoration: InputDecoration(
+                hintText: 'Search for people',
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          Obx(() {
+            final users = userController.searchedUsers;
+            if (users.isEmpty) {
+              return Center(child: Text(''));
+            }
+
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: users.length,
+              physics: BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                final user = users[index];
+                return ListTile(
+                  onTap: () async {
+                    final chatId = await chatController.getChatId(user.userId);
+                    Get.toNamed(Routes.chatView, arguments: [chatId, user]);
+                  },
+                  leading: CircleAvatar(
+                    radius: 25,
+                    backgroundImage: NetworkImage(user.profileImage),
+                    backgroundColor:
+                    Colors.grey[200],
+                  ),
+                  title: Text(
+                    user.username,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  subtitle: Text(user.email.split('@').first),
+                );
+              },
+            );
+          }),
+        ],
+      ),
+    );
+  }
+}

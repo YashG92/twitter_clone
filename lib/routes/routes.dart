@@ -12,4 +12,7 @@ class Routes {
   static const tweetCommentView = '/comment-view';
   static const followersView = '/followers-view';
   static const followingView = '/following-view';
+  static const chatListView = '/chat-list-view';
+  static const chatView = '/chat-view';
+  static const searchChatView = '/search-chat-view';
 }

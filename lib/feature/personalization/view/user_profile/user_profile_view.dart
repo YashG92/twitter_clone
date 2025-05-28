@@ -12,6 +12,7 @@ import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
 import '../../../../data/repositories/auth_repository.dart';
+import '../../../chat/controller/chat_controller.dart';
 import '../../controller/user_controller.dart';
 
 class UserProfileView extends StatelessWidget {
@@ -219,13 +220,21 @@ class UserProfileView extends StatelessWidget {
 
     return Obx(() {
       final isFollowing = followerFollowingController.isFollowing.value;
-
+      final chatController = ChatController.instance;
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.messenger_outline)),
+          IconButton(
+            onPressed: () async {
+              final chatId = await chatController.getChatId(user.userId);
+              Get.toNamed(Routes.chatView, arguments: [chatId, user]);
+            },
+            icon: Icon(Icons.messenger_outline),
+          ),
           OutlinedButton(
-            onPressed: () async => followerFollowingController.toggleFollowUser(user.userId),
+            onPressed:
+                () async =>
+                    followerFollowingController.toggleFollowUser(user.userId),
             child: Text(
               isFollowing ? 'Following' : 'Follow',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(

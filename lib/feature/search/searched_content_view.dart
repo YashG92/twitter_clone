@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
-import 'package:twitter_clone/routes/routes.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
-
-import '../personalization/view/user_profile/widget/user_profile_avatar.dart';
 
 class SearchedContentView extends StatelessWidget {
   const SearchedContentView({super.key});
@@ -53,7 +50,9 @@ class SearchedContentView extends StatelessWidget {
             itemBuilder: (context, index) {
               final user = users[index];
               return ListTile(
-                onTap: () => Get.to(()=>UserProfileView(otherUserId: user.userId)),
+                onTap:
+                    () =>
+                        Get.to(() => UserProfileView(otherUserId: user.userId)),
                 leading: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(user.profileImage),
