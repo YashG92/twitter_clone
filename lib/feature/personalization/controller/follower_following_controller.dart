@@ -13,11 +13,13 @@ class FollowerFollowingController extends GetxController {
   final isFollowing = false.obs;
   final followersList = <FollowersModel>[].obs;
   final followingList = <FollowingsModel>[].obs;
+  final followStatus = FollowStatus.rejected.obs;
   final isLoading = false.obs;
 
   void listenToFollowStatus(String currentUserId, String targetUserId) {
-    _repo.isFollowingStream(currentUserId, targetUserId).listen((value) {
-      isFollowing.value = value;
+    _repo.followStatusStream(currentUserId, targetUserId).listen((status) {
+      followStatus.value = status;
+      isFollowing.value = status == FollowStatus.accepted;
     });
   }
 
@@ -55,30 +57,59 @@ class FollowerFollowingController extends GetxController {
 
   Future<void> toggleFollowUser(String targetUserId) async {
     try {
-      if (isFollowing.value) {
+      if (followStatus.value == FollowStatus.accepted) {
         await _repo.unFollowUser(targetUserId);
       } else {
         final currentUserFollowing = FollowingsModel(
           followingId: _repo.currentUid,
           userId: targetUserId,
           followedAt: DateTime.now(),
+          status: FollowStatus.pending,
         );
+
         final targetUserFollowers = FollowersModel(
           followerId: targetUserId,
           userId: _repo.currentUid,
           followedAt: DateTime.now(),
+          status: FollowStatus.pending,
         );
+
         await _repo.followUser(
           targetUserId,
           currentUserFollowing,
           targetUserFollowers,
         );
+
         if (targetUserId != _repo.currentUid) {
-          await NotificationController.instance.sendFollowNotification(
+          await NotificationController.instance.sendFollowRequestNotification(
             toUserId: targetUserId,
             fromUserId: _repo.currentUid,
           );
         }
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> respondToFollowRequest({
+    required String requesterId,
+    required String targetUserId,
+    required bool accept,
+  }) async {
+    try {
+      await _repo.updateFollowStatus(
+        currentUserId: requesterId,
+        targetUserId: targetUserId,
+        status: accept ? FollowStatus.accepted : FollowStatus.rejected,
+      );
+
+      if (accept) {
+        await NotificationController.instance.sendFollowAcceptedNotification(
+          toUserId: requesterId,
+          fromUserId: targetUserId,
+        );
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());

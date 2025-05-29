@@ -6,9 +6,11 @@ import '../model/notification_model.dart';
 class NotificationController extends GetxController {
   static NotificationController get instance => Get.find();
 
-  final NotificationRepository _notificationRepo = NotificationRepository.instance;
+  final NotificationRepository _notificationRepo =
+      NotificationRepository.instance;
 
   final RxList<NotificationModel> notifications = <NotificationModel>[].obs;
+  final RxSet<String> handledFollowRequests = <String>{}.obs;
   final RxBool isLoading = false.obs;
 
   void listenToNotifications(String userId) {
@@ -19,15 +21,21 @@ class NotificationController extends GetxController {
     });
   }
 
-  Future<void> markNotificationAsRead(String notificationId) async {
+  void markFollowRequestHandled(String notificationId) {
+    handledFollowRequests.add(notificationId);
+  }
+
+  Future<void> markNotificationAsHandled(String notificationId) async {
     try {
-      await _notificationRepo.markAsRead(notificationId);
-      final index = notifications.indexWhere((n) => n.notificationId == notificationId);
+      await _notificationRepo.markAsHandled(notificationId);
+      final index = notifications.indexWhere(
+        (n) => n.notificationId == notificationId,
+      );
       if (index != -1) {
-        notifications[index] = notifications[index].copyWith(isRead: true);
+        notifications[index] = notifications[index].copyWith(isHandled: true,isRead: true);
       }
     } catch (e) {
-      Get.snackbar("Error", "Failed to mark notification as read: $e");
+      Get.snackbar("Error", "Failed to mark notification as handled: $e");
     }
   }
 
@@ -72,6 +80,26 @@ class NotificationController extends GetxController {
     required String fromUserId,
   }) async {
     await _notificationRepo.sendFollowNotification(
+      toUserId: toUserId,
+      fromUserId: fromUserId,
+    );
+  }
+
+  Future<void> sendFollowRequestNotification({
+    required String toUserId,
+    required String fromUserId,
+  }) async {
+    await _notificationRepo.sendFollowRequestNotification(
+      toUserId: toUserId,
+      fromUserId: fromUserId,
+    );
+  }
+
+  Future<void> sendFollowAcceptedNotification({
+    required String toUserId,
+    required String fromUserId,
+  }) async {
+    await _notificationRepo.sendFollowAcceptedNotification(
       toUserId: toUserId,
       fromUserId: fromUserId,
     );

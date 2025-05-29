@@ -170,4 +170,49 @@ class NotificationRepository {
                   .toList(),
         );
   }
+
+  Future<void> sendFollowRequestNotification({
+    required String toUserId,
+    required String fromUserId,
+  }) async {
+    final newNotificationId = _notificationsRef.doc().id;
+    final newNotification = NotificationModel(
+      notificationId: newNotificationId,
+      userId: toUserId,
+      notificationType: NotificationType.followRequest,
+      sourceUserIds: [fromUserId],
+      sourceTweetId: null,
+      isRead: false,
+      createdAt: DateTime.now(),
+    );
+    await _notificationsRef
+        .doc(newNotificationId)
+        .set(newNotification.toJson());
+  }
+
+  Future<void> sendFollowAcceptedNotification({
+    required String toUserId,
+    required String fromUserId,
+  }) async {
+    final newNotificationId = _notificationsRef.doc().id;
+    final newNotification = NotificationModel(
+      notificationId: newNotificationId,
+      userId: toUserId,
+      notificationType: NotificationType.followAccepted,
+      sourceUserIds: [fromUserId],
+      sourceTweetId: null,
+      isRead: false,
+      createdAt: DateTime.now(),
+    );
+    await _notificationsRef
+        .doc(newNotificationId)
+        .set(newNotification.toJson());
+  }
+
+  Future<void> markAsHandled(String notificationId) async {
+    await _notificationsRef.doc(notificationId).update({
+      'isHandled': true,
+      'isRead': true,
+    });
+  }
 }

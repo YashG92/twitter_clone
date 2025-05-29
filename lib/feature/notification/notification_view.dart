@@ -36,7 +36,7 @@ class NotificationView extends StatelessWidget {
             return NotificationCard(
               notification: notification,
               onMarkRead:
-                  () => notificationController.markNotificationAsRead(
+                  () => notificationController.markNotificationAsHandled(
                     notification.notificationId,
                   ),
             );

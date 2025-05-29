@@ -1,6 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-enum NotificationType { like, reply, retweet, follow }
+enum NotificationType {
+  like,
+  reply,
+  retweet,
+  follow,
+  followRequest,
+  followAccepted,
+}
 
 class NotificationModel {
   final String notificationId;
@@ -9,6 +16,7 @@ class NotificationModel {
   final List<String> sourceUserIds;
   final String? sourceTweetId;
   final bool isRead;
+  final bool isHandled;
   final DateTime createdAt;
 
   NotificationModel({
@@ -18,6 +26,7 @@ class NotificationModel {
     required this.sourceUserIds,
     this.sourceTweetId,
     this.isRead = false,
+    this.isHandled = false,
     required this.createdAt,
   });
 
@@ -39,6 +48,7 @@ class NotificationModel {
       'sourceUserIds': sourceUserIds,
       'sourceTweetId': sourceTweetId,
       'isRead': isRead,
+      'isHandled': isHandled,
       'createdAt': createdAt,
     };
   }
@@ -54,6 +64,7 @@ class NotificationModel {
       sourceUserIds: List<String>.from(data['sourceUserIds'] ?? []),
       sourceTweetId: data['sourceTweetId'],
       isRead: data['isRead'] ?? false,
+      isHandled: data['isHandled'] ?? false,
       createdAt: (data['createdAt'] as Timestamp).toDate(),
     );
   }
@@ -65,6 +76,7 @@ class NotificationModel {
     List<String>? sourceUserIds,
     String? sourceTweetId,
     bool? isRead,
+    bool? isHandled,
     DateTime? createdAt,
   }) {
     return NotificationModel(
@@ -74,6 +86,7 @@ class NotificationModel {
       sourceUserIds: sourceUserIds ?? this.sourceUserIds,
       sourceTweetId: sourceTweetId ?? this.sourceTweetId,
       isRead: isRead ?? this.isRead,
+      isHandled: isHandled ?? this.isHandled,
       createdAt: createdAt ?? this.createdAt,
     );
   }

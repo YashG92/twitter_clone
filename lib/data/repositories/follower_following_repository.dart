@@ -38,6 +38,43 @@ class FollowerFollowingRepository extends GetxController {
     await batch.commit();
   }
 
+  Future<void> updateFollowStatus({
+    required String currentUserId,
+    required String targetUserId,
+    required FollowStatus status,
+  }) async {
+    try {
+      final batch = _db.batch();
+
+      // Update status in both collections
+      final followingRef = _db.collection("Users")
+          .doc(currentUserId)
+          .collection("Following")
+          .doc(targetUserId);
+
+      final followersRef = _db.collection("Users")
+          .doc(targetUserId)
+          .collection("Followers")
+          .doc(currentUserId);
+
+      batch.update(followingRef, {'status': status.index});
+      batch.update(followersRef, {'status': status.index});
+
+      // Update counts only when accepting
+      if (status == FollowStatus.accepted) {
+        final currentUserRef = _db.collection("Users").doc(currentUserId);
+        final targetUserRef = _db.collection("Users").doc(targetUserId);
+
+        batch.update(currentUserRef, {'followingCount': FieldValue.increment(1)});
+        batch.update(targetUserRef, {'followerCount': FieldValue.increment(1)});
+      }
+
+      await batch.commit();
+    } catch (e) {
+      throw 'Failed to update follow status: $e';
+    }
+  }
+
   Future<void> followUser(
     String targetUserId,
     FollowingsModel currentUserFollowing,
@@ -45,7 +82,6 @@ class FollowerFollowingRepository extends GetxController {
   ) async {
     try {
       await _db.runTransaction((transaction) async {
-        // Add to current user's following
         transaction.set(
           _db
               .collection("Users")
@@ -55,7 +91,6 @@ class FollowerFollowingRepository extends GetxController {
           currentUserFollowing.toJson(),
         );
 
-        // Add to target user's followers
         transaction.set(
           _db
               .collection("Users")
@@ -65,8 +100,7 @@ class FollowerFollowingRepository extends GetxController {
           targetUserFollowers.toJson(),
         );
 
-        // Update counts
-        await _updateFollowCounts(targetUserId, 1);
+        // Don't update counts here - wait for acceptance
       });
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
@@ -116,6 +150,19 @@ class FollowerFollowingRepository extends GetxController {
     } catch (e) {
       throw 'Something went wrong. Please try again';
     }
+  }
+
+  Stream<FollowStatus> followStatusStream(String currentUserId, String targetUserId) {
+    return _db
+        .collection('Users')
+        .doc(currentUserId)
+        .collection('Following')
+        .doc(targetUserId)
+        .snapshots()
+        .map((doc) {
+      if (!doc.exists) return FollowStatus.rejected;
+      return FollowStatus.values[doc.data()?['status'] ?? 0];
+    });
   }
 
   Stream<bool> isFollowingStream(String currentUserId, String targetUserId) {

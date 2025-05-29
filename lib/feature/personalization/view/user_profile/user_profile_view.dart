@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/personalization/controller/follower_following_controller.dart';
+import 'package:twitter_clone/feature/personalization/model/followings_model.dart';
 import 'package:twitter_clone/feature/personalization/model/user_model.dart';
 import 'package:twitter_clone/feature/tweet/controller/tweet_controller.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/tweet_card_view.dart';
@@ -219,7 +220,6 @@ class UserProfileView extends StatelessWidget {
     }
 
     return Obx(() {
-      final isFollowing = followerFollowingController.isFollowing.value;
       final chatController = ChatController.instance;
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -231,17 +231,28 @@ class UserProfileView extends StatelessWidget {
             },
             icon: Icon(Icons.messenger_outline),
           ),
-          OutlinedButton(
-            onPressed:
-                () async =>
-                    followerFollowingController.toggleFollowUser(user.userId),
-            child: Text(
-              isFollowing ? 'Following' : 'Follow',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: dark ? Colors.white : Colors.black,
-              ),
+
+          switch (followerFollowingController.followStatus.value) {
+            FollowStatus.pending => OutlinedButton(
+              onPressed: null,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.grey,
+              ), // Disabled
+              child: Text('Pending'),
             ),
-          ),
+            FollowStatus.accepted => OutlinedButton(
+              onPressed:
+                  () =>
+                      followerFollowingController.toggleFollowUser(user.userId),
+              child: Text('Following'),
+            ),
+            FollowStatus.rejected => OutlinedButton(
+              onPressed:
+                  () =>
+                      followerFollowingController.toggleFollowUser(user.userId),
+              child: Text('Follow'),
+            ),
+          },
         ],
       );
     });
