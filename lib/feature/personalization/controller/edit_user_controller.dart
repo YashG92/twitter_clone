@@ -28,6 +28,7 @@ class EditUserController extends GetxController {
   String? profileImageUrl;
   final coverImageFile = Rx<File?>(null);
   String? coverImageUrl;
+  final key = GlobalKey<FormState>();
   final isLoading = false.obs;
 
   //final location = TextEditingController();
@@ -42,7 +43,7 @@ class EditUserController extends GetxController {
         return;
       }
 
-      if (name.text.trim().isEmpty || bio.text.trim().isEmpty) {
+      if (!key.currentState!.validate()) {
         isLoading.value = false;
         return;
       }

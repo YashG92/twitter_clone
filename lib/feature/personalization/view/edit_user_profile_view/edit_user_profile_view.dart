@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
+import 'package:twitter_clone/utils/helpers/validators.dart';
 
 import '../../controller/edit_user_controller.dart';
 
@@ -111,6 +112,7 @@ class EditUserProfileView extends StatelessWidget {
                 child: Column(
                   children: [
                     Form(
+                      key: controller.key,
                       child: Column(
                         children: [
                           _buildTextField(
@@ -144,7 +146,8 @@ class EditUserProfileView extends StatelessWidget {
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: YSizes.spaceBtwInputFields),
-      child: TextField(
+      child: TextFormField(
+        validator:(value)=> Validator.validateEmptyText(label, value),
         controller: controller,
         maxLines: maxLines,
         decoration: InputDecoration(
