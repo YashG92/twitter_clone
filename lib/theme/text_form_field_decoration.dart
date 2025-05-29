@@ -3,11 +3,10 @@ import 'package:twitter_clone/theme/palette.dart';
 
 import '../utils/constants/constants.dart';
 
-
 class TextFormFieldDecoration {
   TextFormFieldDecoration._();
 
-  static InputDecorationTheme lightInputDecorationTheme =InputDecorationTheme(
+  static InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
     filled: true,
     fillColor: Colors.grey.shade200,
     contentPadding: EdgeInsets.all(20),
@@ -17,22 +16,22 @@ class TextFormFieldDecoration {
     ),
     enabledBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
-      borderSide:  BorderSide(width: 1, color: Palette.white),
+      borderSide: BorderSide(width: 1, color: Palette.white),
     ),
     focusedBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
-      borderSide:  BorderSide(width: 1, color: Palette.darkerGrey),
+      borderSide: BorderSide(width: 1, color: Palette.darkerGrey),
     ),
     errorBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
-      borderSide:  BorderSide(width: 1, color: Palette.warning),
+      borderSide: BorderSide(width: 1, color: Palette.warning),
     ),
     focusedErrorBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
-      borderSide:  BorderSide(width: 2, color: Palette.warning),
+      borderSide: BorderSide(width: 2, color: Palette.warning),
     ),
   );
-  static InputDecorationTheme darkInputDecorationTheme =InputDecorationTheme(
+  static InputDecorationTheme darkInputDecorationTheme = InputDecorationTheme(
     filled: true,
     fillColor: Colors.black.withAlpha(100),
     contentPadding: EdgeInsets.all(20),
@@ -42,20 +41,19 @@ class TextFormFieldDecoration {
     ),
     enabledBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
-      borderSide:  BorderSide(width: 1, color: Palette.darkerGrey),
+      borderSide: BorderSide(width: 1, color: Palette.darkerGrey),
     ),
     focusedBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
-      borderSide:  BorderSide(width: 1, color: Palette.white),
+      borderSide: BorderSide(width: 1, color: Palette.white),
     ),
     errorBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
-      borderSide:  BorderSide(width: 1, color: Palette.warning),
+      borderSide: BorderSide(width: 1, color: Palette.warning),
     ),
     focusedErrorBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
-      borderSide:  BorderSide(width: 2, color: Palette.warning),
+      borderSide: BorderSide(width: 2, color: Palette.warning),
     ),
-
   );
 }

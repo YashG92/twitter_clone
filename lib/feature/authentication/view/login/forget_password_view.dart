@@ -1,4 +1,3 @@
-// views/forgot_password_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';

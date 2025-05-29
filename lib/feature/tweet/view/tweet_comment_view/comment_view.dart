@@ -18,7 +18,7 @@ class TweetCommentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final commentRepo = Get.put(CommentRepository());
+    Get.put(CommentRepository());
     final addTweetController = Get.put(PostTweetController());
     final tweetId = Get.arguments[0];
     final tweetAuthor = Get.arguments[1] as UserModel;

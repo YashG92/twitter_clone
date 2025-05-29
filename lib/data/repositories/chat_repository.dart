@@ -87,22 +87,21 @@ class ChatRepository {
 
   Future<void> markMessagesAsRead({
     required String chatId,
-    required String userId
+    required String userId,
   }) async {
     final batch = _db.batch();
 
     final chatRef = _db.collection('Chats').doc(chatId);
-    batch.update(chatRef, {
-      'unreadCounts.$userId': 0,
-    });
+    batch.update(chatRef, {'unreadCounts.$userId': 0});
 
-    final messages = await _db
-        .collection('Chats')
-        .doc(chatId)
-        .collection('messages')
-        .where('senderId', isNotEqualTo: userId)
-        .where('isRead', isEqualTo: false)
-        .get();
+    final messages =
+        await _db
+            .collection('Chats')
+            .doc(chatId)
+            .collection('messages')
+            .where('senderId', isNotEqualTo: userId)
+            .where('isRead', isEqualTo: false)
+            .get();
 
     for (final doc in messages.docs) {
       batch.update(doc.reference, {'isRead': true});
@@ -125,4 +124,3 @@ class ChatRepository {
     });
   }
 }
-

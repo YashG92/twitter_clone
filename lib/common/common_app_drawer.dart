@@ -57,19 +57,13 @@ class CommonAppDrawer extends StatelessWidget {
                       children: [
                         Text(
                           '${userController.user.value.followerCount} Followers',
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headlineSmall!
+                          style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(width: YSizes.spaceBtwItems),
                         Text(
                           '${userController.user.value.followingCount} Following',
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headlineSmall!
+                          style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],

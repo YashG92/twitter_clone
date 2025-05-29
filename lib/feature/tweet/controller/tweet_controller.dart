@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/retweet_repository.dart';
 import 'package:twitter_clone/data/repositories/tweet_repository.dart';
@@ -54,7 +53,8 @@ class TweetController extends GetxController {
       final userTweetResult = await tweetRepository.fetchTweetByUserId(userId);
       userTweets.assignAll(userTweetResult);
       userTweets.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-      final userReTweetResult = await RetweetRepository.instance.fetchReTweetByUserId(userId);
+      final userReTweetResult = await RetweetRepository.instance
+          .fetchReTweetByUserId(userId);
       userReTweets.assignAll(userReTweetResult);
       userReTweets.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     } catch (e) {

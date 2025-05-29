@@ -35,7 +35,9 @@ class RetweetBottomSheet extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.edit, color: Colors.blue),
               title: Text('Quote'),
-              subtitle: Text('Add a comment or photo before you share this post'),
+              subtitle: Text(
+                'Add a comment or photo before you share this post',
+              ),
               onTap: () {
                 Navigator.pop(context);
                 onQuote();

@@ -63,15 +63,15 @@ class RetweetRepository extends GetxController {
 
   Future<List<TweetModel>> fetchReTweetByUserId(String userId) async {
     try {
-      final snapshot = await _db
-          .collection("Users")
-          .doc(userId)
-          .collection("Retweets")
-          .get();
+      final snapshot =
+          await _db
+              .collection("Users")
+              .doc(userId)
+              .collection("Retweets")
+              .get();
 
-      List<String> reTweetIds = snapshot.docs
-          .map((doc) => doc['reTweetId'] as String)
-          .toList();
+      List<String> reTweetIds =
+          snapshot.docs.map((doc) => doc['reTweetId'] as String).toList();
 
       if (reTweetIds.isEmpty) return [];
 
@@ -81,14 +81,16 @@ class RetweetRepository extends GetxController {
       for (int i = 0; i < reTweetIds.length; i += batchSize) {
         final batchIds = reTweetIds.skip(i).take(batchSize).toList();
 
-        final tweetsSnapshot = await _db
-            .collection("Tweets")
-            .where(FieldPath.documentId, whereIn: batchIds)
-            .get();
+        final tweetsSnapshot =
+            await _db
+                .collection("Tweets")
+                .where(FieldPath.documentId, whereIn: batchIds)
+                .get();
 
-        final batchTweets = tweetsSnapshot.docs
-            .map((doc) => TweetModel.fromSnapshot(doc))
-            .toList();
+        final batchTweets =
+            tweetsSnapshot.docs
+                .map((doc) => TweetModel.fromSnapshot(doc))
+                .toList();
 
         tweets.addAll(batchTweets);
       }
@@ -106,7 +108,6 @@ class RetweetRepository extends GetxController {
       throw 'Something went wrong. Please try again';
     }
   }
-
 
   Stream<bool> userRepostStream(String originalTweetRef, String userId) {
     return _db

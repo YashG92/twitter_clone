@@ -27,7 +27,7 @@ class NotificationCard extends StatelessWidget {
         return CupertinoIcons.arrow_2_squarepath;
       case NotificationType.follow:
         return CupertinoIcons.person_fill;
-      }
+    }
   }
 
   Color _getIconColor() {
@@ -40,7 +40,7 @@ class NotificationCard extends StatelessWidget {
         return Colors.green;
       case NotificationType.follow:
         return Colors.purple;
-      }
+    }
   }
 
   @override
@@ -125,7 +125,7 @@ class NotificationCard extends StatelessWidget {
         return 'Someone retweeted your tweet';
       case NotificationType.follow:
         return 'Someone followed you';
-      }
+    }
   }
 
   String _formatTimeAgo(DateTime dateTime) {

@@ -1,4 +1,3 @@
-
 class YSizes {
   // Padding and margin sizes
   static const double xs = 4.0;
@@ -68,6 +67,3 @@ class YSizes {
   // Grid view spacing
   static const double gridViewSpacing = 16.0;
 }
-
-
-

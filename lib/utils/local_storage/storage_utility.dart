@@ -4,9 +4,10 @@ class StorageUtility {
   late final GetStorage _storage;
 
   static StorageUtility? _instance;
+
   StorageUtility._internal();
 
-  factory StorageUtility.instance(){
+  factory StorageUtility.instance() {
     _instance ??= StorageUtility._internal();
     return _instance!;
   }

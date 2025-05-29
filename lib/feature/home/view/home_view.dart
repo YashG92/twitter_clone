@@ -35,7 +35,7 @@ class HomeView extends StatelessWidget {
           return Center(child: Text("No tweets available"));
         }
         return RefreshIndicator(
-          onRefresh: ()=>tweetController.fetchAllTweets(),
+          onRefresh: () => tweetController.fetchAllTweets(),
           child: ListView.builder(
             itemCount: tweetController.allTweets.length,
             shrinkWrap: true,

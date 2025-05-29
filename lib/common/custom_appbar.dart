@@ -46,7 +46,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                 (context) => GestureDetector(
                   onTap: () => Scaffold.of(context).openDrawer(),
                   child: Obx(
-                    ()=> UserProfileAvatar(
+                    () => UserProfileAvatar(
                       backgroundRadius: 1,
                       foregroundRadius: 28,
                       imageUrl: userController.user.value.profileImage,

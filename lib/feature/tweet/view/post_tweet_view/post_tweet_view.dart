@@ -49,16 +49,12 @@ class PostTweetView extends StatelessWidget {
                 ),
               ),
             ),
-            ImageSelectionBarWithCounter(addTweetController: addTweetController),
+            ImageSelectionBarWithCounter(
+              addTweetController: addTweetController,
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-

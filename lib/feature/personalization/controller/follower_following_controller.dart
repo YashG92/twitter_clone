@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:twitter_clone/data/repositories/user_repository.dart';
 
 import '../../../data/repositories/follower_following_repository.dart';
 import '../../notification/controller/notification_controller.dart';
@@ -11,7 +9,6 @@ class FollowerFollowingController extends GetxController {
   static FollowerFollowingController get instance => Get.find();
 
   final _repo = Get.put(FollowerFollowingRepository());
-  final _userRepo = Get.put(UserRepository());
 
   final isFollowing = false.obs;
   final followersList = <FollowersModel>[].obs;

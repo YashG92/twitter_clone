@@ -19,7 +19,8 @@ class CommonAppbar extends StatelessWidget implements PreferredSizeWidget {
         title: Hero(
           tag: 'logo',
           child: SvgPicture.asset(
-              dark ? AssetsConstants.darkAppLogo : AssetsConstants.lightAppLogo),
+            dark ? AssetsConstants.darkAppLogo : AssetsConstants.lightAppLogo,
+          ),
         ),
       ),
     );

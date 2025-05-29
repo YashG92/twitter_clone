@@ -44,8 +44,8 @@ class NotificationModel {
   }
 
   factory NotificationModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document,
-      ) {
+    DocumentSnapshot<Map<String, dynamic>> document,
+  ) {
     final data = document.data()!;
     return NotificationModel(
       notificationId: document.id,

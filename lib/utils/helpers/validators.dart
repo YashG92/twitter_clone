@@ -1,7 +1,5 @@
-
 class Validator {
-
-  static String? validateEmptyText(String? fieldName,String? value) {
+  static String? validateEmptyText(String? fieldName, String? value) {
     if (value == null || value.isEmpty) {
       return '$fieldName is required.';
     }
@@ -66,5 +64,5 @@ class Validator {
     return null;
   }
 
-// Add more custom validators as needed for your specific requirements.
+  // Add more custom validators as needed for your specific requirements.
 }

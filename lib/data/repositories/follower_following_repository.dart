@@ -17,25 +17,32 @@ class FollowerFollowingRepository extends GetxController {
   final _db = FirebaseFirestore.instance;
   final currentUid = AuthRepository.instance.authUser.uid;
 
-  Future<void> _updateFollowCounts(String targetUserId, int incrementValue) async {
+  Future<void> _updateFollowCounts(
+    String targetUserId,
+    int incrementValue,
+  ) async {
     final batch = _db.batch();
 
     // Update current user's following count
     final currentUserRef = _db.collection("Users").doc(currentUid);
-    batch.update(currentUserRef, {'followingCount': FieldValue.increment(incrementValue)});
+    batch.update(currentUserRef, {
+      'followingCount': FieldValue.increment(incrementValue),
+    });
 
     // Update target user's follower count
     final targetUserRef = _db.collection("Users").doc(targetUserId);
-    batch.update(targetUserRef, {'followerCount': FieldValue.increment(incrementValue)});
+    batch.update(targetUserRef, {
+      'followerCount': FieldValue.increment(incrementValue),
+    });
 
     await batch.commit();
   }
 
   Future<void> followUser(
-      String targetUserId,
-      FollowingsModel currentUserFollowing,
-      FollowersModel targetUserFollowers,
-      ) async {
+    String targetUserId,
+    FollowingsModel currentUserFollowing,
+    FollowersModel targetUserFollowers,
+  ) async {
     try {
       await _db.runTransaction((transaction) async {
         // Add to current user's following
@@ -127,8 +134,12 @@ class FollowerFollowingRepository extends GetxController {
         .doc(userId)
         .collection('Following')
         .snapshots()
-        .map((querySnapshot) =>
-        querySnapshot.docs.map((doc) => FollowingsModel.fromSnapshot(doc)).toList());
+        .map(
+          (querySnapshot) =>
+              querySnapshot.docs
+                  .map((doc) => FollowingsModel.fromSnapshot(doc))
+                  .toList(),
+        );
   }
 
   Stream<List<FollowersModel>> getUserFollowersStream(String userId) {
@@ -137,7 +148,11 @@ class FollowerFollowingRepository extends GetxController {
         .doc(userId)
         .collection('Followers')
         .snapshots()
-        .map((querySnapshot) =>
-        querySnapshot.docs.map((doc) => FollowersModel.fromSnapshot(doc)).toList());
+        .map(
+          (querySnapshot) =>
+              querySnapshot.docs
+                  .map((doc) => FollowersModel.fromSnapshot(doc))
+                  .toList(),
+        );
   }
 }

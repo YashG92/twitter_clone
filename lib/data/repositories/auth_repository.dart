@@ -2,12 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:twitter_clone/data/repositories/tweet_repository.dart';
 import 'package:twitter_clone/routes/routes.dart';
 import 'package:twitter_clone/utils/local_storage/storage_utility.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../feature/tweet/controller/like_controller.dart';
 import '../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../utils/exceptions/firebase_exceptions.dart';
 import '../../utils/exceptions/format_exceptions.dart';

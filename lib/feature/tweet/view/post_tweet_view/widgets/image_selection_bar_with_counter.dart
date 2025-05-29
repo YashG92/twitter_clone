@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';import '../../../../../utils/constants/constants.dart';
-
+import 'package:image_picker/image_picker.dart';
+import '../../../../../utils/constants/constants.dart';
 
 import '../../../controller/post_tweet_controller.dart';
 
@@ -27,20 +27,13 @@ class ImageSelectionBarWithCounter extends StatelessWidget {
             children: [
               IconButton(
                 onPressed:
-                    () => addTweetController.pickImage(
-                  ImageSource.gallery,
-                ),
+                    () => addTweetController.pickImage(ImageSource.gallery),
                 icon: Icon(Icons.photo_camera_back, color: Colors.blue),
               ),
               IconButton(
                 onPressed:
-                    () => addTweetController.pickImage(
-                  ImageSource.camera,
-                ),
-                icon: Icon(
-                  Icons.camera_alt_outlined,
-                  color: Colors.blue,
-                ),
+                    () => addTweetController.pickImage(ImageSource.camera),
+                icon: Icon(Icons.camera_alt_outlined, color: Colors.blue),
               ),
             ],
           ),
@@ -66,9 +59,7 @@ class ImageSelectionBarWithCounter extends StatelessWidget {
                     ),
                     Text(
                       remaining.toString(),
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall!.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontSize: 10,
                         color: isOverLimit ? Colors.red : Colors.blue,
                       ),

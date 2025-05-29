@@ -5,10 +5,7 @@ import '../../../../../utils/constants/constants.dart';
 import '../../../controller/post_tweet_controller.dart';
 
 class PostTweetImageView extends StatelessWidget {
-  const PostTweetImageView({
-    super.key,
-    required this.addTweetController,
-  });
+  const PostTweetImageView({super.key, required this.addTweetController});
 
   final PostTweetController addTweetController;
 
@@ -38,14 +35,8 @@ class PostTweetImageView extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: IconButton(
-                    onPressed:
-                        () => addTweetController.removeImage(
-                      index,
-                    ),
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.white,
-                    ),
+                    onPressed: () => addTweetController.removeImage(index),
+                    icon: Icon(Icons.close, color: Colors.white),
                   ),
                 ),
               ],

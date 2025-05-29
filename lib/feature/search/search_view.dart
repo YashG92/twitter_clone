@@ -8,7 +8,7 @@ class SearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: 'Search twitter',isSearch: true),
+      appBar: CustomAppbar(title: 'Search twitter', isSearch: true),
       drawer: CommonAppDrawer(),
     );
   }

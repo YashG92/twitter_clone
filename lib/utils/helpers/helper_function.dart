@@ -41,12 +41,22 @@ class HelperFunction {
 
   static String _monthName(int month) {
     const months = [
-      '', 'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      '',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     return months[month];
   }
-
 
   static String getTimeAgo(DateTime createdAt) {
     final now = DateTime.now();
@@ -68,5 +78,4 @@ class HelperFunction {
       return '${(difference.inDays / 365).floor()}y';
     }
   }
-
 }

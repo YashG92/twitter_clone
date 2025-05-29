@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:twitter_clone/utils/constants/sizes.dart';
+
 class FormFooter extends StatelessWidget {
   final String footerText, buttonText;
   final VoidCallback onTap;
+
   const FormFooter({
-    super.key, required this.footerText, required this.onTap, required this.buttonText,
+    super.key,
+    required this.footerText,
+    required this.onTap,
+    required this.buttonText,
   });
 
   @override
@@ -16,21 +21,22 @@ class FormFooter extends StatelessWidget {
         children: [
           Text(
             footerText,
-            style: Theme.of(context)
-                .textTheme
-                .labelMedium!
-                .copyWith(fontSize: 16),
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium!.copyWith(fontSize: 16),
           ),
-          SizedBox(width: YSizes.spaceBtwItems/2,),
+          SizedBox(width: YSizes.spaceBtwItems / 2),
           InkWell(
-              onTap: onTap,
-              child: Text(
-                buttonText,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    decoration: TextDecoration.underline,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16),
-              )),
+            onTap: onTap,
+            child: Text(
+              buttonText,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                decoration: TextDecoration.underline,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+          ),
         ],
       ),
     );

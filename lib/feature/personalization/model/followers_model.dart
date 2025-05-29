@@ -15,10 +15,7 @@ class FollowersModel {
       FollowersModel(followerId: '', userId: '', followedAt: DateTime.now());
 
   toJson() {
-    return {
-      'userId': userId,
-      'followedAt': followedAt,
-    };
+    return {'userId': userId, 'followedAt': followedAt};
   }
 
   factory FollowersModel.fromSnapshot(

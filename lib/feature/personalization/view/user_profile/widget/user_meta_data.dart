@@ -5,7 +5,6 @@ import 'package:twitter_clone/routes/routes.dart';
 
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_function.dart';
-import '../../../controller/user_controller.dart';
 import '../../../model/user_model.dart';
 
 class UserMetaData extends StatelessWidget {

@@ -71,7 +71,7 @@ class SignupForm extends StatelessWidget {
                   child: Obx(
                     () =>
                         controller.isLoading.value
-                            ? CircularProgressIndicator(color: Colors.white,)
+                            ? CircularProgressIndicator(color: Colors.white)
                             : Text('Sign Up'),
                   ),
                 ),

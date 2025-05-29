@@ -13,9 +13,7 @@ class LikeController extends GetxController {
   final RxMap<String, bool> _likedTweets = <String, bool>{}.obs;
   final RxList<LikesModel> userLikes = <LikesModel>[].obs;
 
-
   bool isLiked(String tweetId) => _likedTweets[tweetId] ?? false;
-
 
   @override
   void onInit() {
@@ -36,10 +34,11 @@ class LikeController extends GetxController {
       } else {
         await _likesRepository.likeTweet(like);
 
-        final tweetDoc = await FirebaseFirestore.instance
-            .collection('Tweets')
-            .doc(tweetId)
-            .get();
+        final tweetDoc =
+            await FirebaseFirestore.instance
+                .collection('Tweets')
+                .doc(tweetId)
+                .get();
         final tweetOwnerId = tweetDoc['authorId'];
         if (tweetOwnerId != AuthRepository.instance.authUser.uid) {
           await NotificationController.instance.sendLikeNotification(
@@ -48,7 +47,6 @@ class LikeController extends GetxController {
             fromUserId: AuthRepository.instance.authUser.uid,
           );
         }
-
       }
 
       _likedTweets[tweetId] = !currentlyLiked;
@@ -65,8 +63,6 @@ class LikeController extends GetxController {
       }
     });
   }
-
-
 
   void onLikePressed(String tweetId) {
     toggleLikeStatus(tweetId, isLiked(tweetId));

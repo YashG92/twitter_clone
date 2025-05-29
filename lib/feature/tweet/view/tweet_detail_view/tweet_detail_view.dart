@@ -66,8 +66,7 @@ class TweetDetailView extends StatelessWidget {
                           tweet: tweet,
                           isVerified: true,
                           authorName: author.username,
-                          authorHandle:
-                              author.email.split('@').first,
+                          authorHandle: author.email.split('@').first,
                         ),
                       ),
                     ],

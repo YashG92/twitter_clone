@@ -16,7 +16,6 @@ class UserController extends GetxController {
   late Stream<UserModel> _userStream;
   late StreamSubscription<UserModel> _userSubscription;
 
-
   @override
   void onClose() {
     _userSubscription.cancel();
@@ -29,12 +28,15 @@ class UserController extends GetxController {
 
   void initUserStream() {
     _userStream = userRepository.getUserDataStream();
-    _userSubscription = _userStream.listen((userData) {
-      user(userData);
-    }, onError: (error) {
-      user(UserModel.empty());
-      Get.snackbar('Error', error.toString());
-    });
+    _userSubscription = _userStream.listen(
+      (userData) {
+        user(userData);
+      },
+      onError: (error) {
+        user(UserModel.empty());
+        Get.snackbar('Error', error.toString());
+      },
+    );
   }
 
   Future<void> fetchUserRecord() async {

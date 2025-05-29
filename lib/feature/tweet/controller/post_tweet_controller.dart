@@ -107,9 +107,9 @@ class PostTweetController extends GetxController {
       );
 
       newTweet.tweetId = await TweetRepository.instance.postTweet(newTweet);
-      UserRepository.instance.updateSingleFieldUserData(json: {
-        'tweetCount': FieldValue.increment(1),
-      });
+      UserRepository.instance.updateSingleFieldUserData(
+        json: {'tweetCount': FieldValue.increment(1)},
+      );
       TweetController.instance.allTweets.insert(0, newTweet);
       TweetController.instance.allTweets.refresh();
       TweetController.instance.userTweets.insert(0, newTweet);
@@ -174,15 +174,17 @@ class PostTweetController extends GetxController {
 
       await CommentRepository.instance.postComment(newComment);
 
-      UserRepository.instance.updateSingleFieldUserData(json: {
-        'tweetCount': FieldValue.increment(1),
-      });
+      UserRepository.instance.updateSingleFieldUserData(
+        json: {'tweetCount': FieldValue.increment(1)},
+      );
       TweetController.instance.allTweets.insert(0, newTweet);
       TweetController.instance.allTweets.refresh();
       TweetController.instance.userTweets.insert(0, newTweet);
       TweetController.instance.userTweets.refresh();
 
-      final parentTweet = await TweetRepository.instance.fetchTweetByTweetId(parentTweetId);
+      final parentTweet = await TweetRepository.instance.fetchTweetByTweetId(
+        parentTweetId,
+      );
       final parentAuthorId = parentTweet.authorId;
 
       if (parentAuthorId != AuthRepository.instance.authUser.uid) {

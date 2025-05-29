@@ -9,7 +9,6 @@ class Palette {
   static const Color greyColor = Colors.grey;
   static const Color redColor = Color.fromRGBO(249, 25, 127, 1);
 
-
   // Error and validation colors
   static const Color error = Color(0xFFD32F2F);
   static const Color success = Color(0xFF388E3C);

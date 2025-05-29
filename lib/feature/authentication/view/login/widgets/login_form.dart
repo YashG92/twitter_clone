@@ -53,7 +53,7 @@ class LoginForm extends StatelessWidget {
                 onPressed: () => controller.login(),
                 child:
                     controller.isLoading.value
-                        ? CircularProgressIndicator(color: Colors.white,)
+                        ? CircularProgressIndicator(color: Colors.white)
                         : Text('Email Login'),
               ),
             ),

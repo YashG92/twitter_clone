@@ -3,6 +3,7 @@ import '../../feature/notification/model/notification_model.dart';
 
 class NotificationRepository {
   static NotificationRepository? _instance;
+
   static NotificationRepository get instance {
     _instance ??= NotificationRepository();
     return _instance!;
@@ -18,20 +19,24 @@ class NotificationRepository {
     required String toUserId,
     required String fromUserId,
   }) async {
-    final querySnapshot = await _notificationsRef
-        .where('userId', isEqualTo: toUserId)
-        .where('notificationType', isEqualTo: NotificationType.like.index)
-        .where('sourceTweetId', isEqualTo: tweetId)
-        .where('isRead', isEqualTo: false)
-        .limit(1)
-        .get();
+    final querySnapshot =
+        await _notificationsRef
+            .where('userId', isEqualTo: toUserId)
+            .where('notificationType', isEqualTo: NotificationType.like.index)
+            .where('sourceTweetId', isEqualTo: tweetId)
+            .where('isRead', isEqualTo: false)
+            .limit(1)
+            .get();
 
     if (querySnapshot.docs.isNotEmpty) {
       final doc = querySnapshot.docs.first;
       final notification = NotificationModel.fromSnapshot(doc);
 
       if (!notification.sourceUserIds.contains(fromUserId)) {
-        final updatedSourceUserIds = [...notification.sourceUserIds, fromUserId];
+        final updatedSourceUserIds = [
+          ...notification.sourceUserIds,
+          fromUserId,
+        ];
         final updatedCreatedAt = DateTime.now();
 
         await _notificationsRef.doc(doc.id).update({
@@ -51,7 +56,9 @@ class NotificationRepository {
         createdAt: DateTime.now(),
       );
 
-      await _notificationsRef.doc(newNotificationId).set(newNotification.toJson());
+      await _notificationsRef
+          .doc(newNotificationId)
+          .set(newNotification.toJson());
     }
   }
 
@@ -60,20 +67,27 @@ class NotificationRepository {
     required String toUserId,
     required String fromUserId,
   }) async {
-    final querySnapshot = await _notificationsRef
-        .where('userId', isEqualTo: toUserId)
-        .where('notificationType', isEqualTo: NotificationType.retweet.index)
-        .where('sourceTweetId', isEqualTo: tweetId)
-        .where('isRead', isEqualTo: false)
-        .limit(1)
-        .get();
+    final querySnapshot =
+        await _notificationsRef
+            .where('userId', isEqualTo: toUserId)
+            .where(
+              'notificationType',
+              isEqualTo: NotificationType.retweet.index,
+            )
+            .where('sourceTweetId', isEqualTo: tweetId)
+            .where('isRead', isEqualTo: false)
+            .limit(1)
+            .get();
 
     if (querySnapshot.docs.isNotEmpty) {
       final doc = querySnapshot.docs.first;
       final notification = NotificationModel.fromSnapshot(doc);
 
       if (!notification.sourceUserIds.contains(fromUserId)) {
-        final updatedSourceUserIds = [...notification.sourceUserIds, fromUserId];
+        final updatedSourceUserIds = [
+          ...notification.sourceUserIds,
+          fromUserId,
+        ];
         final updatedCreatedAt = DateTime.now();
 
         await _notificationsRef.doc(doc.id).update({
@@ -93,7 +107,9 @@ class NotificationRepository {
         createdAt: DateTime.now(),
       );
 
-      await _notificationsRef.doc(newNotificationId).set(newNotification.toJson());
+      await _notificationsRef
+          .doc(newNotificationId)
+          .set(newNotification.toJson());
     }
   }
 
@@ -113,7 +129,9 @@ class NotificationRepository {
       createdAt: DateTime.now(),
     );
 
-    await _notificationsRef.doc(newNotificationId).set(newNotification.toJson());
+    await _notificationsRef
+        .doc(newNotificationId)
+        .set(newNotification.toJson());
   }
 
   Future<void> sendFollowNotification({
@@ -131,7 +149,9 @@ class NotificationRepository {
       createdAt: DateTime.now(),
     );
 
-    await _notificationsRef.doc(newNotificationId).set(newNotification.toJson());
+    await _notificationsRef
+        .doc(newNotificationId)
+        .set(newNotification.toJson());
   }
 
   Future<void> markAsRead(String notificationId) async {
@@ -143,7 +163,11 @@ class NotificationRepository {
         .where('userId', isEqualTo: userId)
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) =>
-        snapshot.docs.map((doc) => NotificationModel.fromSnapshot(doc)).toList());
+        .map(
+          (snapshot) =>
+              snapshot.docs
+                  .map((doc) => NotificationModel.fromSnapshot(doc))
+                  .toList(),
+        );
   }
 }
