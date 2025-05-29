@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twitter_clone/feature/personalization/controller/follower_following_controller.dart';
 import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
 import 'package:twitter_clone/feature/personalization/model/user_model.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 
 import '../user_profile/user_profile_view.dart';
@@ -14,7 +15,7 @@ class FollowersView extends StatelessWidget {
   Widget build(BuildContext context) {
     final f = FollowerFollowingController.instance;
     final userId = Get.arguments as String;
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       f.loadUserFollowers(userId);
     });
     return Scaffold(
@@ -57,11 +58,10 @@ class FollowersView extends StatelessWidget {
                         () => Get.to(
                           () => UserProfileView(otherUserId: user.userId),
                         ),
-                    leading: CircleAvatar(
-                      radius: 25,
-                      backgroundImage: NetworkImage(user.profileImage),
-                      backgroundColor:
-                          Colors.grey[200], // Optional placeholder background
+                    leading: UserProfileAvatar(
+                      backgroundRadius: 25,
+                      foregroundRadius: 25,
+                      imageUrl: user.profileImage,
                     ),
                     title: Text(
                       user.username,

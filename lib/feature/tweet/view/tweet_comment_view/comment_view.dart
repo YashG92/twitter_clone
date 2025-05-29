@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/personalization/model/user_model.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/feature/tweet/view/post_tweet_view/widgets/post_tweet_field.dart';
 import 'package:twitter_clone/feature/tweet/view/post_tweet_view/widgets/post_tweet_image_view.dart';
 import '../../../../data/repositories/comment_repository.dart';
@@ -19,7 +21,7 @@ class TweetCommentView extends StatelessWidget {
     final commentRepo = Get.put(CommentRepository());
     final addTweetController = Get.put(PostTweetController());
     final tweetId = Get.arguments[0];
-    final tweetAuthor = Get.arguments[1];
+    final tweetAuthor = Get.arguments[1] as UserModel;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -71,11 +73,10 @@ class TweetCommentView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           /// Left profile picture
-                          CircleAvatar(
-                            radius: 22,
-                            backgroundImage: NetworkImage(
-                              tweetAuthor.profileImage,
-                            ),
+                          UserProfileAvatar(
+                            backgroundRadius: 22,
+                            foregroundRadius: 22,
+                            imageUrl: tweetAuthor.profileImage,
                           ),
                           const SizedBox(width: 10),
 
@@ -90,10 +91,7 @@ class TweetCommentView extends StatelessWidget {
                                   isVerified: false,
                                   authorName: tweetAuthor.username,
                                   authorHandle:
-                                      tweetAuthor.email
-                                          .toString()
-                                          .split('@')
-                                          .first,
+                                      tweetAuthor.email.split('@').first,
                                 ),
                                 const SizedBox(height: 4),
 
@@ -123,7 +121,7 @@ class TweetCommentView extends StatelessWidget {
                                     ),
                                     const SizedBox(width: YSizes.sm),
                                     Text(
-                                      '@${tweetAuthor.email.toString().split('@').first}',
+                                      '@${tweetAuthor.email.split('@').first}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelMedium

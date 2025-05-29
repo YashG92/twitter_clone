@@ -33,9 +33,10 @@ class CommonAppDrawer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const UserProfileAvatar(
+                    UserProfileAvatar(
                       backgroundRadius: 40,
                       foregroundRadius: 40,
+                      imageUrl: userController.user.value.profileImage,
                     ),
                     const SizedBox(height: YSizes.sm),
                     Row(

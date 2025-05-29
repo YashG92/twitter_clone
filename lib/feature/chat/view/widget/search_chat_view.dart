@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/chat/controller/chat_controller.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 
 import '../../../../routes/routes.dart';
 import '../../../personalization/controller/user_controller.dart';
@@ -51,11 +52,10 @@ class SearchChatView extends StatelessWidget {
                     final chatId = await chatController.getChatId(user.userId);
                     Get.toNamed(Routes.chatView, arguments: [chatId, user]);
                   },
-                  leading: CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(user.profileImage),
-                    backgroundColor:
-                    Colors.grey[200],
+                  leading: UserProfileAvatar(
+                    backgroundRadius: 25,
+                    foregroundRadius: 25,
+                    imageUrl: user.profileImage,
                   ),
                   title: Text(
                     user.username,

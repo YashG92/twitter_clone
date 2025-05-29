@@ -12,6 +12,7 @@ import '../../../data/repositories/auth_repository.dart';
 import '../../../data/repositories/tweet_repository.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../utils/helpers/network_manager.dart';
+import '../../notification/controller/notification_controller.dart';
 import '../model/tweet_model.dart';
 
 class PostTweetController extends GetxController {
@@ -97,8 +98,6 @@ class PostTweetController extends GetxController {
         tweetId: '',
         content: tweetController.text,
         authorId: AuthRepository.instance.authUser.uid,
-        authorHandle: AuthRepository.instance.authUser.email!.split('@')[0],
-        authorProfileImage: AuthRepository.instance.authUser.photoURL!,
         likeCount: 0,
         replyCount: 0,
         retweetCount: 0,
@@ -152,8 +151,6 @@ class PostTweetController extends GetxController {
         tweetId: '',
         content: tweetController.text,
         authorId: AuthRepository.instance.authUser.uid,
-        authorHandle: AuthRepository.instance.authUser.email!.split('@')[0],
-        authorProfileImage: AuthRepository.instance.authUser.photoURL!,
         likeCount: 0,
         replyCount: 0,
         retweetCount: 0,
@@ -184,6 +181,17 @@ class PostTweetController extends GetxController {
       TweetController.instance.allTweets.refresh();
       TweetController.instance.userTweets.insert(0, newTweet);
       TweetController.instance.userTweets.refresh();
+
+      final parentTweet = await TweetRepository.instance.fetchTweetByTweetId(parentTweetId);
+      final parentAuthorId = parentTweet.authorId;
+
+      if (parentAuthorId != AuthRepository.instance.authUser.uid) {
+        await NotificationController.instance.sendReplyNotification(
+          tweetId: newTweet.tweetId,
+          toUserId: parentAuthorId,
+          fromUserId: AuthRepository.instance.authUser.uid,
+        );
+      }
 
       isLoading.value = false;
       Get.back();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../personalization/controller/user_controller.dart';
 import '../../../../personalization/view/user_profile/widget/user_profile_avatar.dart';
 import '../../../controller/post_tweet_controller.dart';
 
@@ -19,6 +20,7 @@ class PostTweetField extends StatelessWidget {
         UserProfileAvatar(
           backgroundRadius: 24,
           foregroundRadius: 24,
+          imageUrl: UserController.instance.user.value.profileImage,
         ),
         const SizedBox(width: 8),
         Expanded(

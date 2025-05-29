@@ -4,8 +4,6 @@ class TweetModel {
   String tweetId;
   String content;
   final String authorId;
-  String authorHandle;
-  String authorProfileImage;
   int likeCount;
   int replyCount;
   int retweetCount;
@@ -21,9 +19,7 @@ class TweetModel {
     required this.tweetId,
     required this.content,
     required this.authorId,
-    required this.authorHandle,
     required this.createdAt,
-    required this.authorProfileImage,
     this.likeCount = 0,
     this.replyCount = 0,
     this.retweetCount = 0,
@@ -39,8 +35,6 @@ class TweetModel {
     tweetId: '',
     content: '',
     authorId: '',
-    authorHandle: '',
-    authorProfileImage: '',
     likeCount: 0,
     replyCount: 0,
     retweetCount: 0,
@@ -58,8 +52,6 @@ class TweetModel {
       'tweetId': tweetId,
       'content': content,
       'authorId': authorId,
-      'authorHandle': authorHandle,
-      'authorProfileImage': authorProfileImage,
       'likeCount': likeCount,
       'replyCount': replyCount,
       'retweetCount': retweetCount,
@@ -81,8 +73,6 @@ class TweetModel {
       tweetId: document.id,
       content: data['content'] ?? '',
       authorId: data['authorId'] ?? '',
-      authorHandle: data['authorHandle'] ?? '',
-      authorProfileImage: data['authorProfileImage'] ?? '',
       likeCount: data['likeCount'] ?? 0,
       replyCount: data['replyCount'] ?? 0,
       retweetCount: data['retweetCount'] ?? 0,

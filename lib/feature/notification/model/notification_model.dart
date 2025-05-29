@@ -2,30 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum NotificationType { like, reply, retweet, follow }
 
-NotificationType getNotificationType(String type) {
-  switch (type) {
-    case 'like':
-      return NotificationType.like;
-    case 'reply':
-      return NotificationType.reply;
-    case 'retweet':
-      return NotificationType.retweet;
-    case 'follow':
-      return NotificationType.follow;
-    default:
-      return NotificationType.like;
-  }
-}
-
-String notificationTypeToString(NotificationType type) {
-  return type.toString().split('.').last;
-}
-
 class NotificationModel {
   final String notificationId;
   final String userId;
   final NotificationType notificationType;
-  final String sourceUserId;
+  final List<String> sourceUserIds;
   final String? sourceTweetId;
   final bool isRead;
   final DateTime createdAt;
@@ -34,7 +15,7 @@ class NotificationModel {
     required this.notificationId,
     required this.userId,
     required this.notificationType,
-    required this.sourceUserId,
+    required this.sourceUserIds,
     this.sourceTweetId,
     this.isRead = false,
     required this.createdAt,
@@ -44,8 +25,8 @@ class NotificationModel {
     notificationId: '',
     userId: '',
     notificationType: NotificationType.like,
-    sourceUserId: '',
-    sourceTweetId: '',
+    sourceUserIds: [],
+    sourceTweetId: null,
     isRead: false,
     createdAt: DateTime.now(),
   );
@@ -54,8 +35,8 @@ class NotificationModel {
     return {
       'notificationId': notificationId,
       'userId': userId,
-      'notificationType': notificationTypeToString(notificationType),
-      'sourceUserId': sourceUserId,
+      'notificationType': notificationType.index,
+      'sourceUserIds': sourceUserIds,
       'sourceTweetId': sourceTweetId,
       'isRead': isRead,
       'createdAt': createdAt,
@@ -63,17 +44,37 @@ class NotificationModel {
   }
 
   factory NotificationModel.fromSnapshot(
-    DocumentSnapshot<Map<String, dynamic>> document,
-  ) {
+      DocumentSnapshot<Map<String, dynamic>> document,
+      ) {
     final data = document.data()!;
     return NotificationModel(
       notificationId: document.id,
       userId: data['userId'] ?? '',
-      notificationType: getNotificationType(data['notificationType']),
-      sourceUserId: data['sourceUserId'] ?? '',
+      notificationType: NotificationType.values[data['notificationType'] ?? 0],
+      sourceUserIds: List<String>.from(data['sourceUserIds'] ?? []),
       sourceTweetId: data['sourceTweetId'],
       isRead: data['isRead'] ?? false,
       createdAt: (data['createdAt'] as Timestamp).toDate(),
+    );
+  }
+
+  NotificationModel copyWith({
+    String? notificationId,
+    String? userId,
+    NotificationType? notificationType,
+    List<String>? sourceUserIds,
+    String? sourceTweetId,
+    bool? isRead,
+    DateTime? createdAt,
+  }) {
+    return NotificationModel(
+      notificationId: notificationId ?? this.notificationId,
+      userId: userId ?? this.userId,
+      notificationType: notificationType ?? this.notificationType,
+      sourceUserIds: sourceUserIds ?? this.sourceUserIds,
+      sourceTweetId: sourceTweetId ?? this.sourceTweetId,
+      isRead: isRead ?? this.isRead,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 }

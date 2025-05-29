@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/comment_repository.dart';
 import 'package:twitter_clone/data/repositories/tweet_repository.dart';
-import 'package:twitter_clone/data/repositories/user_repository.dart';
 import 'package:twitter_clone/feature/personalization/model/user_model.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/feature/tweet/model/tweet_model.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/tweet_card_view.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_action_buttons_row.dart';
-import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_card_view_widget.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_image_grid.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_user_info_row.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
@@ -23,7 +22,7 @@ class TweetDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final commentRepo = Get.put(CommentRepository());
     final tweetId = Get.arguments[0];
-    final author = Get.arguments[1];
+    final author = Get.arguments[1] as UserModel;
     final currentUid = AuthRepository.instance.authUser.uid;
 
     return Scaffold(
@@ -56,18 +55,19 @@ class TweetDetailView extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(author.profileImage),
+                      UserProfileAvatar(
+                        backgroundRadius: 20,
+                        foregroundRadius: 20,
+                        imageUrl: author.profileImage,
                       ),
                       const SizedBox(width: YSizes.spaceBtwItems),
                       Expanded(
                         child: TweetUserInfoRow(
                           tweet: tweet,
                           isVerified: true,
-                          authorName: author.username.toString(),
+                          authorName: author.username,
                           authorHandle:
-                              author.email.toString().split('@').first,
+                              author.email.split('@').first,
                         ),
                       ),
                     ],
@@ -109,7 +109,6 @@ class TweetDetailView extends StatelessWidget {
                   ),
                   Divider(thickness: .5),
 
-                  /// Actions row (optional, if you want it)
                   TweetActionButtonsRow(tweet: tweet, author: author),
                   const Divider(thickness: 0.5),
                   const SizedBox(height: YSizes.sm),

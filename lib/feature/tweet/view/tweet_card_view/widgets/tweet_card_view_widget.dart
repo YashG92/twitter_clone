@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/user_repository.dart';
 import 'package:twitter_clone/feature/personalization/model/user_model.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_action_buttons_row.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_image_grid.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_user_info_row.dart';
@@ -73,9 +74,10 @@ class TweetCardViewWidget extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(author.profileImage),
+                      UserProfileAvatar(
+                        backgroundRadius: 20,
+                        foregroundRadius: 20,
+                        imageUrl: author.profileImage,
                       ),
                       SizedBox(width: YSizes.spaceBtwItems),
                       Expanded(

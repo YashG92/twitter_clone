@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/notification/controller/notification_controller.dart';
 import 'package:twitter_clone/utils/helpers/network_manager.dart';
 
 import '../feature/personalization/controller/user_controller.dart';
@@ -8,5 +9,6 @@ class GeneralBindings extends Bindings{
   void dependencies() {
     Get.put(NetworkManager());
     Get.put(UserController());
+    Get.put(NotificationController());
   }
 }

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import '../../../../../utils/constants/constants.dart';
 import '../../../model/user_model.dart';
 
@@ -75,15 +76,10 @@ class UserProfileAppBar extends StatelessWidget {
                 Positioned(
                   bottom: -70,
                   left: YSizes.defaultSpace,
-                  child: CircleAvatar(
-                    radius: 52,
-                    backgroundColor: Colors.grey,
-                    child: CircleAvatar(
-                      radius:50,
-                      backgroundImage: NetworkImage(user.profileImage),
-                      backgroundColor:
-                          Colors.grey[200], // Optional placeholder background
-                    ),
+                  child: UserProfileAvatar(
+                    backgroundRadius: 52,
+                    foregroundRadius: 50,
+                    imageUrl: user.profileImage,
                   ),
                 ),
             ],

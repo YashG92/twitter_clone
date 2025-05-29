@@ -4,6 +4,7 @@ import 'package:twitter_clone/common/custom_appbar.dart';
 import 'package:twitter_clone/common/common_app_drawer.dart';
 import 'package:twitter_clone/feature/chat/controller/chat_controller.dart';
 import 'package:twitter_clone/feature/personalization/model/user_model.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/routes/routes.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 
@@ -42,11 +43,14 @@ class ChatListView extends StatelessWidget {
                     Get.toNamed(
                       Routes.chatView,
                       arguments: [chat.chatId, user],
-                    )?.then((_)=>chatController.markMessagesAsRead(chat.chatId));
+                    )?.then(
+                      (_) => chatController.markMessagesAsRead(chat.chatId),
+                    );
                   },
-                  leading: CircleAvatar(
-                    radius: 26,
-                    backgroundImage: NetworkImage(user.profileImage),
+                  leading: UserProfileAvatar(
+                    backgroundRadius: 26,
+                    foregroundRadius: 26,
+                    imageUrl: user.profileImage,
                   ),
                   title: Text(
                     user.username,
@@ -72,7 +76,7 @@ class ChatListView extends StatelessWidget {
                       Text(_formatTime(chat.lastMessageTime)),
                       if (unreadCount > 0)
                         Container(
-                          padding: EdgeInsets.all(YSizes.sm/2),
+                          padding: EdgeInsets.all(YSizes.sm / 2),
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.primary,
                             shape: BoxShape.circle,
@@ -91,7 +95,7 @@ class ChatListView extends StatelessWidget {
         );
       }),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()=> Get.toNamed(Routes.searchChatView),
+        onPressed: () => Get.toNamed(Routes.searchChatView),
         shape: const CircleBorder(),
         child: const Icon(Icons.messenger_outline),
       ),

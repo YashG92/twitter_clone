@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/user_repository.dart';
 
 import '../../../data/repositories/follower_following_repository.dart';
+import '../../notification/controller/notification_controller.dart';
 import '../model/followers_model.dart';
 import '../model/followings_model.dart';
 
@@ -25,24 +26,34 @@ class FollowerFollowingController extends GetxController {
 
   void loadUserFollowers(String userId) {
     isLoading.value = true;
-    _repo.getUserFollowersStream(userId).listen((followers) {
-      followersList.assignAll(followers);
-      isLoading.value = false;
-    }, onError: (error) {
-      isLoading.value = false;
-      Get.snackbar('Error', error.toString());
-    });
+    _repo
+        .getUserFollowersStream(userId)
+        .listen(
+          (followers) {
+            followersList.assignAll(followers);
+            isLoading.value = false;
+          },
+          onError: (error) {
+            isLoading.value = false;
+            Get.snackbar('Error', error.toString());
+          },
+        );
   }
 
   void loadUserFollowing(String userId) {
     isLoading.value = true;
-    _repo.getUserFollowingStream(userId).listen((following) {
-      followingList.assignAll(following);
-      isLoading.value = false;
-    }, onError: (error) {
-      isLoading.value = false;
-      Get.snackbar('Error', error.toString());
-    });
+    _repo
+        .getUserFollowingStream(userId)
+        .listen(
+          (following) {
+            followingList.assignAll(following);
+            isLoading.value = false;
+          },
+          onError: (error) {
+            isLoading.value = false;
+            Get.snackbar('Error', error.toString());
+          },
+        );
   }
 
   Future<void> toggleFollowUser(String targetUserId) async {
@@ -65,6 +76,12 @@ class FollowerFollowingController extends GetxController {
           currentUserFollowing,
           targetUserFollowers,
         );
+        if (targetUserId != _repo.currentUid) {
+          await NotificationController.instance.sendFollowNotification(
+            toUserId: targetUserId,
+            fromUserId: _repo.currentUid,
+          );
+        }
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/tweet_repository.dart';
+import 'package:twitter_clone/feature/notification/controller/notification_controller.dart';
 import 'package:twitter_clone/feature/personalization/model/retweet_model.dart';
 import 'package:twitter_clone/feature/tweet/controller/post_tweet_controller.dart';
 import 'package:twitter_clone/feature/tweet/controller/tweet_controller.dart';
@@ -32,8 +33,6 @@ class RetweetController extends GetxController {
         tweetId: '',
         content: tweet.content,
         authorId: tweet.authorId,
-        authorHandle: tweet.authorHandle,
-        authorProfileImage: tweet.authorProfileImage,
         likeCount: 0,
         replyCount: 0,
         retweetCount: 0,
@@ -77,6 +76,14 @@ class RetweetController extends GetxController {
       TweetController.instance.allTweets.refresh();
       TweetController.instance.userTweets.insert(0, newRetweetTweet);
       TweetController.instance.userTweets.refresh();
+
+      if (tweet.authorId != AuthRepository.instance.authUser.uid) {
+        await NotificationController.instance.sendRetweetNotification(
+          tweetId: tweet.tweetId,
+          toUserId: tweet.authorId,
+          fromUserId: AuthRepository.instance.authUser.uid,
+        );
+      }
       isLoading.value = false;
       Get.back();
       Get.snackbar('Success', 'Tweet retweeted successfully');

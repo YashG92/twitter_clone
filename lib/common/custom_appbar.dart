@@ -6,7 +6,7 @@ import 'package:twitter_clone/routes/routes.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
-import '../feature/search/searched_content_view.dart';
+import '../feature/personalization/controller/user_controller.dart';
 import '../theme/palette.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
@@ -24,6 +24,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
+    final userController = UserController.instance;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: YSizes.sm),
       child: Container(
@@ -44,9 +45,12 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
             builder:
                 (context) => GestureDetector(
                   onTap: () => Scaffold.of(context).openDrawer(),
-                  child: UserProfileAvatar(
-                    backgroundRadius: 1,
-                    foregroundRadius: 28,
+                  child: Obx(
+                    ()=> UserProfileAvatar(
+                      backgroundRadius: 1,
+                      foregroundRadius: 28,
+                      imageUrl: userController.user.value.profileImage,
+                    ),
                   ),
                 ),
           ),

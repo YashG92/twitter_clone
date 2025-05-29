@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/personalization/controller/user_controller.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/utils/constants/constants.dart';
 
@@ -89,6 +90,12 @@ class EditUserProfileView extends StatelessWidget {
                                   : UserProfileAvatar(
                                     backgroundRadius: 42,
                                     foregroundRadius: 40,
+                                    imageUrl:
+                                        UserController
+                                            .instance
+                                            .user
+                                            .value
+                                            .profileImage,
                                   ),
                         ),
                       ),
