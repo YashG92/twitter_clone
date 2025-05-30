@@ -16,7 +16,7 @@ class ChatListView extends StatelessWidget {
     final chatController = ChatController.instance;
 
     return Scaffold(
-      appBar: CustomAppbar(title: 'Messages'),
+      appBar: const CustomAppbar(title: 'Messages'),
       drawer: const CommonAppDrawer(),
       body: Obx(() {
         if (chatController.chats.isEmpty) {
@@ -65,7 +65,7 @@ class ChatListView extends StatelessWidget {
                     chat.lastMessage,
                     style:
                         unreadCount > 0
-                            ? TextStyle(fontWeight: FontWeight.bold)
+                            ? const TextStyle(fontWeight: FontWeight.bold)
                             : null,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -76,14 +76,14 @@ class ChatListView extends StatelessWidget {
                       Text(_formatTime(chat.lastMessageTime)),
                       if (unreadCount > 0)
                         Container(
-                          padding: EdgeInsets.all(YSizes.sm / 2),
+                          padding: const EdgeInsets.all(YSizes.sm / 2),
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.primary,
                             shape: BoxShape.circle,
                           ),
                           child: Text(
                             unreadCount.toString(),
-                            style: TextStyle(color: Colors.white, fontSize: 12),
+                            style: const TextStyle(color: Colors.white, fontSize: 12),
                           ),
                         ),
                     ],

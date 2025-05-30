@@ -89,7 +89,6 @@ class NotificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<NotificationController>();
     final isFollowRequest =
         notification.notificationType == NotificationType.followRequest;
     final isHandled = notification.isHandled;
@@ -107,7 +106,7 @@ class NotificationCard extends StatelessWidget {
         notification.notificationType == NotificationType.followRequest;
 
     return Container(
-      color: isRead ? Colors.transparent : Colors.blue.withOpacity(0.1),
+      color: isRead ? Colors.transparent : Colors.blue.withAlpha(26),
       padding: const EdgeInsets.all(12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,10 +119,11 @@ class NotificationCard extends StatelessWidget {
               children: [
                 // Avatar list
                 SizedBox(
-                  height: 50, 
+                  height: 50,
                   width: Get.width * .8,
                   child: ListView.separated(
-                    separatorBuilder: (_, __) => SizedBox(width: YSizes.sm),
+                    separatorBuilder:
+                        (_, __) => const SizedBox(width: YSizes.sm),
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: notification.sourceUserIds.length,
@@ -158,12 +158,15 @@ class NotificationCard extends StatelessWidget {
                 if (isFollowRequest && !isHandled) _buildFollowRequestButtons(),
 
                 if (isFollowRequest && isHandled)
-                  Text('Request handled', style: TextStyle(color: Colors.grey)),
+                  const Text(
+                    'Request handled',
+                    style: TextStyle(color: Colors.grey),
+                  ),
 
                 // Regular notification footer
                 if (!isFollowRequest) ...[
                   Text(
-                    "Tap to view detail",
+                    'Tap to view detail',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: YSizes.xs),

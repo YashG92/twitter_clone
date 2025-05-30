@@ -14,7 +14,7 @@ class ElevatedButtonThemes {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
           ),
-          padding: EdgeInsets.symmetric(vertical: YSizes.md),
+          padding: const EdgeInsets.symmetric(vertical: YSizes.md),
         ),
       );
 
@@ -26,7 +26,7 @@ class ElevatedButtonThemes {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(YSizes.inputFieldRadius),
           ),
-          padding: EdgeInsets.symmetric(vertical: YSizes.md),
+          padding: const EdgeInsets.symmetric(vertical: YSizes.md),
         ),
       );
 }

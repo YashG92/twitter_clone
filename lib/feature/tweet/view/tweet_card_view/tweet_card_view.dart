@@ -36,11 +36,11 @@ class TweetCardView extends StatelessWidget {
           stream: tweetController.userTweetStream.value,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text('Error loading tweet');
+              return const Text('Error loading tweet');
             }
 
             if (!snapshot.hasData) {
-              return Center(child: const CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             final tweets = snapshot.data!;
@@ -61,11 +61,11 @@ class TweetCardView extends StatelessWidget {
           stream: tweetController.tweetStream.value,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text('Error loading tweet');
+              return const Text('Error loading tweet');
             }
 
             if (!snapshot.hasData) {
-              return Center(child: const CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             final tweet = snapshot.data!;

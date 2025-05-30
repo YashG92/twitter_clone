@@ -60,11 +60,11 @@ class UserModel {
     final data = document.data()!;
     return UserModel(
       userId: document.id,
-      username: data['username'] ?? "",
-      email: data['email'] ?? "",
+      username: data['username'] ?? '',
+      email: data['email'] ?? '',
       profileImage: data['profileImage'],
-      coverImage: data['coverImage'] ?? "",
-      bio: data['bio'] ?? "",
+      coverImage: data['coverImage'] ?? '',
+      bio: data['bio'] ?? '',
       followerCount: data['followerCount'] ?? 0,
       followingCount: data['followingCount'] ?? 0,
       tweetCount: data['tweetCount'] ?? 0,

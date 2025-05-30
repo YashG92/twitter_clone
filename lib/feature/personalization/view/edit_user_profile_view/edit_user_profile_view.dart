@@ -13,14 +13,16 @@ class EditUserProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(EditUserController());
+    final userController = UserController.instance;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile'),
+        title: const Text('Edit Profile'),
         actions: [
           Obx(
             () =>
                 controller.isLoading.value
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : TextButton(
                       onPressed: () => controller.updateProfile(),
                       child: Text(
@@ -49,65 +51,50 @@ class EditUserProfileView extends StatelessWidget {
                         height: 150,
                         width: double.infinity,
                       );
-                    } else if (controller.coverImageUrl != null) {
+                    } else if (controller.coverImageUrl != null &&
+                        controller.coverImageUrl!.isNotEmpty) {
                       return Image.network(
                         controller.coverImageUrl!,
                         fit: BoxFit.cover,
                         height: 150,
                         width: double.infinity,
+                        errorBuilder:
+                            (context, error, stackTrace) =>
+                                _buildPlaceholderCoverImage(),
                       );
                     } else {
-                      return Container(
-                        height: 150,
-                        color: Colors.blue.shade800,
-                        child: Center(
-                          child: Icon(
-                            Icons.camera_alt_outlined,
-                            color: Colors.white54,
-                            size: 48,
-                          ),
-                        ),
-                      );
+                      return _buildPlaceholderCoverImage();
                     }
                   }),
                 ),
                 Positioned(
                   left: 10,
                   bottom: -40,
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      GestureDetector(
-                        onTap: () => controller.pickImage(isCover: false),
-                        child: Obx(
-                          () =>
-                              controller.profileImageFile.value != null
-                                  ? CircleAvatar(
-                                    radius: 42,
-                                    backgroundImage: FileImage(
-                                      controller.profileImageFile.value!,
-                                    ),
-                                  )
-                                  : UserProfileAvatar(
-                                    backgroundRadius: 42,
-                                    foregroundRadius: 40,
-                                    imageUrl:
-                                        UserController
-                                            .instance
-                                            .user
-                                            .value
-                                            .profileImage,
-                                  ),
-                        ),
-                      ),
-                    ],
+                  child: GestureDetector(
+                    onTap: () => controller.pickImage(isCover: false),
+                    child: Obx(() {
+                      if (controller.profileImageFile.value != null) {
+                        return CircleAvatar(
+                          radius: 42,
+                          backgroundImage: FileImage(
+                            controller.profileImageFile.value!,
+                          ),
+                        );
+                      } else {
+                        return UserProfileAvatar(
+                          backgroundRadius: 42,
+                          foregroundRadius: 40,
+                          imageUrl: userController.user.value.profileImage,
+                        );
+                      }
+                    }),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Padding(
-              padding: EdgeInsets.all(YSizes.defaultSpace / 2),
+              padding: const EdgeInsets.all(YSizes.defaultSpace / 2),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -124,8 +111,6 @@ class EditUserProfileView extends StatelessWidget {
                             controller: controller.bio,
                             maxLines: 3,
                           ),
-                          //_buildTextField(label: 'Location', controller: controller.location),
-                          //_buildTextField(label: 'Website', controller: controller.website),
                         ],
                       ),
                     ),
@@ -139,6 +124,16 @@ class EditUserProfileView extends StatelessWidget {
     );
   }
 
+  Widget _buildPlaceholderCoverImage() {
+    return Container(
+      height: 150,
+      color: Colors.blue.shade800,
+      child: const Center(
+        child: Icon(Icons.camera_alt_outlined, color: Colors.white54, size: 48),
+      ),
+    );
+  }
+
   Widget _buildTextField({
     required String label,
     required TextEditingController controller,
@@ -147,7 +142,7 @@ class EditUserProfileView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: YSizes.spaceBtwInputFields),
       child: TextFormField(
-        validator:(value)=> Validator.validateEmptyText(label, value),
+        validator: (value) => Validator.validateEmptyText(label, value),
         controller: controller,
         maxLines: maxLines,
         decoration: InputDecoration(

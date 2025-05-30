@@ -62,12 +62,12 @@ class EditUserController extends GetxController {
       }
 
       Map<String, dynamic> json = {
-        "username": name.text.trim(),
-        "bio": bio.text.trim(),
-        //"location": location.text.trim(),
-        //"website": website.text.trim(),
-        "profileImage": profileImageUrl,
-        "coverImage": coverImageUrl,
+        'username': name.text.trim(),
+        'bio': bio.text.trim(),
+        //'location': location.text.trim(),
+        //'website': website.text.trim(),
+        'profileImage': profileImageUrl,
+        'coverImage': coverImageUrl,
       };
       await UserRepository.instance.updateSingleFieldUserData(json: json);
 

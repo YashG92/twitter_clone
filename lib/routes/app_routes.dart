@@ -37,7 +37,7 @@ class AppRoutes {
     ),
     GetPage(
       name: Routes.bottomNavBar,
-      page: () => BottomNavBar(),
+      page: () => const BottomNavBar(),
       transition: Transition.fadeIn,
     ),
     GetPage(

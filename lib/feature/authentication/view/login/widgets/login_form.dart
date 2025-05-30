@@ -22,9 +22,9 @@ class LoginForm extends StatelessWidget {
           TextFormField(
             controller: controller.email,
             validator: (value) => Validator.validateEmail(value),
-            decoration: InputDecoration(hintText: 'Enter email'),
+            decoration: const InputDecoration(hintText: 'Enter email'),
           ),
-          SizedBox(height: YSizes.spaceBtwInputFields),
+          const SizedBox(height: YSizes.spaceBtwInputFields),
           Obx(
             () => TextFormField(
               controller: controller.password,
@@ -45,7 +45,7 @@ class LoginForm extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: YSizes.spaceBtwSections),
+          const SizedBox(height: YSizes.spaceBtwSections),
           SizedBox(
             width: double.infinity,
             child: Obx(
@@ -53,8 +53,8 @@ class LoginForm extends StatelessWidget {
                 onPressed: () => controller.login(),
                 child:
                     controller.isLoading.value
-                        ? CircularProgressIndicator(color: Colors.white)
-                        : Text('Email Login'),
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text('Email Login'),
               ),
             ),
           ),

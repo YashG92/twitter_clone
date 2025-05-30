@@ -24,22 +24,22 @@ class HomeView extends StatelessWidget {
     final currentUid = AuthRepository.instance.authUser.uid;
     UserController.instance.initUserStream();
     return Scaffold(
-      appBar: CustomAppbar(title: 'Home'),
-      drawer: CommonAppDrawer(),
+      appBar: const CustomAppbar(title: 'Home'),
+      drawer: const CommonAppDrawer(),
       body: Obx(() {
         if (tweetController.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (tweetController.allTweets.isEmpty) {
-          return Center(child: Text("No tweets available"));
+          return const Center(child: Text('No tweets available'));
         }
         return RefreshIndicator(
           onRefresh: () => tweetController.fetchAllTweets(),
           child: ListView.builder(
             itemCount: tweetController.allTweets.length,
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               final tweet = tweetController.allTweets[index];
               return TweetCardView(
@@ -52,8 +52,8 @@ class HomeView extends StatelessWidget {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.toNamed(Routes.addTweetView),
-        shape: CircleBorder(),
-        child: Icon(Icons.edit),
+        shape: const CircleBorder(),
+        child: const Icon(Icons.edit),
       ),
     );
   }

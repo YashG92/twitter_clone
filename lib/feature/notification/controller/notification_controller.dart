@@ -35,7 +35,7 @@ class NotificationController extends GetxController {
         notifications[index] = notifications[index].copyWith(isHandled: true,isRead: true);
       }
     } catch (e) {
-      Get.snackbar("Error", "Failed to mark notification as handled: $e");
+      Get.snackbar('Error', 'Failed to mark notification as handled: $e');
     }
   }
 

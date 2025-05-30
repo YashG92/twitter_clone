@@ -19,9 +19,9 @@ class RetweetRepository extends GetxController {
   Future<void> postRetweet(RetweetModel retweet) async {
     try {
       await _db
-          .collection("Users")
+          .collection('Users')
           .doc(AuthRepository.instance.authUser.uid)
-          .collection("Retweets")
+          .collection('Retweets')
           .add(retweet.toJson());
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
@@ -39,9 +39,9 @@ class RetweetRepository extends GetxController {
   Stream<List<RetweetModel>> getRetweetsForUser(String userId) {
     try {
       return _db
-          .collection("Users")
+          .collection('Users')
           .doc(userId)
-          .collection("Retweets")
+          .collection('Retweets')
           .snapshots()
           .map((querySnapshot) {
             return querySnapshot.docs.map((doc) {
@@ -65,9 +65,9 @@ class RetweetRepository extends GetxController {
     try {
       final snapshot =
           await _db
-              .collection("Users")
+              .collection('Users')
               .doc(userId)
-              .collection("Retweets")
+              .collection('Retweets')
               .get();
 
       List<String> reTweetIds =
@@ -83,7 +83,7 @@ class RetweetRepository extends GetxController {
 
         final tweetsSnapshot =
             await _db
-                .collection("Tweets")
+                .collection('Tweets')
                 .where(FieldPath.documentId, whereIn: batchIds)
                 .get();
 
@@ -111,10 +111,10 @@ class RetweetRepository extends GetxController {
 
   Stream<bool> userRepostStream(String originalTweetRef, String userId) {
     return _db
-        .collection("Users")
+        .collection('Users')
         .doc(userId)
-        .collection("Retweets")
-        .where("originalTweetRef", isEqualTo: originalTweetRef)
+        .collection('Retweets')
+        .where('originalTweetRef', isEqualTo: originalTweetRef)
         .snapshots()
         .map((snapshot) => snapshot.docs.isNotEmpty);
   }

@@ -17,9 +17,9 @@ class CommentRepository extends GetxController {
   Future<void> postComment(CommentModel comment) async {
     try {
       await _db
-          .collection("Tweets")
+          .collection('Tweets')
           .doc(comment.parentTweetId)
-          .collection("Comments")
+          .collection('Comments')
           .add(comment.toJson());
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;

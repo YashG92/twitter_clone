@@ -26,22 +26,22 @@ class SignupForm extends StatelessWidget {
                 controller: controller.fullName,
                 validator:
                     (value) => Validator.validateEmptyText('Full Name', value),
-                decoration: InputDecoration(hintText: 'Name'),
+                decoration: const InputDecoration(hintText: 'Name'),
               ),
-              SizedBox(height: YSizes.spaceBtwInputFields),
+              const SizedBox(height: YSizes.spaceBtwInputFields),
               TextFormField(
                 controller: controller.email,
                 validator: (value) => Validator.validateEmail(value),
-                decoration: InputDecoration(hintText: 'Enter email'),
+                decoration: const InputDecoration(hintText: 'Enter email'),
               ),
-              SizedBox(height: YSizes.spaceBtwInputFields),
+              const SizedBox(height: YSizes.spaceBtwInputFields),
               TextFormField(
                 controller: controller.password,
                 validator: (value) => Validator.validatePassword(value),
                 obscureText: true,
-                decoration: InputDecoration(hintText: 'Enter password'),
+                decoration: const InputDecoration(hintText: 'Enter password'),
               ),
-              SizedBox(height: YSizes.spaceBtwInputFields),
+              const SizedBox(height: YSizes.spaceBtwInputFields),
               Obx(
                 () => TextFormField(
                   controller: controller.confirmPassword,
@@ -62,7 +62,7 @@ class SignupForm extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: YSizes.spaceBtwInputFields),
+              const SizedBox(height: YSizes.spaceBtwInputFields),
 
               SizedBox(
                 width: double.infinity,
@@ -71,8 +71,8 @@ class SignupForm extends StatelessWidget {
                   child: Obx(
                     () =>
                         controller.isLoading.value
-                            ? CircularProgressIndicator(color: Colors.white)
-                            : Text('Sign Up'),
+                            ? const CircularProgressIndicator(color: Colors.white)
+                            : const Text('Sign Up'),
                   ),
                 ),
               ),

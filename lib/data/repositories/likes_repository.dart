@@ -21,13 +21,13 @@ class LikesRepository extends GetxController {
       final batch = _db.batch();
 
       final userLikeRef = _db
-          .collection("Users")
+          .collection('Users')
           .doc(like.userId)
           .collection('Likes')
           .doc(like.tweetId);
       batch.set(userLikeRef, like.toJson());
 
-      final tweetRef = _db.collection("Tweets").doc(like.tweetId);
+      final tweetRef = _db.collection('Tweets').doc(like.tweetId);
       batch.update(tweetRef, {
         'likeCount': FieldValue.increment(1),
         'likedBy': FieldValue.arrayUnion([_uid]),
@@ -51,13 +51,13 @@ class LikesRepository extends GetxController {
       final batch = _db.batch();
 
       final userLikeRef = _db
-          .collection("Users")
+          .collection('Users')
           .doc(like.userId)
           .collection('Likes')
           .doc(like.tweetId);
       batch.delete(userLikeRef);
 
-      final tweetRef = _db.collection("Tweets").doc(like.tweetId);
+      final tweetRef = _db.collection('Tweets').doc(like.tweetId);
       batch.update(tweetRef, {
         'likeCount': FieldValue.increment(-1),
         'likedBy': FieldValue.arrayRemove([_uid]),
@@ -78,9 +78,9 @@ class LikesRepository extends GetxController {
 
   Stream<List<LikesModel>> getUserLikes() {
     return _db
-        .collection("Users")
+        .collection('Users')
         .doc(_uid)
-        .collection("Likes")
+        .collection('Likes')
         .snapshots()
         .map(
           (querySnapshot) =>
@@ -92,7 +92,7 @@ class LikesRepository extends GetxController {
 
   Stream<LikesModel?> getLikeStatus(String tweetId) {
     return _db
-        .collection("Users")
+        .collection('Users')
         .doc(_uid)
         .collection('Likes')
         .doc(tweetId)

@@ -22,7 +22,7 @@ class SearchedContentView extends StatelessWidget {
               child: TextField(
                 autofocus: true,
                 onChanged: (query) => userController.searchUsers(query),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Search Twitter',
                   border: InputBorder.none,
                 ),
@@ -32,21 +32,21 @@ class SearchedContentView extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined),
         ),
       ),
       body: Obx(() {
         final users = userController.searchedUsers;
         if (users.isEmpty) {
-          return Center(child: Text('Enter Something...'));
+          return const Center(child: Text('Enter Something...'));
         }
 
         return Padding(
-          padding: EdgeInsets.all(YSizes.defaultSpace / 2),
+          padding: const EdgeInsets.all(YSizes.defaultSpace / 2),
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: users.length,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               final user = users[index];
               return ListTile(

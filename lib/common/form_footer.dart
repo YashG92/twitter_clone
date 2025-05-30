@@ -25,7 +25,7 @@ class FormFooter extends StatelessWidget {
               context,
             ).textTheme.labelMedium!.copyWith(fontSize: 16),
           ),
-          SizedBox(width: YSizes.spaceBtwItems / 2),
+          const SizedBox(width: YSizes.spaceBtwItems / 2),
           InkWell(
             onTap: onTap,
             child: Text(

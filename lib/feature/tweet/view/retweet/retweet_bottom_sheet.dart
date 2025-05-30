@@ -24,18 +24,18 @@ class RetweetBottomSheet extends StatelessWidget {
         child: Wrap(
           children: [
             ListTile(
-              leading: Icon(Icons.repeat, color: Colors.green),
-              title: Text('Repost'),
-              subtitle: Text('Share this post with your followers'),
+              leading: const Icon(Icons.repeat, color: Colors.green),
+              title: const Text('Repost'),
+              subtitle: const Text('Share this post with your followers'),
               onTap: () {
                 Navigator.pop(context);
                 onRepost();
               },
             ),
             ListTile(
-              leading: Icon(Icons.edit, color: Colors.blue),
-              title: Text('Quote'),
-              subtitle: Text(
+              leading: const Icon(Icons.edit, color: Colors.blue),
+              title: const Text('Quote'),
+              subtitle: const Text(
                 'Add a comment or photo before you share this post',
               ),
               onTap: () {

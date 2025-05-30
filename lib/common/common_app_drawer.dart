@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/auth_repository.dart';
 import 'package:twitter_clone/feature/personalization/controller/follower_following_controller.dart';
 import 'package:twitter_clone/routes/routes.dart';
+import 'package:twitter_clone/utils/loaders/loaders.dart';
 
 import '../feature/personalization/controller/user_controller.dart';
 import '../feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
@@ -34,7 +35,7 @@ class CommonAppDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: ()=> Get.toNamed(Routes.userProfileView),
+                    onTap: () => Get.toNamed(Routes.userProfileView),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -50,8 +51,8 @@ class CommonAppDrawer extends StatelessWidget {
                               userController.user.value.username,
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
-                            SizedBox(width: YSizes.sm),
-                            Icon(Icons.verified, color: Colors.blue),
+                            const SizedBox(width: YSizes.sm),
+                            const Icon(Icons.verified, color: Colors.blue),
                           ],
                         ),
                         Text(
@@ -64,22 +65,24 @@ class CommonAppDrawer extends StatelessWidget {
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: () => Get.toNamed(
-                          Routes.followersView,
-                          arguments: userController.user.value.userId,
-                        ),
+                        onTap:
+                            () => Get.toNamed(
+                              Routes.followersView,
+                              arguments: userController.user.value.userId,
+                            ),
                         child: Text(
                           '${userController.user.value.followerCount} Followers',
                           style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(width: YSizes.spaceBtwItems),
+                      const SizedBox(width: YSizes.spaceBtwItems),
                       GestureDetector(
-                        onTap: () => Get.toNamed(
-                          Routes.followingView,
-                          arguments: userController.user.value.userId,
-                        ),
+                        onTap:
+                            () => Get.toNamed(
+                              Routes.followingView,
+                              arguments: userController.user.value.userId,
+                            ),
                         child: Text(
                           '${userController.user.value.followingCount} Following',
                           style: Theme.of(context).textTheme.headlineSmall!
@@ -97,7 +100,7 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.person_outlined,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text('Profile'),
+            title: const Text('Profile'),
             onTap: () {
               Navigator.pop(context);
               Get.toNamed(Routes.userProfileView);
@@ -109,8 +112,9 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.list_alt,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text('Lists'),
+            title: const Text('Lists'),
             onTap: () {
+              Loaders.customToast(message: 'Coming Soon');
               Navigator.pop(context);
               // Navigate to profile
             },
@@ -120,8 +124,9 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.bookmark_outline_sharp,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text('Bookmarks'),
+            title: const Text('Bookmarks'),
             onTap: () {
+              Loaders.customToast(message: 'Coming Soon');
               Navigator.pop(context);
               // Navigate to bookmarks
             },
@@ -131,8 +136,9 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.timeline_outlined,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text('Moments'),
+            title: const Text('Moments'),
             onTap: () {
+              Loaders.customToast(message: 'Coming Soon');
               Navigator.pop(context);
               // Navigate to bookmarks
             },
@@ -142,8 +148,9 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.settings_outlined,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text('Settings'),
+            title: const Text('Settings'),
             onTap: () {
+              Loaders.customToast(message: 'Coming Soon');
               Navigator.pop(context);
               // Navigate to settings
             },
@@ -154,7 +161,7 @@ class CommonAppDrawer extends StatelessWidget {
               Icons.logout,
               color: dark ? Colors.white : Colors.blue,
             ),
-            title: Text('Log out'),
+            title: const Text('Log out'),
             onTap: () => AuthRepository.instance.logoutUser(),
           ),
         ],

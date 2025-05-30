@@ -21,7 +21,7 @@ class GoogleSignButton extends StatelessWidget {
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
               shadowColor: Colors.grey,
-              textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             onPressed: () => controller.googleSignIn(),
             child: Row(
@@ -33,7 +33,7 @@ class GoogleSignButton extends StatelessWidget {
                   height: YSizes.xl,
                   width: YSizes.xl,
                 ),
-                Text(buttonTitle, style: TextStyle(color: Colors.grey)),
+                Text(buttonTitle, style: const TextStyle(color: Colors.grey)),
               ],
             ),
           ),

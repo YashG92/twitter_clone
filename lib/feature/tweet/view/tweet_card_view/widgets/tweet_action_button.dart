@@ -20,7 +20,7 @@ class TweetActionButton extends StatelessWidget {
       children: [
         IconButton(onPressed: onPressed, icon: Icon(icon, size: 18)),
         if (count > 0) ...[
-          SizedBox(width: YSizes.sm / 2),
+          const SizedBox(width: YSizes.sm / 2),
           Text(count.toString()),
         ],
       ],

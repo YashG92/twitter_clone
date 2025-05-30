@@ -16,7 +16,7 @@ class SearchChatView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Message'),
+        title: const Text('New Message'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Get.back(),
@@ -29,7 +29,7 @@ class SearchChatView extends StatelessWidget {
             child: TextField(
               autofocus: true,
               onChanged: (query) => userController.searchUsers(query),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Search for people',
                 border: InputBorder.none,
               ),
@@ -38,13 +38,13 @@ class SearchChatView extends StatelessWidget {
           Obx(() {
             final users = userController.searchedUsers;
             if (users.isEmpty) {
-              return Center(child: Text(''));
+              return const Center(child: Text(''));
             }
 
             return ListView.builder(
               shrinkWrap: true,
               itemCount: users.length,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 final user = users[index];
                 return ListTile(

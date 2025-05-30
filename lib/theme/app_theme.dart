@@ -16,7 +16,7 @@ class AppTheme {
     ),
     textTheme: YTextTheme.whiteTextTheme,
     fontFamily: 'Chirp',
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Palette.blueColor,
       foregroundColor: Colors.white,
     ),
@@ -36,7 +36,7 @@ class AppTheme {
     ),
     textTheme: YTextTheme.blackTextTheme,
     fontFamily: 'Chirp',
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Palette.blueColor,
       foregroundColor: Colors.white,
     ),

@@ -15,7 +15,7 @@ class UserMetaData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: YSizes.defaultSpace),
+      padding: const EdgeInsets.symmetric(horizontal: YSizes.defaultSpace),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,29 +30,29 @@ class UserMetaData extends StatelessWidget {
             style: Theme.of(context).textTheme.bodySmall,
           ),
           Text(user.bio),
-          SizedBox(height: YSizes.sm),
+          const SizedBox(height: YSizes.sm),
           Row(
             children: [
-              Icon(CupertinoIcons.location_solid),
-              SizedBox(width: YSizes.sm),
+              const Icon(CupertinoIcons.location_solid),
+              const SizedBox(width: YSizes.sm),
               Text(
                 'Rajkot India',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),
-          SizedBox(height: YSizes.sm),
+          const SizedBox(height: YSizes.sm),
           Row(
             children: [
-              Icon(Icons.calendar_today),
-              SizedBox(width: YSizes.sm),
+              const Icon(Icons.calendar_today),
+              const SizedBox(width: YSizes.sm),
               Text(
                 HelperFunction.formatDate(user.createdAt),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),
-          SizedBox(height: YSizes.sm),
+          const SizedBox(height: YSizes.sm),
           Row(
             children: [
               GestureDetector(
@@ -68,7 +68,7 @@ class UserMetaData extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: YSizes.spaceBtwItems),
+              const SizedBox(width: YSizes.spaceBtwItems),
               GestureDetector(
                 onTap:
                     () => Get.toNamed(

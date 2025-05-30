@@ -19,7 +19,7 @@ class UserRepository extends GetxController {
 
   Future<void> saveUserData(UserModel user) async {
     try {
-      await _db.collection("Users").doc(user.userId).set(user.toJson());
+      await _db.collection('Users').doc(user.userId).set(user.toJson());
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
     } on FormatException catch (_) {
@@ -35,7 +35,7 @@ class UserRepository extends GetxController {
     try {
       final uid = userId ?? AuthRepository.instance.authUser.uid;
 
-      final documentSnapshot = await _db.collection("Users").doc(uid).get();
+      final documentSnapshot = await _db.collection('Users').doc(uid).get();
 
       if (documentSnapshot.exists) {
         return UserModel.fromSnapshot(documentSnapshot);
@@ -54,7 +54,7 @@ class UserRepository extends GetxController {
   }
 
   Stream<UserModel> getUserById(String userId) {
-    return _db.collection("Users").doc(userId).snapshots().map((snapshot) {
+    return _db.collection('Users').doc(userId).snapshots().map((snapshot) {
       //final data = snapshot.data()!;
       return UserModel.fromSnapshot(snapshot);
     });
@@ -66,7 +66,7 @@ class UserRepository extends GetxController {
   }) async {
     try {
       await _db
-          .collection("Users")
+          .collection('Users')
           .doc(userId ?? AuthRepository.instance.authUser.uid)
           .update(json);
     } on FirebaseException catch (e) {
@@ -130,7 +130,7 @@ class UserRepository extends GetxController {
   Stream<UserModel> getUserDataStream({String? userId}) {
     try {
       final uid = userId ?? AuthRepository.instance.authUser.uid;
-      return _db.collection("Users").doc(uid).snapshots().map((snapshot) {
+      return _db.collection('Users').doc(uid).snapshots().map((snapshot) {
         if (snapshot.exists) {
           return UserModel.fromSnapshot(snapshot);
         } else {

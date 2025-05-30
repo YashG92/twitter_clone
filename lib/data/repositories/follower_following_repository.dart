@@ -24,13 +24,13 @@ class FollowerFollowingRepository extends GetxController {
     final batch = _db.batch();
 
     // Update current user's following count
-    final currentUserRef = _db.collection("Users").doc(currentUid);
+    final currentUserRef = _db.collection('Users').doc(currentUid);
     batch.update(currentUserRef, {
       'followingCount': FieldValue.increment(incrementValue),
     });
 
     // Update target user's follower count
-    final targetUserRef = _db.collection("Users").doc(targetUserId);
+    final targetUserRef = _db.collection('Users').doc(targetUserId);
     batch.update(targetUserRef, {
       'followerCount': FieldValue.increment(incrementValue),
     });
@@ -47,14 +47,14 @@ class FollowerFollowingRepository extends GetxController {
       final batch = _db.batch();
 
       // Update status in both collections
-      final followingRef = _db.collection("Users")
+      final followingRef = _db.collection('Users')
           .doc(currentUserId)
-          .collection("Following")
+          .collection('Following')
           .doc(targetUserId);
 
-      final followersRef = _db.collection("Users")
+      final followersRef = _db.collection('Users')
           .doc(targetUserId)
-          .collection("Followers")
+          .collection('Followers')
           .doc(currentUserId);
 
       batch.update(followingRef, {'status': status.index});
@@ -62,8 +62,8 @@ class FollowerFollowingRepository extends GetxController {
 
       // Update counts only when accepting
       if (status == FollowStatus.accepted) {
-        final currentUserRef = _db.collection("Users").doc(currentUserId);
-        final targetUserRef = _db.collection("Users").doc(targetUserId);
+        final currentUserRef = _db.collection('Users').doc(currentUserId);
+        final targetUserRef = _db.collection('Users').doc(targetUserId);
 
         batch.update(currentUserRef, {'followingCount': FieldValue.increment(1)});
         batch.update(targetUserRef, {'followerCount': FieldValue.increment(1)});
@@ -84,18 +84,18 @@ class FollowerFollowingRepository extends GetxController {
       await _db.runTransaction((transaction) async {
         transaction.set(
           _db
-              .collection("Users")
+              .collection('Users')
               .doc(currentUid)
-              .collection("Following")
+              .collection('Following')
               .doc(targetUserId),
           currentUserFollowing.toJson(),
         );
 
         transaction.set(
           _db
-              .collection("Users")
+              .collection('Users')
               .doc(targetUserId)
-              .collection("Followers")
+              .collection('Followers')
               .doc(currentUid),
           targetUserFollowers.toJson(),
         );
@@ -121,18 +121,18 @@ class FollowerFollowingRepository extends GetxController {
         // Remove from current user's following
         transaction.delete(
           _db
-              .collection("Users")
+              .collection('Users')
               .doc(currentUid)
-              .collection("Following")
+              .collection('Following')
               .doc(targetUserId),
         );
 
         // Remove from target user's followers
         transaction.delete(
           _db
-              .collection("Users")
+              .collection('Users')
               .doc(targetUserId)
-              .collection("Followers")
+              .collection('Followers')
               .doc(currentUid),
         );
 

@@ -29,7 +29,7 @@ class LoginController extends GetxController {
         return;
       }
 
-      final userCredential = await AuthRepository.instance
+      await AuthRepository.instance
           .loginWithEmailAndPassword(email.text.trim(), password.text.trim());
 
       isLoading.value = false;

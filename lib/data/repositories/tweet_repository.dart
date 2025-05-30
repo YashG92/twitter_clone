@@ -16,7 +16,7 @@ class TweetRepository extends GetxController {
 
   Future<String> postTweet(TweetModel tweet) async {
     try {
-      final data = await _db.collection("Tweets").add(tweet.toJson());
+      final data = await _db.collection('Tweets').add(tweet.toJson());
       return data.id;
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
@@ -36,7 +36,7 @@ class TweetRepository extends GetxController {
     required Map<String, dynamic> json,
   }) async {
     try {
-      await _db.collection("Tweets").doc(tweetId).update(json);
+      await _db.collection('Tweets').doc(tweetId).update(json);
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
     } on FormatException catch (_) {
@@ -52,7 +52,7 @@ class TweetRepository extends GetxController {
     try {
       final snapshot =
           await _db
-              .collection("Tweets")
+              .collection('Tweets')
               .orderBy('createdAt', descending: true)
               .get();
       final result =
@@ -73,7 +73,7 @@ class TweetRepository extends GetxController {
 
   Stream<TweetModel> getTweetStream(String tweetId) {
     return _db
-        .collection("Tweets")
+        .collection('Tweets')
         .doc(tweetId)
         .snapshots()
         .map((doc) => TweetModel.fromSnapshot(doc));
@@ -81,7 +81,7 @@ class TweetRepository extends GetxController {
 
   Stream<List<TweetModel>> getUserTweetStream(String userId) {
     return _db
-        .collection("Tweets")
+        .collection('Tweets')
         .where('authorId', isEqualTo: userId)
         .orderBy('createdAt', descending: true)
         .snapshots()
@@ -95,7 +95,7 @@ class TweetRepository extends GetxController {
     try {
       final snapshot =
           await _db
-              .collection("Tweets")
+              .collection('Tweets')
               .where('authorId', isEqualTo: userId)
               .orderBy('createdAt', descending: true)
               .get();
@@ -117,7 +117,7 @@ class TweetRepository extends GetxController {
 
   Future<void> deleteTweetByUserId(String tweetId) async {
     try {
-      await _db.collection("Tweets").doc(tweetId).delete();
+      await _db.collection('Tweets').doc(tweetId).delete();
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -134,10 +134,10 @@ class TweetRepository extends GetxController {
   Future<void> likeCountUpdate(String tweetId, bool isLiked) async {
     try {
       isLiked
-          ? await _db.collection("Tweets").doc(tweetId).update({
+          ? await _db.collection('Tweets').doc(tweetId).update({
             'likeCount': FieldValue.increment(-1),
           })
-          : await _db.collection("Tweets").doc(tweetId).update({
+          : await _db.collection('Tweets').doc(tweetId).update({
             'likeCount': FieldValue.increment(1),
           });
     } on FirebaseAuthException catch (e) {
@@ -156,7 +156,7 @@ class TweetRepository extends GetxController {
   ///Fetch tweet by tweetID
   Future<TweetModel> fetchTweetByTweetId(String tweetId) async {
     try {
-      final snapshot = await _db.collection("Tweets").doc(tweetId).get();
+      final snapshot = await _db.collection('Tweets').doc(tweetId).get();
       return TweetModel.fromSnapshot(snapshot);
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;

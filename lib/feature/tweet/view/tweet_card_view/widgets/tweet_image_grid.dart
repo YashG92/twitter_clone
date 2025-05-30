@@ -11,9 +11,9 @@ class TweetImageGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: tweet.imageUrls!.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 4,
         mainAxisSpacing: 4,
@@ -26,10 +26,10 @@ class TweetImageGrid extends StatelessWidget {
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             },
             errorBuilder: (context, error, stackTrace) {
-              return Icon(Icons.broken_image, color: Colors.grey);
+              return const Icon(Icons.broken_image, color: Colors.grey);
             },
           ),
         );

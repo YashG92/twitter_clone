@@ -14,9 +14,9 @@ class ForgotPasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ForgotPasswordController());
     return Scaffold(
-      appBar: AppBar(title: Text('Forgot Password'), centerTitle: true),
+      appBar: AppBar(title: const Text('Forgot Password'), centerTitle: true),
       body: Padding(
-        padding: EdgeInsets.all(YSizes.defaultSpace),
+        padding: const EdgeInsets.all(YSizes.defaultSpace),
         child: Column(
           children: [
             Expanded(
@@ -33,7 +33,7 @@ class ForgotPasswordView extends StatelessWidget {
                               controller: controller.email,
                               validator:
                                   (value) => Validator.validateEmail(value),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Enter email',
                               ),
                             ),
@@ -57,7 +57,7 @@ class ForgotPasswordView extends StatelessWidget {
                               : null,
                   child:
                       controller.isResendButtonOn.value
-                          ? Text('Send Email')
+                          ? const Text('Send Email')
                           : Text('Wait for ${controller.countdown.value} s'),
                 ),
               ),

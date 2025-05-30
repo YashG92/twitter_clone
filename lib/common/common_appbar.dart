@@ -12,7 +12,7 @@ class CommonAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: YSizes.sm),
+      padding: const EdgeInsets.symmetric(horizontal: YSizes.sm),
       child: AppBar(
         automaticallyImplyLeading: isBackArrow,
         centerTitle: true,
@@ -27,5 +27,5 @@ class CommonAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

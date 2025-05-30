@@ -8,6 +8,7 @@ import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
 import '../feature/personalization/controller/user_controller.dart';
 import '../theme/palette.dart';
+import '../utils/loaders/loaders.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({
@@ -28,7 +29,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: YSizes.sm),
       child: Container(
-        padding: EdgeInsets.only(bottom: YSizes.sm / 2),
+        padding: const EdgeInsets.only(bottom: YSizes.sm / 2),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -73,7 +74,9 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Loaders.customToast(message: 'Coming Soon');
+              },
               icon: Icon(
                 Icons.settings_outlined,
                 color: dark ? Colors.white : Colors.blue,
@@ -86,5 +89,5 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

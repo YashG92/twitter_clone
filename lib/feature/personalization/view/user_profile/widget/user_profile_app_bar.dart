@@ -57,7 +57,7 @@ class UserProfileAppBar extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: YSizes.spaceBtwSections),
+                        const SizedBox(height: YSizes.spaceBtwSections),
                         Text(
                           user.username,
                           style: Theme.of(context).textTheme.headlineSmall!
@@ -88,14 +88,14 @@ class UserProfileAppBar extends StatelessWidget {
       ),
       leading: IconButton(
         onPressed: () => Get.back(),
-        icon: Icon(Icons.arrow_back, color: Colors.white),
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
       ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.more_vert, color: Colors.white),
-        ),
-      ],
+      // actions: [
+      //   IconButton(
+      //     onPressed: () {},
+      //     icon: const Icon(Icons.more_vert, color: Colors.white),
+      //   ),
+      // ],
     );
   }
 }

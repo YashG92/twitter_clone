@@ -19,19 +19,19 @@ class FollowersView extends StatelessWidget {
       f.loadUserFollowers(userId);
     });
     return Scaffold(
-      appBar: AppBar(title: Text("Followers")),
+      appBar: AppBar(title: const Text('Followers')),
       body: Obx(() {
         final followerUsers = f.followersList;
         if (followerUsers.isEmpty) {
-          return Center(child: Text('No followers'));
+          return const Center(child: Text('No followers'));
         }
 
         return Padding(
-          padding: EdgeInsets.all(YSizes.defaultSpace / 2),
+          padding: const EdgeInsets.all(YSizes.defaultSpace / 2),
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: followerUsers.length,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               final followerUser = followerUsers[index];
               return StreamBuilder<UserModel>(

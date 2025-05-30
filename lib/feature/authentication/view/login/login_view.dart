@@ -16,11 +16,11 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppbar(),
+      appBar: const CommonAppbar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
+          const Expanded(
             child: Center(
               child: SingleChildScrollView(
                 child: Padding(

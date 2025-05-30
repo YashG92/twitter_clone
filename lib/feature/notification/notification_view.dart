@@ -17,8 +17,8 @@ class NotificationView extends StatelessWidget {
     notificationController.listenToNotifications(currentUserId);
 
     return Scaffold(
-      appBar: CustomAppbar(title: 'Notifications'),
-      drawer: CommonAppDrawer(),
+      appBar: const CustomAppbar(title: 'Notifications'),
+      drawer: const CommonAppDrawer(),
       body: Obx(() {
         final notifications = notificationController.notifications;
 

@@ -62,7 +62,7 @@ class ForgotPasswordController extends GetxController {
     isResendButtonOn.value = false;
     countdown.value = 30;
     _countdownTimer?.cancel();
-    _countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (countdown.value > 0) {
         countdown.value--;
       } else {

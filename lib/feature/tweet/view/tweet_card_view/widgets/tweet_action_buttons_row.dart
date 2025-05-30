@@ -73,7 +73,7 @@ class TweetActionButtonsRow extends StatelessWidget {
           onPressed: () {
             final tweetContent =
                 '${author.username} (@${author.email.split('@').first}):\n\n${tweet.content}\n\n#TwitterClone';
-            Share.share(tweetContent);
+            SharePlus.instance.share(ShareParams(text: tweetContent,));
           },
         ),
       ],

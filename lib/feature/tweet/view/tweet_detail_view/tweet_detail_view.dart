@@ -28,21 +28,21 @@ class TweetDetailView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.close_sharp),
+          icon: const Icon(Icons.close_sharp),
           onPressed: () => Get.back(),
         ),
-        title: Text('Thread'),
+        title: const Text('Thread'),
       ),
       body: SingleChildScrollView(
         child: StreamBuilder<TweetModel>(
           stream: TweetRepository.instance.getTweetStream(tweetId),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text('Error loading tweet');
+              return const Text('Error loading tweet');
             }
 
             if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             final tweet = snapshot.data!;
@@ -95,7 +95,7 @@ class TweetDetailView extends StatelessWidget {
                   ),
 
                   const SizedBox(height: YSizes.spaceBtwItems),
-                  Divider(thickness: .5),
+                   const Divider(thickness: .5),
                   Padding(
                     padding: const EdgeInsets.all(YSizes.sm),
                     child: Row(
@@ -106,7 +106,7 @@ class TweetDetailView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Divider(thickness: .5),
+                  const Divider(thickness: .5),
 
                   TweetActionButtonsRow(tweet: tweet, author: author),
                   const Divider(thickness: 0.5),
@@ -114,7 +114,7 @@ class TweetDetailView extends StatelessWidget {
 
                   /// Comments section
                   Text(
-                    "Comments",
+                    'Comments',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: YSizes.sm),
@@ -124,20 +124,20 @@ class TweetDetailView extends StatelessWidget {
                     stream: commentRepo.getCommentsForTweet(tweetId),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
 
                       if (snapshot.hasError) {
-                        return Center(child: Text('Error loading comments'));
+                        return const Center(child: Text('Error loading comments'));
                       }
 
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return Center(child: Text('No comments yet.'));
+                        return const Center(child: Text('No comments yet.'));
                       }
                       final comments = snapshot.data!;
                       return ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: comments.length,
                         itemBuilder: (context, index) {
                           final comment = comments[index];

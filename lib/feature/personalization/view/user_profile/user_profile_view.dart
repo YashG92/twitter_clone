@@ -53,8 +53,8 @@ class UserProfileView extends StatelessWidget {
           isCurrentUser
               ? FloatingActionButton(
                 onPressed: () => Get.toNamed(Routes.addTweetView),
-                shape: CircleBorder(),
-                child: Icon(Icons.edit),
+                shape: const CircleBorder(),
+                child: const Icon(Icons.edit),
               )
               : null,
     );
@@ -98,11 +98,11 @@ class UserProfileView extends StatelessWidget {
       stream: userController.getUserStream(otherUserId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (snapshot.hasError) {
-          return Center(child: Text('Error loading profile'));
+          return const Center(child: Text('Error loading profile'));
         }
 
         final user = snapshot.data ?? UserModel.empty();
@@ -179,7 +179,7 @@ class UserProfileView extends StatelessWidget {
                   return ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: tweets.length,
                     itemBuilder: (context, index) {
                       final tweet = tweets[index];
@@ -229,7 +229,7 @@ class UserProfileView extends StatelessWidget {
               final chatId = await chatController.getChatId(user.userId);
               Get.toNamed(Routes.chatView, arguments: [chatId, user]);
             },
-            icon: Icon(Icons.messenger_outline),
+            icon: const Icon(Icons.messenger_outline),
           ),
 
           switch (followerFollowingController.followStatus.value) {
@@ -238,19 +238,19 @@ class UserProfileView extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.grey,
               ), // Disabled
-              child: Text('Pending'),
+              child: const Text('Pending'),
             ),
             FollowStatus.accepted => OutlinedButton(
               onPressed:
                   () =>
                       followerFollowingController.toggleFollowUser(user.userId),
-              child: Text('Following'),
+              child: const Text('Following'),
             ),
             FollowStatus.rejected => OutlinedButton(
               onPressed:
                   () =>
                       followerFollowingController.toggleFollowUser(user.userId),
-              child: Text('Follow'),
+              child: const Text('Follow'),
             ),
           },
         ],

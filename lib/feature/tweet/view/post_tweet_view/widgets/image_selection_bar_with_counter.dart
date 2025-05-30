@@ -16,7 +16,7 @@ class ImageSelectionBarWithCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: Colors.grey, width: 0.5)),
       ),
       height: Get.height * 0.06,
@@ -28,12 +28,12 @@ class ImageSelectionBarWithCounter extends StatelessWidget {
               IconButton(
                 onPressed:
                     () => addTweetController.pickImage(ImageSource.gallery),
-                icon: Icon(Icons.photo_camera_back, color: Colors.blue),
+                icon: const Icon(Icons.photo_camera_back, color: Colors.blue),
               ),
               IconButton(
                 onPressed:
                     () => addTweetController.pickImage(ImageSource.camera),
-                icon: Icon(Icons.camera_alt_outlined, color: Colors.blue),
+                icon: const Icon(Icons.camera_alt_outlined, color: Colors.blue),
               ),
             ],
           ),
@@ -42,7 +42,7 @@ class ImageSelectionBarWithCounter extends StatelessWidget {
             final progressValue = (remaining / 280);
             final isOverLimit = remaining < 0;
             return Padding(
-              padding: EdgeInsets.all(YSizes.sm),
+              padding: const EdgeInsets.all(YSizes.sm),
               child: SizedBox(
                 height: 28,
                 width: 28,

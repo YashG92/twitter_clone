@@ -12,6 +12,7 @@ import '../../../../../routes/routes.dart';
 import '../../../../../theme/theme.dart';
 import '../../../../../utils/constants/constants.dart';
 
+import '../../../../personalization/view/user_profile/user_profile_view.dart';
 import '../../../model/tweet_model.dart';
 
 class TweetCardViewWidget extends StatelessWidget {
@@ -35,56 +36,63 @@ class TweetCardViewWidget extends StatelessWidget {
         }
         final isRetweet = tweet.isRetweet && tweet.originalTweetId != null;
         final author = snapshot.data!;
-        return GestureDetector(
-          onTap:
-              () => Get.toNamed(
-                Routes.tweetDetailView,
-                arguments: [tweet.tweetId, author],
-              ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: EdgeInsets.only(bottom: YSizes.sm),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    width: 1.5,
-                    color: dark ? Palette.darkGrey : Colors.grey.shade200,
-                  ),
+
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            padding: const EdgeInsets.only(bottom: YSizes.sm),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  width: 1.5,
+                  color: dark ? Palette.darkGrey : Colors.grey.shade200,
                 ),
               ),
-              child: Column(
-                children: [
-                  if (isRetweet)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 40),
-                          Icon(Icons.repeat, size: 16, color: Colors.grey),
-                          SizedBox(width: 4),
-                          Text(
-                            'You Reposted',
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
-                          ),
-                        ],
-                      ),
+            ),
+            child: Column(
+              children: [
+                if (isRetweet)
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 4.0),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 40),
+                        Icon(Icons.repeat, size: 16, color: Colors.grey),
+                        SizedBox(width: 4),
+                        Text(
+                          'You Reposted',
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
                     ),
-                  SizedBox(height: YSizes.sm),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      UserProfileAvatar(
+                  ),
+                const SizedBox(height: YSizes.sm),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap:
+                          () => Get.to(
+                            () => UserProfileView(otherUserId: author.userId),
+                          ),
+                      child: UserProfileAvatar(
                         backgroundRadius: 20,
                         foregroundRadius: 20,
                         imageUrl: author.profileImage,
                       ),
-                      SizedBox(width: YSizes.spaceBtwItems),
-                      Expanded(
+                    ),
+                    const SizedBox(width: YSizes.spaceBtwItems),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap:
+                            () => Get.toNamed(
+                              Routes.tweetDetailView,
+                              arguments: [tweet.tweetId, author],
+                            ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: YSizes.sm),
+                            const SizedBox(height: YSizes.sm),
                             TweetUserInfoRow(
                               tweet: tweet,
                               isVerified: true,
@@ -95,18 +103,19 @@ class TweetCardViewWidget extends StatelessWidget {
                             Text(tweet.content),
                             if (tweet.imageUrls != null &&
                                 tweet.imageUrls!.isNotEmpty) ...[
-                              SizedBox(height: YSizes.sm),
+                              const SizedBox(height: YSizes.sm),
                               TweetImageGrid(tweet: tweet),
                             ],
-                            SizedBox(height: YSizes.spaceBtwItems),
+                            const SizedBox(height: YSizes.spaceBtwItems),
+                            // Action buttons - not part of the tappable area
                             TweetActionButtonsRow(tweet: tweet, author: author),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         );

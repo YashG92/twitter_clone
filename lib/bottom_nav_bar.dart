@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twitter_clone/feature/chat/model/chat_model.dart';
 import 'package:twitter_clone/feature/chat/view/chat_list_view.dart';
 import 'package:twitter_clone/feature/home/view/home_view.dart';
 import 'package:twitter_clone/feature/notification/notification_view.dart';
@@ -14,22 +15,22 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = HelperFunction.isDarkMode(context);
-    final controller = Get.put(BottomNavBarController());
-    final chatController = Get.put(ChatController());
+    final bool dark = HelperFunction.isDarkMode(context);
+    final BottomNavBarController controller = Get.put(BottomNavBarController());
+    final ChatController chatController = Get.put(ChatController());
     return Obx(() {
-      final totalUnread = chatController.chats.fold(
+      final int totalUnread = chatController.chats.fold(
         0,
-        (sum, chat) => sum + chatController.getUnreadCount(chat),
+        (int sum, ChatModel chat) => sum + chatController.getUnreadCount(chat),
       );
       return Scaffold(
         bottomNavigationBar: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             border: Border(top: BorderSide(color: Palette.grey, width: 0.5)),
           ),
           child: BottomNavigationBar(
             currentIndex: controller.selectedIndex.value,
-            onTap: (index) => controller.selectedIndex.value = index,
+            onTap: (int index) => controller.selectedIndex.value = index,
             elevation: 30,
             type: BottomNavigationBarType.fixed,
             //selectedItemColor: Colors.blue,
@@ -37,7 +38,7 @@ class BottomNavBar extends StatelessWidget {
             fixedColor: dark ? Colors.white : Colors.black,
             showSelectedLabels: false,
             showUnselectedLabels: false,
-            items: [
+            items: <BottomNavigationBarItem>[
               _buildBottomNavigationBarItem(
                 context,
                 controller,
@@ -88,13 +89,13 @@ class BottomNavBar extends StatelessWidget {
     String label, {
     int unreadCount = 0,
   }) {
-    final selectedIndex = controller.selectedIndex.value;
-    final isSelected = selectedIndex == index;
+    final int selectedIndex = controller.selectedIndex.value;
+    final bool isSelected = selectedIndex == index;
 
     return BottomNavigationBarItem(
       icon: Stack(
         clipBehavior: Clip.none,
-        children: [
+        children: <Widget>[
           Icon(
             isSelected ? filledIcon : outlinedIcon,
             size: isSelected ? 30 : 25,
@@ -146,7 +147,7 @@ class BottomNavBarController extends GetxController {
 
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = const [
+  final List<StatelessWidget> screens = const <StatelessWidget>[
     HomeView(),
     SearchView(),
     NotificationView(),

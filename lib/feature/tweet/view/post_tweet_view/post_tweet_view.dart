@@ -16,7 +16,7 @@ class PostTweetView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.close_sharp),
+          icon: const Icon(Icons.close_sharp),
           onPressed: () => Get.back(),
         ),
         actions: [
@@ -29,7 +29,7 @@ class PostTweetView extends StatelessWidget {
                     addTweetController.isButtonEnabled.value
                         ? () => addTweetController.postTweet()
                         : null,
-                child: Text('Tweet'),
+                child: const Text('Tweet'),
               ),
             ),
           ),

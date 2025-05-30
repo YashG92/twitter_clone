@@ -25,7 +25,7 @@ class PostTweetImageView extends StatelessWidget {
               children: [
                 Container(
                   width: 250,
-                  margin: EdgeInsets.all(YSizes.sm),
+                  margin: const EdgeInsets.all(YSizes.sm),
                   child: Image.file(
                     addTweetController.selectedImages[index],
                     fit: BoxFit.cover,
@@ -36,7 +36,7 @@ class PostTweetImageView extends StatelessWidget {
                   right: 0,
                   child: IconButton(
                     onPressed: () => addTweetController.removeImage(index),
-                    icon: Icon(Icons.close, color: Colors.white),
+                    icon: const Icon(Icons.close, color: Colors.white),
                   ),
                 ),
               ],
