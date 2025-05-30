@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/auth_repository.dart';
+import 'package:twitter_clone/feature/personalization/controller/follower_following_controller.dart';
 import 'package:twitter_clone/routes/routes.dart';
 
 import '../feature/personalization/controller/user_controller.dart';
@@ -17,6 +18,7 @@ class CommonAppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = HelperFunction.isDarkMode(context);
     final userController = UserController.instance;
+    Get.put(FollowerFollowingController());
     return Drawer(
       backgroundColor: dark ? Palette.darkBackgroundColor : Colors.white,
       child: ListView(
@@ -28,48 +30,65 @@ class CommonAppDrawer extends StatelessWidget {
               decoration: BoxDecoration(
                 color: dark ? Palette.darkBackgroundColor : Colors.white,
               ),
-              child: GestureDetector(
-                onTap: () => Get.toNamed(Routes.userProfileView),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    UserProfileAvatar(
-                      backgroundRadius: 40,
-                      foregroundRadius: 40,
-                      imageUrl: userController.user.value.profileImage,
-                    ),
-                    const SizedBox(height: YSizes.sm),
-                    Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: ()=> Get.toNamed(Routes.userProfileView),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          userController.user.value.username,
-                          style: Theme.of(context).textTheme.headlineSmall,
+                        UserProfileAvatar(
+                          backgroundRadius: 40,
+                          foregroundRadius: 40,
+                          imageUrl: userController.user.value.profileImage,
                         ),
-                        SizedBox(width: YSizes.sm),
-                        Icon(Icons.verified, color: Colors.blue),
+                        const SizedBox(height: YSizes.sm),
+                        Row(
+                          children: [
+                            Text(
+                              userController.user.value.username,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            SizedBox(width: YSizes.sm),
+                            Icon(Icons.verified, color: Colors.blue),
+                          ],
+                        ),
+                        Text(
+                          '@${userController.user.value.email.split('@').first}',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
                       ],
                     ),
-                    Text(
-                      '@${userController.user.value.email.split('@').first}',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    Row(
-                      children: [
-                        Text(
+                  ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Get.toNamed(
+                          Routes.followersView,
+                          arguments: userController.user.value.userId,
+                        ),
+                        child: Text(
                           '${userController.user.value.followerCount} Followers',
                           style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(width: YSizes.spaceBtwItems),
-                        Text(
+                      ),
+                      SizedBox(width: YSizes.spaceBtwItems),
+                      GestureDetector(
+                        onTap: () => Get.toNamed(
+                          Routes.followingView,
+                          arguments: userController.user.value.userId,
+                        ),
+                        child: Text(
                           '${userController.user.value.followingCount} Following',
                           style: Theme.of(context).textTheme.headlineSmall!
                               .copyWith(fontWeight: FontWeight.bold),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

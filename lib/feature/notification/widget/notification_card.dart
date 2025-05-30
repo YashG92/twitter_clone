@@ -120,7 +120,7 @@ class NotificationCard extends StatelessWidget {
               children: [
                 // Avatar list
                 SizedBox(
-                  height: 50,
+                  height: 50, 
                   width: Get.width * .8,
                   child: ListView.separated(
                     separatorBuilder: (_, __) => SizedBox(width: YSizes.sm),
