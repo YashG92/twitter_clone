@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/feature/personalization/model/user_model.dart';
+import 'package:twitter_clone/feature/personalization/view/user_profile/user_profile_view.dart';
 import 'package:twitter_clone/feature/personalization/view/user_profile/widget/user_profile_avatar.dart';
 import 'package:twitter_clone/feature/tweet/view/post_tweet_view/widgets/post_tweet_field.dart';
 import 'package:twitter_clone/feature/tweet/view/post_tweet_view/widgets/post_tweet_image_view.dart';
@@ -120,12 +121,15 @@ class TweetCommentView extends StatelessWidget {
                                           ).textTheme.labelMedium,
                                     ),
                                     const SizedBox(width: YSizes.sm),
-                                    Text(
-                                      '@${tweetAuthor.email.split('@').first}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium
-                                          ?.copyWith(color: Colors.blue),
+                                    GestureDetector(
+                                      onTap: ()=>Get.to(()=>UserProfileView(otherUserId: tweet.authorId,)),
+                                      child: Text(
+                                        '@${tweetAuthor.email.split('@').first}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium
+                                            ?.copyWith(color: Colors.blue),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -144,7 +148,6 @@ class TweetCommentView extends StatelessWidget {
                       ),
 
                       const SizedBox(height: 100),
-                      // spacer so content doesn't hide behind bar
                     ],
                   ),
                 ),

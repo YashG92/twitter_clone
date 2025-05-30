@@ -114,6 +114,7 @@ class PostTweetController extends GetxController {
       TweetController.instance.allTweets.refresh();
       TweetController.instance.userTweets.insert(0, newTweet);
       TweetController.instance.userTweets.refresh();
+      tweetController.clear();
 
       isLoading.value = false;
       Get.back();
@@ -194,6 +195,7 @@ class PostTweetController extends GetxController {
           fromUserId: AuthRepository.instance.authUser.uid,
         );
       }
+      tweetController.clear();
 
       isLoading.value = false;
       Get.back();
