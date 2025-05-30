@@ -122,7 +122,12 @@ class TweetCommentView extends StatelessWidget {
                                     ),
                                     const SizedBox(width: YSizes.sm),
                                     GestureDetector(
-                                      onTap: ()=>Get.to(()=>UserProfileView(otherUserId: tweet.authorId,)),
+                                      onTap:
+                                          () => Get.to(
+                                            () => UserProfileView(
+                                              otherUserId: tweet.authorId,
+                                            ),
+                                          ),
                                       child: Text(
                                         '@${tweetAuthor.email.split('@').first}',
                                         style: Theme.of(context)
