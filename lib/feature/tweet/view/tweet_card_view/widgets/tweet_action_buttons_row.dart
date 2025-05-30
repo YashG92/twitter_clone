@@ -5,6 +5,7 @@ import 'package:twitter_clone/feature/tweet/controller/retweet_controller.dart';
 import 'package:twitter_clone/feature/tweet/view/retweet/retweet_bottom_sheet.dart';
 import 'package:twitter_clone/feature/tweet/view/tweet_card_view/widgets/tweet_action_button.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:twitter_clone/utils/loaders/loaders.dart';
 
 import '../../../../../routes/routes.dart';
 import '../../../../personalization/model/retweet_model.dart';
@@ -50,7 +51,7 @@ class TweetActionButtonsRow extends StatelessWidget {
                             tweet,
                             ReTweetType.retweet,
                           ),
-                      onQuote: () {},
+                      onQuote: ()=> Loaders.customToast(message: 'Coming Soon'),
                     ),
               ),
         ),

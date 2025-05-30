@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twitter_clone/data/repositories/retweet_repository.dart';
 import 'package:twitter_clone/data/repositories/tweet_repository.dart';
 
+import '../../../utils/loaders/loaders.dart';
 import '../model/tweet_model.dart';
 
 class TweetController extends GetxController {
@@ -66,15 +68,26 @@ class TweetController extends GetxController {
 
   Future<void> deleteTweet(String tweetId) async {
     try {
-      isLoading.value = true;
+      Get.dialog(
+        const Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+      );
+
       await tweetRepository.deleteTweetByUserId(tweetId);
       allTweets.removeWhere((tweet) => tweet.tweetId == tweetId);
       userTweets.removeWhere((tweet) => tweet.tweetId == tweetId);
+      userReTweets.removeWhere((tweet) => tweet.tweetId == tweetId);
+
+      Get.back();
+      Get.back();
+
+      Loaders.successSnackBar(title: 'Success', message: 'Tweet deleted successfully');
+
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.back();
+      Loaders.errorSnackBar(title: 'Error', message: e.toString());
     }
   }
-
   Future<void> likeCountUpdate(String tweetId, bool isLiked) async {
     try {
       isLoading.value = true;
@@ -82,5 +95,23 @@ class TweetController extends GetxController {
     } catch (e) {
       Get.snackbar('Error', e.toString());
     }
+  }
+
+  void showDeleteConfirmation(String tweetId) {
+    Get.defaultDialog(
+      backgroundColor: Theme.of(Get.context!).scaffoldBackgroundColor,
+      title: 'Delete Tweet?',
+      middleText: 'This action cannot be undone',
+      confirm: ElevatedButton(
+        onPressed: () {
+          deleteTweet(tweetId);
+        },
+        child: const Text('Delete'),
+      ),
+      cancel: OutlinedButton(
+        onPressed: () => Get.back(),
+        child: const Text('Cancel'),
+      ),
+    );
   }
 }

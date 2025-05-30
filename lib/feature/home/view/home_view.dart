@@ -39,7 +39,7 @@ class HomeView extends StatelessWidget {
           child: ListView.builder(
             itemCount: tweetController.allTweets.length,
             shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
+            physics:const AlwaysScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               final tweet = tweetController.allTweets[index];
               return TweetCardView(

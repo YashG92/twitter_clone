@@ -13,6 +13,7 @@ import 'package:twitter_clone/utils/helpers/helper_function.dart';
 
 import '../../../../data/repositories/auth_repository.dart';
 import '../../../../utils/constants/constants.dart';
+import '../../../personalization/view/user_profile/user_profile_view.dart';
 import '../../model/comment_model.dart';
 
 class TweetDetailView extends StatelessWidget {
@@ -55,10 +56,13 @@ class TweetDetailView extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      UserProfileAvatar(
-                        backgroundRadius: 20,
-                        foregroundRadius: 20,
-                        imageUrl: author.profileImage,
+                      GestureDetector(
+                        onTap: ()=>Get.to(() => UserProfileView(otherUserId: author.userId)),
+                        child: UserProfileAvatar(
+                          backgroundRadius: 20,
+                          foregroundRadius: 20,
+                          imageUrl: author.profileImage,
+                        ),
                       ),
                       const SizedBox(width: YSizes.spaceBtwItems),
                       Expanded(

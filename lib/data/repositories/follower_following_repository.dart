@@ -47,12 +47,14 @@ class FollowerFollowingRepository extends GetxController {
       final batch = _db.batch();
 
       // Update status in both collections
-      final followingRef = _db.collection('Users')
+      final followingRef = _db
+          .collection('Users')
           .doc(currentUserId)
           .collection('Following')
           .doc(targetUserId);
 
-      final followersRef = _db.collection('Users')
+      final followersRef = _db
+          .collection('Users')
           .doc(targetUserId)
           .collection('Followers')
           .doc(currentUserId);
@@ -65,7 +67,9 @@ class FollowerFollowingRepository extends GetxController {
         final currentUserRef = _db.collection('Users').doc(currentUserId);
         final targetUserRef = _db.collection('Users').doc(targetUserId);
 
-        batch.update(currentUserRef, {'followingCount': FieldValue.increment(1)});
+        batch.update(currentUserRef, {
+          'followingCount': FieldValue.increment(1),
+        });
         batch.update(targetUserRef, {'followerCount': FieldValue.increment(1)});
       }
 
@@ -152,7 +156,10 @@ class FollowerFollowingRepository extends GetxController {
     }
   }
 
-  Stream<FollowStatus> followStatusStream(String currentUserId, String targetUserId) {
+  Stream<FollowStatus> followStatusStream(
+    String currentUserId,
+    String targetUserId,
+  ) {
     return _db
         .collection('Users')
         .doc(currentUserId)
@@ -160,9 +167,9 @@ class FollowerFollowingRepository extends GetxController {
         .doc(targetUserId)
         .snapshots()
         .map((doc) {
-      if (!doc.exists) return FollowStatus.rejected;
-      return FollowStatus.values[doc.data()?['status'] ?? 0];
-    });
+          if (!doc.exists) return FollowStatus.rejected;
+          return FollowStatus.values[doc.data()?['status'] ?? 0];
+        });
   }
 
   Stream<bool> isFollowingStream(String currentUserId, String targetUserId) {
@@ -180,6 +187,7 @@ class FollowerFollowingRepository extends GetxController {
         .collection('Users')
         .doc(userId)
         .collection('Following')
+        .where('status', isEqualTo: 1)
         .snapshots()
         .map(
           (querySnapshot) =>
@@ -194,6 +202,7 @@ class FollowerFollowingRepository extends GetxController {
         .collection('Users')
         .doc(userId)
         .collection('Followers')
+        .where('status', isEqualTo: 1)
         .snapshots()
         .map(
           (querySnapshot) =>
