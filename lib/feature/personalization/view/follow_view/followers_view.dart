@@ -13,15 +13,15 @@ class FollowersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final f = FollowerFollowingController.instance;
+    final followerFollowingController = FollowerFollowingController.instance;
     final userId = Get.arguments as String;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      f.loadUserFollowers(userId);
+      followerFollowingController.loadUserFollowers(userId);
     });
     return Scaffold(
       appBar: AppBar(title: const Text('Followers')),
       body: Obx(() {
-        final followerUsers = f.followersList;
+        final followerUsers = followerFollowingController.followersList;
         if (followerUsers.isEmpty) {
           return const Center(child: Text('No followers'));
         }
